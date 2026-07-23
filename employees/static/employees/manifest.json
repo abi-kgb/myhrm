@@ -2,7 +2,7 @@
   "name": "Creative Tech HRM",
   "short_name": "HRM Mobile",
   "description": "Employee & Admin HR Management Application",
-  "start_url": "/employee-login/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#2563eb",

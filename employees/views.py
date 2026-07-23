@@ -2394,3 +2394,18 @@ def delete_letter_view(request, letter_id):
         letter.delete()
         messages.success(request, "Letter deleted successfully.")
     return redirect('/admin-dashboard/?tab=letters')
+
+def manifest_view(request):
+    manifest_path = os.path.join(settings.BASE_DIR, 'employees', 'static', 'employees', 'manifest.json')
+    if os.path.exists(manifest_path):
+        with open(manifest_path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='application/manifest+json')
+    return JsonResponse({'name': 'Creative Tech HRM', 'short_name': 'HRM Mobile', 'start_url': '/'})
+
+def service_worker_view(request):
+    sw_path = os.path.join(settings.BASE_DIR, 'employees', 'static', 'employees', 'sw.js')
+    if os.path.exists(sw_path):
+        with open(sw_path, 'rb') as f:
+            return HttpResponse(f.read(), content_type='application/javascript')
+    return HttpResponse("// sw.js", content_type='application/javascript')
+

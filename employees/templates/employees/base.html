@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HRM Mobile">
     <meta name="theme-color" content="#2563eb">
-    <link rel="manifest" href="{% static 'employees/manifest.json' %}">
+    <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="{% static 'employees/logo.png' %}">
     <title>{% block title %}Creative Tech HRM{% endblock %}</title>
     <!-- Google Fonts: Outfit for modern look -->
@@ -20,7 +20,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register("{% static 'employees/sw.js' %}").then(function(reg) {
+                navigator.serviceWorker.register("/sw.js").then(function(reg) {
                     console.log('PWA ServiceWorker registered');
                 }).catch(function(err) {
                     console.log('PWA ServiceWorker failed:', err);

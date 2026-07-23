@@ -105,4 +105,9 @@ urlpatterns = [
     path('admin-dashboard/letters/generate/', views.generate_letter_view, name='generate_letter'),
     path('letters/<int:letter_id>/print/', views.view_letter_print, name='view_letter_print'),
     path('admin-dashboard/letters/delete/<int:letter_id>/', views.delete_letter_view, name='delete_letter'),
+
+    # PWA Routes
+    path('manifest.json', views.manifest_view, name='manifest'),
+    path('sw.js', views.service_worker_view, name='service_worker'),
 ]
+
