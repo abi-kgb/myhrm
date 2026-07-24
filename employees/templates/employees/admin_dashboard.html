@@ -1849,14 +1849,14 @@
 
             <!-- ================== PANEL 4: RECRUITMENT (ATS) ================== -->
             <div id="tab-recruitment" class="tab-content" style="display: none;">
-                <div class="admin-grid">
+                <div class="responsive-grid-detail">
                     <!-- Left Area: Applicants Pipeline -->
-                    <div class="left-col">
+                    <div class="left-col" style="width:100%; min-width:0;">
                         <div class="card">
                             <div class="card-header">
                                 <h2 class="card-title">Candidate Pipeline</h2>
                             </div>
-                            <div class="table-container">
+                            <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;">
                                 {% if applications %}
                                 <table>
                                     <thead>
@@ -1928,7 +1928,7 @@
                                     View Live Page
                                 </a>
                             </div>
-                            <div class="table-container">
+                            <div class="table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;">
                                 {% if job_postings %}
                                 <table>
                                     <thead>
@@ -1978,7 +1978,7 @@
                     </div>
 
                     <!-- Right Area: Publish Job Posting Form -->
-                    <div class="right-col">
+                    <div class="right-col" style="width:100%; min-width:0;">
                         <div class="card">
                             <div class="card-header">
                                 <h2 class="card-title">Publish Job Posting</h2>
