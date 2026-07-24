@@ -62,7 +62,7 @@
             --danger-bg: rgba(239, 68, 68, 0.1);
         }
         @keyframes ptrSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
+body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); padding-top: 64px; }
 
         /* NAVBAR */
         .navbar {
@@ -87,6 +87,7 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
             background-size: 400% 400%;
             padding: 2.5rem 2rem; border-bottom: 1px solid var(--border);
             position: relative; overflow: hidden;
+            margin-top: 0;
         }
         .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 10% 50%,rgba(0,85,255,0.05) 0%,transparent 55%),radial-gradient(ellipse at 90% 30%,rgba(99,102,241,0.05) 0%,transparent 50%); }
         .hero-content { max-width:1300px; margin:0 auto; position:relative; z-index:1; }
@@ -165,6 +166,9 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
                 width: 30px !important;
                 height: 30px !important;
                 font-size: 0.75rem !important;
+            }
+            body {
+                padding-top: 56px;
             }
             .hero {
                 padding: 1.5rem 1rem;
