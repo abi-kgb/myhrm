@@ -20,6 +20,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        
+        .bg-success-grad { background: linear-gradient(90deg,var(--success),#34d399) !important; }
+        .bg-primary-grad { background: linear-gradient(90deg,var(--primary),var(--primary-hover)) !important; }
+        .bg-warning-grad { background: linear-gradient(90deg,var(--warning),#fb923c) !important; }
+        .text-success { color: var(--success) !important; }
+        .text-primary { color: var(--primary) !important; }
+        .text-warning { color: var(--warning) !important; }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -661,16 +669,14 @@
                     <tr style="border-bottom:1px solid var(--border);">
                         <td style="padding:1rem 0.5rem;">
                             <div style="font-weight:700; color:var(--text);">{{ goal.subject }}</div>
-                            {% if goal.description %}<div
-                                style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;">{{
-                                goal.description|truncatechars:50 }}</div>{% endif %}
+                            {% if goal.description %}
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;">{{ goal.description|truncatechars:50 }}</div>
+                            {% endif %}
                         </td>
                         <td style="padding:1rem 0.5rem; font-weight:600; color:var(--text);">{{ goal.project.name }}
                         </td>
-                        <td style="padding:1rem 0.5rem; color:var(--text-muted); font-size:0.85rem;">{{ goal.start_date
-                            }}</td>
-                        <td style="padding:1rem 0.5rem; color:var(--text-muted); font-size:0.85rem;">{{ goal.end_date }}
-                        </td>
+                        <td style="padding:1rem 0.5rem; color:var(--text-muted); font-size:0.85rem;">{{ goal.start_date }}</td>
+                        <td style="padding:1rem 0.5rem; color:var(--text-muted); font-size:0.85rem;">{{ goal.end_date }}</td>
                         <td style="padding:1rem 0.5rem;">
                             <span class="badge badge-{{ goal.status|lower }}">{{ goal.status }}</span>
                         </td>
@@ -712,14 +718,10 @@
                     </div>
                     <div class="progress-label">
                         <span style="color:var(--text-muted);">Progress</span>
-                        <span
-                            style="color:{% if project.progress >= 100 %}var(--success){% elif project.progress >= 60 %}var(--primary){% else %}var(--warning){% endif %};">{{
-                            project.progress }}%</span>
+                        <span class="{% if project.progress >= 100 %}text-success{% elif project.progress >= 60 %}text-primary{% else %}text-warning{% endif %}">{{ project.progress }}%</span>
                     </div>
                     <div class="progress-wrap">
-                        <div class="progress-fill"
-                            style="width:{{ project.progress }}%;background:{% if project.progress >= 100 %}linear-gradient(90deg,var(--success),#34d399){% elif project.progress >= 60 %}linear-gradient(90deg,var(--primary),var(--primary-hover)){% else %}linear-gradient(90deg,var(--warning),#fb923c){% endif %};">
-                        </div>
+                        <div class="progress-fill {% if project.progress >= 100 %}bg-success-grad{% elif project.progress >= 60 %}bg-primary-grad{% else %}bg-warning-grad{% endif %}" style="width:{{ project.progress }}%;"></div>
                     </div>
                     <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
                         <a href="{% url 'client_project_detail' project.id %}" class="btn-logout"
