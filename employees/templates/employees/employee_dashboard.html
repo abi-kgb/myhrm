@@ -614,26 +614,36 @@
         }
     }
 
+    .responsive-grid-three {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+    }
         /* RESPONSIVE DESIGN */
         @media (max-width: 992px) {
             .admin-layout { grid-template-columns: 1fr; }
-            /* removed static sidebar */
             .admin-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 768px) {
+            .responsive-grid-three { grid-template-columns: 1fr !important; }
+            .welcome-banner { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; }
+            .welcome-clock-wrapper { text-align: left !important; width: 100%; margin-top: 0.25rem; }
             .stats-grid, .grid-cards { grid-template-columns: 1fr !important; }
-            .page-hero { flex-direction: column; align-items: flex-start; gap: 1rem; }
-            .hero-time-wrapper { text-align: left; margin-top: 0.5rem; }
+            .page-hero { flex-direction: column; align-items: flex-start; gap: 0.5rem; padding-top: 0.75rem; }
+            .hero-time-wrapper { text-align: left; margin-top: 0.25rem; width: 100%; }
             .table-container { overflow-x: auto; }
             table { min-width: 600px; }
-            .navbar { padding: 0 1rem; }
+            .navbar { padding: 0.5rem 1rem; }
             .navbar-brand { font-size: 1.1rem; }
             .profile-card { flex-direction: column; text-align: center; }
             .tab-buttons { flex-wrap: wrap; }
             .tab-button { flex: 1 1 40%; text-align: center; justify-content: center; }
-            .page-content { padding: 0 1rem; }
+            .page-content { padding: 0.5rem 0.5rem 0 0.5rem; }
         }
         @media (max-width: 480px) {
+            .welcome-banner { padding: 1rem; }
+            .welcome-clock-wrapper { text-align: left !important; }
+            #live-clock { font-size: 1.3rem !important; }
             .btn-action, .fab-add { font-size: 0.8rem; padding: 0.5rem; }
             h1, h2 { font-size: 1.3rem !important; }
             .modal-card { width: 95%; padding: 1.5rem; margin: 1rem; }
@@ -712,7 +722,7 @@
                 {% endif %}
             </div>
         </div>
-        <div style="text-align: right; position: relative; z-index: 1;">
+        <div class="welcome-clock-wrapper" style="text-align: right; position: relative; z-index: 1;">
             <div id="live-clock" style="font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1;">
             </div>
             <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.8; margin-top: 0.25rem;">{{ today|date:"l, d M Y" }}</div>
@@ -952,7 +962,7 @@
                 </div>
                 <form class="leave-form" method="POST" action="{% url 'apply_leave' %}">
                     {% csrf_token %}
-                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="form-group responsive-grid-three">
                         <div>
                             <label for="leave_type">Leave Type</label>
                             <select name="leave_type" id="leave_type" required>

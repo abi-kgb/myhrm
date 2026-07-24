@@ -4,7 +4,7 @@
 {% block page_subtitle %}Issue official company documents and certificates to employees.{% endblock %}
 
 {% block admin_content %}
-<div style="display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem; align-items: start;">
+<div class="responsive-grid-detail">
     <!-- Form Controls -->
     <div class="card" style="padding: 1.5rem; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);">
         <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem;">📄 Letter Details</h2>
@@ -44,7 +44,7 @@
                 <input type="text" name="title" id="letterTitle" placeholder="e.g. Experience Certificate" style="width: 100%; padding: 0.7rem; border: 1.5px solid var(--border); border-radius: 8px;">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem;">
+            <div class="responsive-grid-half" style="margin-bottom: 1.25rem;">
                 <div>
                     <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem;">Signatory Name</label>
                     <input type="text" name="signatory_name" value="HR Operations" style="width: 100%; padding: 0.65rem; border: 1.5px solid var(--border); border-radius: 8px;">

@@ -1,9 +1,9 @@
 {% extends 'employees/admin_base.html' %}
 {% block nav_shifts %}active{% endblock %}
 {% block admin_content %}
-<div style="padding: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--text-primary); font-size: 1.5rem; font-weight: 600;">Shift Management</h1>
+<div style="padding: 0.5rem 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+        <h1 style="color: var(--text-primary); font-size: 1.4rem; font-weight: 600;">Shift Management</h1>
         <a href="{% url 'add_shift' %}" class="btn-action" style="background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: 500;">+ Add Shift</a>
     </div>
 
