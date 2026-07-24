@@ -9,7 +9,7 @@ from .models import (
     Employee, LeaveRequest, Attendance, Payslip, ShiftRequest,
     JobPosting, JobApplication, PerformanceReview,
     Training, TrainingEnrollment, Holiday, Client, GoalTracking, Project, ProjectUpdate, EmployeeDocument,
-    Shift, Asset, Expense, Department, Designation, ActivityLog, Event, HRLetter
+    Shift, Asset, Expense, Department, Designation, ActivityLog, Event, HRLetter, PersonalNote
 )
 import json
 
@@ -30,7 +30,7 @@ def log_activity(user, action, module, request=None, details=""):
         details=details
     )
 
-def get_unified_calendar_events(employee=None):
+def get_unified_calendar_events(user=None, employee=None):
     events = []
     
     # 1. Holidays
@@ -90,6 +90,21 @@ def get_unified_calendar_events(employee=None):
             'color': '#3b82f6' if e.event_type == 'Meeting' else '#ec4899', # Blue or Pink
             'description': e.description
         })
+
+    # 5. Personal Private Notes (VISIBLE ONLY TO THIS USER)
+    if user and getattr(user, 'is_authenticated', False):
+        personal_notes = PersonalNote.objects.filter(user=user)
+        for pn in personal_notes:
+            events.append({
+                'id': f"note_{pn.id}",
+                'title': f"🔒 Note: {pn.title}",
+                'start': pn.date.isoformat(),
+                'allDay': True,
+                'color': '#6366f1', # Indigo
+                'description': pn.note or '',
+                'isPersonal': True,
+                'noteId': pn.id
+            })
         
     return json.dumps(events)
 
@@ -317,7 +332,7 @@ def employee_dashboard(request):
         'shift_requests': shift_requests,
         'assets': Asset.objects.filter(assigned_to=employee).order_by('-assigned_date'),
         'expenses': Expense.objects.filter(employee=employee).order_by('-date_submitted'),
-        'calendar_events_json': get_unified_calendar_events(employee),
+        'calendar_events_json': get_unified_calendar_events(user=request.user, employee=employee),
         'my_letters': HRLetter.objects.filter(employee=employee).order_by('-issue_date'),
     }
     return render(request, 'employees/employee_dashboard.html', context)
@@ -688,7 +703,7 @@ def admin_dashboard(request):
         'departments': departments,
         'designations': designations,
         'activity_logs': ActivityLog.objects.all().order_by('-timestamp')[:500],
-        'calendar_events_json': get_unified_calendar_events(),
+        'calendar_events_json': get_unified_calendar_events(user=request.user),
         'holidays': Holiday.objects.all().order_by('date'),
         'hr_letters': HRLetter.objects.select_related('employee__user').all().order_by('-issue_date'),
     }
@@ -2419,4 +2434,30 @@ def service_worker_view(request):
         with open(sw_path, 'rb') as f:
             return HttpResponse(f.read(), content_type='application/javascript')
     return HttpResponse("// sw.js", content_type='application/javascript')
+
+@login_required
+def add_personal_note(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        note_text = request.POST.get('note')
+        note_date = request.POST.get('date')
+        if title and note_date:
+            PersonalNote.objects.create(
+                user=request.user,
+                title=title,
+                note=note_text,
+                date=note_date
+            )
+            messages.success(request, "🔒 Private note added to your calendar.")
+        else:
+            messages.error(request, "Please fill in title and date.")
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def delete_personal_note(request, note_id):
+    note = get_object_or_404(PersonalNote, id=note_id, user=request.user)
+    if request.method == 'POST':
+        note.delete()
+        messages.success(request, "Private note deleted.")
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
 

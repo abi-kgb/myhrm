@@ -265,6 +265,21 @@
             .btn-submit, .btn-submit-leave, .btn-action-submit, .btn-approve { width: 100%; }
             .messages { right: 0.5rem; width: calc(100% - 1rem); }
         }
+
+        /* FullCalendar Global Responsiveness */
+        .fc { width: 100% !important; max-width: 100% !important; }
+        .fc-toolbar { flex-wrap: wrap !important; gap: 0.5rem !important; }
+        .fc-toolbar-chunk { display: flex !important; align-items: center !important; flex-wrap: wrap !important; gap: 0.25rem !important; }
+        @media (max-width: 768px) {
+            .fc-toolbar { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 0.5rem !important; }
+            .fc-toolbar-title { font-size: 1.1rem !important; margin: 0.25rem 0 !important; }
+            .fc-button { padding: 0.35rem 0.65rem !important; font-size: 0.75rem !important; }
+            .fc-col-header-cell-cushion { font-size: 0.72rem !important; padding: 2px 0 !important; }
+            .fc-daygrid-day-number { font-size: 0.72rem !important; padding: 2px 4px !important; }
+            .fc-event-title { font-size: 0.68rem !important; }
+            .fc-daygrid-day-frame { min-height: 44px !important; }
+            .fc-view-harness { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+        }
             </style>
     {% block extra_head %}{% endblock %}
 </head>

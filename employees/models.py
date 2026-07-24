@@ -444,3 +444,13 @@ class HRLetter(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.reference_number}"
+
+class PersonalNote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='personal_notes')
+    title = models.CharField(max_length=255)
+    note = models.TextField(blank=True, null=True)
+    date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Private Note: {self.title} ({self.user.username})"

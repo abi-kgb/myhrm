@@ -106,6 +106,10 @@ urlpatterns = [
     path('letters/<int:letter_id>/print/', views.view_letter_print, name='view_letter_print'),
     path('admin-dashboard/letters/delete/<int:letter_id>/', views.delete_letter_view, name='delete_letter'),
 
+    # Personal Private Notes
+    path('personal-notes/add/', views.add_personal_note, name='add_personal_note'),
+    path('personal-notes/delete/<int:note_id>/', views.delete_personal_note, name='delete_personal_note'),
+
     # PWA Routes
     path('manifest.json', views.manifest_view, name='manifest'),
     path('sw.js', views.service_worker_view, name='service_worker'),
