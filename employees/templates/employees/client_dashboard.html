@@ -61,6 +61,7 @@
             --danger: #ef4444;
             --danger-bg: rgba(239, 68, 68, 0.1);
         }
+        @keyframes ptrSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
 
         /* NAVBAR */
@@ -171,6 +172,12 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
 </style>
 </head>
 <body>
+    <!-- Pull To Refresh UI Indicator -->
+    <div id="pullToRefreshIndicator" style="position: fixed; top: -60px; left: 50%; transform: translateX(-50%); z-index: 9999; background: var(--card-bg, #ffffff); border: 1px solid var(--border, #e2e8f0); border-radius: 9999px; padding: 0.5rem 1rem; box-shadow: 0 4px 14px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.5rem; transition: top 0.2s ease, transform 0.2s ease; pointer-events: none;">
+        <div id="ptrSpinner" style="width: 18px; height: 18px; border: 2.5px solid #cbd5e1; border-top-color: var(--primary, #2563eb); border-radius: 50%; transition: transform 0.1s linear;"></div>
+        <span id="ptrText" style="font-size: 0.8rem; font-weight: 600; color: var(--text-main, #0f172a);">Pull to refresh</span>
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar">
         <a href="{% url 'client_dashboard' %}" class="navbar-brand">Creative<span>Tech</span> HRM</a>
@@ -180,6 +187,9 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
                 <div class="user-name">{{ client.company_name }}</div>
                 <div class="user-role">Client Portal</div>
             </div>
+            <button onclick="window.location.reload();" class="btn-logout" style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(37,99,235,0.08); color: var(--primary); font-weight:700; margin-left: 0.5rem;" title="Refresh Page">
+                ↻ Refresh
+            </button>
             <!-- Notifications Dropdown -->
             <div style="position: relative;" id="notificationContainer">
                 <div id="notificationBell" style="position: relative; cursor: pointer; color: var(--text-muted); transition: color 0.2s; margin-right: 0.5rem; display: flex; align-items: center;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">
@@ -442,6 +452,64 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
             }
         });
     }
+
+    // Native Touch Pull-To-Refresh Gesture Handler for Mobile APK & Mobile Web
+    (function() {
+        let startY = 0;
+        let currentY = 0;
+        let pulling = false;
+        const threshold = 75;
+        const ptr = document.getElementById('pullToRefreshIndicator');
+        const spinner = document.getElementById('ptrSpinner');
+        const ptrText = document.getElementById('ptrText');
+
+        if (!ptr) return;
+
+        window.addEventListener('touchstart', function(e) {
+            if (window.scrollY <= 2 && e.touches.length === 1) {
+                startY = e.touches[0].pageY;
+                pulling = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function(e) {
+            if (!pulling) return;
+            currentY = e.touches[0].pageY;
+            const diff = currentY - startY;
+
+            if (diff > 10 && window.scrollY <= 2) {
+                const pullDistance = Math.min(diff * 0.45, 85);
+                ptr.style.top = (pullDistance - 50) + 'px';
+                const rotation = Math.min((diff / threshold) * 360, 360);
+                spinner.style.transform = 'rotate(' + rotation + 'deg)';
+
+                if (diff >= threshold) {
+                    ptrText.textContent = 'Release to refresh';
+                } else {
+                    ptrText.textContent = 'Pull to refresh';
+                }
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', function(e) {
+            if (!pulling) return;
+            const diff = currentY - startY;
+            pulling = false;
+
+            if (diff >= threshold && window.scrollY <= 2) {
+                ptr.style.top = '16px';
+                ptrText.textContent = 'Refreshing...';
+                spinner.style.animation = 'ptrSpin 0.8s linear infinite';
+                setTimeout(function() {
+                    window.location.reload();
+                }, 250);
+            } else {
+                ptr.style.top = '-60px';
+            }
+            startY = 0;
+            currentY = 0;
+        }, { passive: true });
+    })();
 </script>
 </body>
 </html>
