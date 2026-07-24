@@ -139,13 +139,7 @@
                 right: 'dayGridMonth,dayGridWeek'
             },
             events: eventsData,
-            dateClick: function(info) {
-                // Pre-fill the modal with the clicked date
-                document.querySelector('input[name="date"]').value = info.dateStr;
-                openAddHolidayModal();
-            },
             eventClick: function(info) {
-                // Just prevent default if needed, can add edit functionality later
                 info.jsEvent.preventDefault();
             }
         });

@@ -2970,10 +2970,6 @@
                                 if (confirm('Delete this private note?\n"' + info.event.title + '"')) {
                                     window.location.href = '/personal-notes/delete/' + info.event.extendedProps.noteId + '/';
                                 }
-                            } else if (info.event.extendedProps && info.event.extendedProps.description) {
-                                alert(info.event.title + '\n\n' + info.event.extendedProps.description);
-                            } else {
-                                alert(info.event.title);
                             }
                         }
                     });
