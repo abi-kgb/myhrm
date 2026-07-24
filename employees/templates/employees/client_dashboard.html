@@ -111,11 +111,12 @@
         /* MOBILE: small top space to clear phone status bar only */
         @media (max-width: 768px) {
             body {
-                padding-top: 90px !important;
+                padding-top: 190px !important;
             }
+
             .navbar {
-                padding: 30px 1rem 0 1rem !important;
-                height: 90px !important;
+                padding: 130px 1rem 0 1rem !important;
+                height: 190px !important;
             }
         }
 
@@ -571,7 +572,8 @@
                     Client Portal</span>
             </div>
             <h1>Welcome, <span
-                    style="background:linear-gradient(135deg,var(--primary),var(--primary-hover));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{ client.company_name }}</span></h1>
+                    style="background:linear-gradient(135deg,var(--primary),var(--primary-hover));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{
+                    client.company_name }}</span></h1>
             <p>Track the progress of your projects in real-time. Contact us if you have any questions.</p>
             <div style="margin-top:1.5rem;">
                 <button onclick="openCalendarModal()"
