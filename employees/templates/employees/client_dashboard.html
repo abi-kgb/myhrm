@@ -142,13 +142,29 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); }
         /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             .navbar {
-                padding: 0 1rem;
+                padding: 0.4rem 0.75rem !important;
+                height: 56px !important;
+                gap: 0.35rem !important;
             }
             .navbar-brand {
-                font-size: 1.1rem;
+                font-size: 0.95rem !important;
+                white-space: nowrap !important;
+            }
+            .user-badge {
+                gap: 0.35rem !important;
             }
             .user-name, .user-role {
-                display: none;
+                display: none !important;
+            }
+            .btn-logout {
+                padding: 0.3rem 0.5rem !important;
+                font-size: 0.72rem !important;
+                white-space: nowrap !important;
+            }
+            .avatar {
+                width: 30px !important;
+                height: 30px !important;
+                font-size: 0.75rem !important;
             }
             .hero {
                 padding: 1.5rem 1rem;
