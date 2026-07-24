@@ -1596,11 +1596,16 @@ def client_dashboard_view(request):
     
     goals = GoalTracking.objects.filter(project__client=client).order_by('-created_at')
 
+    completed_count = projects.filter(status='Completed').count()
+    active_count = projects.exclude(status='Completed').count()
+
     return render(request, 'employees/client_dashboard.html', {
         'goals': goals,
         'events_json': events_json,
         'client': client,
         'projects': projects,
+        'completed_count': completed_count,
+        'active_count': active_count,
     })
 
 

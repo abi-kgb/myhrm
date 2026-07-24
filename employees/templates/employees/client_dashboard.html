@@ -619,11 +619,7 @@
             <div class="stat-card">
                 <div class="stat-label">Completed</div>
                 <div class="stat-value" style="color:var(--success);">
-                    {% with completed=0 %}
-                    {% for p in projects %}{% if p.status == 'Completed' %}{% with completed=completed|add:1 %}{%
-                    endwith %}{% endif %}{% endfor %}
-                    {{ projects|length }}
-                    {% endwith %}
+                    {{ completed_count|default:0 }}
                 </div>
                 <div class="stat-sub">Delivered</div>
             </div>
