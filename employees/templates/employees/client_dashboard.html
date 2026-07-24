@@ -88,14 +88,14 @@
             background: #f0f4ff;
             min-height: 100vh;
             color: var(--text-main);
-            padding-top: 284px;
+            padding-top: 64px;
         }
 
         /* NAVBAR */
         .navbar {
             background: var(--card-bg);
-            padding: 220px 2rem 0 2rem;
-            height: 284px;
+            padding: 0 2rem;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -106,6 +106,17 @@
             left: 0;
             right: 0;
             z-index: 9999;
+        }
+
+        /* MOBILE: extra top space to clear phone status bar */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 284px !important;
+            }
+            .navbar {
+                padding: 220px 1rem 0 1rem !important;
+                height: 284px !important;
+            }
         }
 
         .navbar-brand {
