@@ -137,8 +137,8 @@
                     <input type="hidden" name="action" value="add_member">
                     <div class="form-group">
                         <label>Assign New Member</label>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <select name="employee_id" required style="flex: 1;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
+                            <select name="employee_id" required style="flex: 1 1 auto; min-width: 0; width: 100%;">
                                 <option value="">Select Employee...</option>
                                 {% for emp in all_employees %}
                                     {% if emp not in project.assigned_employees.all %}
@@ -146,7 +146,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </select>
-                            <button type="submit" class="btn-submit" style="padding: 0.65rem 1rem;">Add</button>
+                            <button type="submit" class="btn-submit" style="width: auto !important; flex: 0 0 auto !important; padding: 0.6rem 1.25rem; white-space: nowrap; margin-top: 0; display: inline-flex; align-items: center; justify-content: center;">Add</button>
                         </div>
                     </div>
                 </form>
