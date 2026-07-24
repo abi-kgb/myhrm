@@ -46,10 +46,10 @@ body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); padding-
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
         }
-        /* MOBILE: extra top space to clear phone status bar */
+        /* MOBILE: small top space to clear phone status bar only */
         @media (max-width: 768px) {
-            body { padding-top: 284px !important; }
-            .navbar { padding: 220px 1rem 0 1rem !important; height: 284px !important; }
+            body { padding-top: 90px !important; }
+            .navbar { padding: 30px 1rem 0 1rem !important; height: 90px !important; }
         }
         .navbar-brand { font-size: 1.25rem; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
         .navbar-brand span { background: linear-gradient(135deg,var(--primary),var(--primary-hover)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
