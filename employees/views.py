@@ -2456,8 +2456,7 @@ def add_personal_note(request):
 @login_required
 def delete_personal_note(request, note_id):
     note = get_object_or_404(PersonalNote, id=note_id, user=request.user)
-    if request.method == 'POST':
-        note.delete()
-        messages.success(request, "Private note deleted.")
+    note.delete()
+    messages.success(request, "Private note deleted.")
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 

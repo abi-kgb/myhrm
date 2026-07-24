@@ -697,16 +697,7 @@
                     info.jsEvent.preventDefault();
                     if (info.event.extendedProps && info.event.extendedProps.isPersonal) {
                         if (confirm('Delete this private note?\n"' + info.event.title + '"')) {
-                            var form = document.createElement('form');
-                            form.method = 'POST';
-                            form.action = '/personal-notes/delete/' + info.event.extendedProps.noteId + '/';
-                            var csrf = document.createElement('input');
-                            csrf.type = 'hidden';
-                            csrf.name = 'csrfmiddlewaretoken';
-                            csrf.value = '{{ csrf_token }}';
-                            form.appendChild(csrf);
-                            document.body.appendChild(form);
-                            form.submit();
+                            window.location.href = '/personal-notes/delete/' + info.event.extendedProps.noteId + '/';
                         }
                     } else if (info.event.extendedProps && info.event.extendedProps.description) {
                         alert(info.event.title + '\n\n' + info.event.extendedProps.description);
