@@ -3185,11 +3185,11 @@
             const now = new Date();
             const dateEl = document.getElementById('hero-date');
             const timeEl = document.getElementById('hero-time');
-            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+            if (dateEl) dateEl.textContent = now.toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', hour12:true });
         }
         updateHeroClock();
-        setInterval(updateHeroClock, 1000);
+        setInterval(updateHeroClock, 10000);
 
         // Add subtle row-enter animation for all tables
         document.querySelectorAll('tbody tr').forEach((row, i) => {
