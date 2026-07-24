@@ -279,11 +279,16 @@
             .fc-event-title { font-size: 0.68rem !important; }
             .fc-daygrid-day-frame { min-height: 44px !important; }
             .fc-view-harness { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
-        }
+        @keyframes ptrSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
             </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+    <!-- Pull To Refresh UI Indicator -->
+    <div id="pullToRefreshIndicator" style="position: fixed; top: -60px; left: 50%; transform: translateX(-50%); z-index: 9999; background: var(--card-bg, #ffffff); border: 1px solid var(--border, #e2e8f0); border-radius: 9999px; padding: 0.5rem 1rem; box-shadow: 0 4px 14px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.5rem; transition: top 0.2s ease, transform 0.2s ease; pointer-events: none;">
+        <div id="ptrSpinner" style="width: 18px; height: 18px; border: 2.5px solid #cbd5e1; border-top-color: var(--primary, #2563eb); border-radius: 50%; transition: transform 0.1s linear;"></div>
+        <span id="ptrText" style="font-size: 0.8rem; font-weight: 600; color: var(--text-main, #0f172a);">Pull to refresh</span>
+    </div>
     {% if request.user.is_authenticated %}
     <header class="navbar">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -405,6 +410,64 @@
                     }
                 });
             }
+
+            // Native Touch Pull-To-Refresh Gesture Handler for APK / Mobile Web
+            (function() {
+                let startY = 0;
+                let currentY = 0;
+                let pulling = false;
+                const threshold = 75;
+                const ptr = document.getElementById('pullToRefreshIndicator');
+                const spinner = document.getElementById('ptrSpinner');
+                const ptrText = document.getElementById('ptrText');
+
+                if (!ptr) return;
+
+                window.addEventListener('touchstart', function(e) {
+                    if (window.scrollY <= 2 && e.touches.length === 1) {
+                        startY = e.touches[0].pageY;
+                        pulling = true;
+                    }
+                }, { passive: true });
+
+                window.addEventListener('touchmove', function(e) {
+                    if (!pulling) return;
+                    currentY = e.touches[0].pageY;
+                    const diff = currentY - startY;
+
+                    if (diff > 10 && window.scrollY <= 2) {
+                        const pullDistance = Math.min(diff * 0.45, 85);
+                        ptr.style.top = (pullDistance - 50) + 'px';
+                        const rotation = Math.min((diff / threshold) * 360, 360);
+                        spinner.style.transform = 'rotate(' + rotation + 'deg)';
+
+                        if (diff >= threshold) {
+                            ptrText.textContent = 'Release to refresh';
+                        } else {
+                            ptrText.textContent = 'Pull to refresh';
+                        }
+                    }
+                }, { passive: true });
+
+                window.addEventListener('touchend', function(e) {
+                    if (!pulling) return;
+                    const diff = currentY - startY;
+                    pulling = false;
+
+                    if (diff >= threshold && window.scrollY <= 2) {
+                        ptr.style.top = '16px';
+                        ptrText.textContent = 'Refreshing...';
+                        spinner.style.animation = 'ptrSpin 0.8s linear infinite';
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 250);
+                    } else {
+                        ptr.style.top = '-60px';
+                    }
+                    startY = 0;
+                    currentY = 0;
+                }, { passive: true });
+            })();
         });
     </script>
     <!-- Bootstrap 5 JavaScript Bundle -->
