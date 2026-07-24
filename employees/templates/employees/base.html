@@ -316,7 +316,7 @@
     {% if request.user.is_authenticated %}
     <header class="navbar">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <button id="mobileMenuToggle" class="mobile-menu-btn" style="display: inline-block; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); padding: 0 0.3rem;" title="Toggle Menu">
+            <button id="mobileMenuToggle" class="mobile-menu-btn" onclick="toggleSidebarMenu(event)" style="display: inline-block; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); padding: 0 0.3rem;" title="Toggle Menu">
                 ☰
             </button>
             <a href="{% url 'home' %}" class="navbar-brand">
@@ -434,6 +434,28 @@
                     }
                 });
             }
+
+            // Global Sidebar Drawer Toggle
+            window.toggleSidebarMenu = function(e) {
+                if (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+                const sidebar = document.querySelector('.sidebar-menu');
+                if (sidebar) {
+                    sidebar.classList.toggle('active');
+                }
+            };
+
+            document.addEventListener('click', function(e) {
+                const sidebar = document.querySelector('.sidebar-menu');
+                const mobileBtn = document.getElementById('mobileMenuToggle');
+                if (sidebar && sidebar.classList.contains('active')) {
+                    if (!sidebar.contains(e.target) && (!mobileBtn || !mobileBtn.contains(e.target))) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
 
             // Native Touch Pull-To-Refresh Gesture Handler for APK / Mobile Web
             (function() {
