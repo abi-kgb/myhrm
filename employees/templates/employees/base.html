@@ -233,6 +233,13 @@
             .admin-layout { grid-template-columns: 1fr; }
             .admin-grid { grid-template-columns: 1fr !important; }
             .container, .container-fluid { padding-top: 1.5rem; margin-top: 0.5rem; }
+            .sidebar-menu {
+                position: fixed; top: 0; left: 0;
+                width: 280px; height: 100vh; max-height: 100vh; z-index: 10000;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                padding-bottom: 5rem !important;
+            }
         }
         @media (max-width: 768px) {
             .stats-grid, .grid-cards, .responsive-grid-detail, .responsive-grid-half { grid-template-columns: 1fr !important; }
