@@ -760,171 +760,160 @@
     </button>
 </aside>
 
-<div class="dashboard-grid">
-
-    <!-- Welcome Banner -->
-    <div class="welcome-banner">
-        <div class="welcome-text">
-            <h1>Welcome, {{ employee.user.first_name }}!</h1>
-            <p>{{ employee.role }} &bull; {{ employee.department }}</p>
-            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                {% if not attendance %}
-                    <a href="{% url 'clock_in' %}" class="btn-action" style="background: var(--success); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px -1px rgba(16,185,129,0.2);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                        Clock In
-                    </a>
-                {% elif not attendance.clock_out %}
-                    <a href="{% url 'clock_out' %}" class="btn-action" style="background: var(--danger); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px -1px rgba(239,68,68,0.2);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                        Clock Out
-                    </a>
-                {% else %}
-                    <div style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        Shift Completed
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="welcome-clock-wrapper" style="text-align: right; position: relative; z-index: 1;">
-            <div id="live-clock" style="font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1;">
-            </div>
-            <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.8; margin-top: 0.25rem;">{{ today|date:"l, d M Y" }}</div>
-        </div>
-    </div>
-
-    <!-- Leave Balances Progress Rings -->
-    <div class="leave-circular-container">
-        <!-- Annual Leave -->
-        <div class="leave-ring-card">
-            <div class="leave-ring-details">
-                <span class="leave-ring-title">Annual Leaves</span>
-                <span class="leave-ring-val">{{ employee.annual_leave_balance }} Days</span>
-                <span class="leave-ring-sub">Remaining of {{ annual_max }}</span>
-            </div>
-            <div class="svg-ring-container">
-                <svg class="svg-ring-chart" viewBox="0 0 36 36">
-                    <path class="svg-ring-bg"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="svg-ring-fill annual-fill" stroke-dasharray="{{ annual_pct }}, 100"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <text x="18" y="20.35" class="svg-ring-text">{{ annual_pct }}%</text>
-                </svg>
-            </div>
-        </div>
-        
-        <!-- Sick Leave -->
-        <div class="leave-ring-card">
-            <div class="leave-ring-details">
-                <span class="leave-ring-title">Sick Leaves</span>
-                <span class="leave-ring-val">{{ employee.sick_leave_balance }} Days</span>
-                <span class="leave-ring-sub">Remaining of {{ sick_max }}</span>
-            </div>
-            <div class="svg-ring-container">
-                <svg class="svg-ring-chart" viewBox="0 0 36 36">
-                    <path class="svg-ring-bg"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="svg-ring-fill sick-fill" stroke-dasharray="{{ sick_pct }}, 100"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <text x="18" y="20.35" class="svg-ring-text">{{ sick_pct }}%</text>
-                </svg>
-            </div>
-        </div>
-        
-        <!-- Casual Leave -->
-        <div class="leave-ring-card">
-            <div class="leave-ring-details">
-                <span class="leave-ring-title">Casual Leaves</span>
-                <span class="leave-ring-val">{{ employee.casual_leave_balance }} Days</span>
-                <span class="leave-ring-sub">Remaining of {{ casual_max }}</span>
-            </div>
-            <div class="svg-ring-container">
-                <svg class="svg-ring-chart" viewBox="0 0 36 36">
-                    <path class="svg-ring-bg"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="svg-ring-fill casual-fill" stroke-dasharray="{{ casual_pct }}, 100"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <text x="18" y="20.35" class="svg-ring-text">{{ casual_pct }}%</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Shift Details -->
-        <div class="leave-ring-card" style="display:flex; flex-direction:column; justify-content:center; padding: 1.5rem; text-align: left;">
-            <span class="leave-ring-title" style="margin-bottom:1rem; font-weight:800; color:var(--text-main); font-size:1.1rem;">Assigned Shift</span>
-            {% if employee.shift %}
-                <span style="font-size: 1.35rem; font-weight: 800; color: var(--primary);">{{ employee.shift.name }}</span>
-                <div style="display:flex; align-items:center; gap: 0.5rem; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.95rem; font-weight:600;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    {{ employee.shift.start_time|time:"h:i A" }} - {{ employee.shift.end_time|time:"h:i A" }}
-                </div>
-                <div style="margin-top: 0.75rem;">
-                    <span style="font-size: 0.8rem; font-weight:700; color: var(--text-muted); display:inline-block; padding:0.3rem 0.6rem; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border);">{{ employee.shift.working_days }}</span>
-                </div>
-            {% else %}
-                <span style="font-size: 1rem; color: var(--text-muted); font-weight:600;">No Shift Assigned</span>
-            {% endif %}
-        </div>
-
-        <!-- Attendance Clock Action Card -->
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Daily Attendance</h2>
-            </div>
-            <div class="attendance-status">
-                {% if not attendance %}
-                <span class="status-badge missing">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        style="margin-right:0.25rem;">
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="12" y1="8" x2="12" y2="12" />
-                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
-                    Not Clocked In Today
-                </span>
-                {% elif not attendance.clock_out %}
-                <span class="status-badge active">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
-                        style="margin-right:0.25rem;">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 16 14" />
-                    </svg>
-                    Active: Clocked In {{ attendance.clock_in|time:"H:i" }}
-                </span>
-                {% else %}
-                <span class="status-badge completed">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
-                        style="margin-right:0.25rem; color:#059669;">
-                        <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    Shift Completed
-                </span>
-                <p style="font-size:0.85rem; color:var(--text-muted); line-height: 1.4;">
-                    Clock In: <strong>{{ attendance.clock_in|time:"H:i" }}</strong><br>
-                    Clock Out: <strong>{{ attendance.clock_out|time:"H:i" }}</strong><br>
-                    Duration: <strong>{{ attendance.total_hours|default:"-" }} hours</strong>
-                </p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Left Column: Clock and Static Info -->
-    <div class="left-col" style="display: flex; flex-direction: column; gap: 1.5rem;">
-
-        
-
-        </div>
-
-    </div>
-
-    <!-- Right Column: Tabs and Forms -->
+<div class="dashboard-grid" style="margin-top: 0.5rem;">
 
         <!-- Tab: Summary -->
-        <div id="summary-tab" class="tab-pane">
+        <div id="summary-tab" class="tab-pane active">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h1>Welcome, {{ employee.user.first_name }}!</h1>
+                    <p>{{ employee.role }} &bull; {{ employee.department }}</p>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        {% if not attendance %}
+                            <a href="{% url 'clock_in' %}" class="btn-action" style="background: var(--success); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px -1px rgba(16,185,129,0.2);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                                Clock In
+                            </a>
+                        {% elif not attendance.clock_out %}
+                            <a href="{% url 'clock_out' %}" class="btn-action" style="background: var(--danger); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px -1px rgba(239,68,68,0.2);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                Clock Out
+                            </a>
+                        {% else %}
+                            <div style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                Shift Completed
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="welcome-clock-wrapper" style="text-align: right; position: relative; z-index: 1;">
+                    <div id="live-clock" style="font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1;">
+                    </div>
+                    <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.8; margin-top: 0.25rem;">{{ today|date:"l, d M Y" }}</div>
+                </div>
+            </div>
+
+            <!-- Leave Balances Progress Rings -->
+            <div class="leave-circular-container">
+                <!-- Annual Leave -->
+                <div class="leave-ring-card">
+                    <div class="leave-ring-details">
+                        <span class="leave-ring-title">Annual Leaves</span>
+                        <span class="leave-ring-val">{{ employee.annual_leave_balance }} Days</span>
+                        <span class="leave-ring-sub">Remaining of {{ annual_max }}</span>
+                    </div>
+                    <div class="svg-ring-container">
+                        <svg class="svg-ring-chart" viewBox="0 0 36 36">
+                            <path class="svg-ring-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="svg-ring-fill annual-fill" stroke-dasharray="{{ annual_pct }}, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="20.35" class="svg-ring-text">{{ annual_pct }}%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Sick Leave -->
+                <div class="leave-ring-card">
+                    <div class="leave-ring-details">
+                        <span class="leave-ring-title">Sick Leaves</span>
+                        <span class="leave-ring-val">{{ employee.sick_leave_balance }} Days</span>
+                        <span class="leave-ring-sub">Remaining of {{ sick_max }}</span>
+                    </div>
+                    <div class="svg-ring-container">
+                        <svg class="svg-ring-chart" viewBox="0 0 36 36">
+                            <path class="svg-ring-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="svg-ring-fill sick-fill" stroke-dasharray="{{ sick_pct }}, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="20.35" class="svg-ring-text">{{ sick_pct }}%</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Casual Leave -->
+                <div class="leave-ring-card">
+                    <div class="leave-ring-details">
+                        <span class="leave-ring-title">Casual Leaves</span>
+                        <span class="leave-ring-val">{{ employee.casual_leave_balance }} Days</span>
+                        <span class="leave-ring-sub">Remaining of {{ casual_max }}</span>
+                    </div>
+                    <div class="svg-ring-container">
+                        <svg class="svg-ring-chart" viewBox="0 0 36 36">
+                            <path class="svg-ring-bg"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="svg-ring-fill casual-fill" stroke-dasharray="{{ casual_pct }}, 100"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <text x="18" y="20.35" class="svg-ring-text">{{ casual_pct }}%</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Shift Details -->
+                <div class="leave-ring-card" style="display:flex; flex-direction:column; justify-content:center; padding: 1.5rem; text-align: left;">
+                    <span class="leave-ring-title" style="margin-bottom:1rem; font-weight:800; color:var(--text-main); font-size:1.1rem;">Assigned Shift</span>
+                    {% if employee.shift %}
+                        <span style="font-size: 1.35rem; font-weight: 800; color: var(--primary);">{{ employee.shift.name }}</span>
+                        <div style="display:flex; align-items:center; gap: 0.5rem; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.95rem; font-weight:600;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            {{ employee.shift.start_time|time:"h:i A" }} - {{ employee.shift.end_time|time:"h:i A" }}
+                        </div>
+                        <div style="margin-top: 0.75rem;">
+                            <span style="font-size: 0.8rem; font-weight:700; color: var(--text-muted); display:inline-block; padding:0.3rem 0.6rem; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border);">{{ employee.shift.working_days }}</span>
+                        </div>
+                    {% else %}
+                        <span style="font-size: 1rem; color: var(--text-muted); font-weight:600;">No Shift Assigned</span>
+                    {% endif %}
+                </div>
+
+                <!-- Attendance Clock Action Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Daily Attendance</h2>
+                    </div>
+                    <div class="attendance-status">
+                        {% if not attendance %}
+                        <span class="status-badge missing">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="margin-right:0.25rem;">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                            Not Clocked In Today
+                        </span>
+                        {% elif not attendance.clock_out %}
+                        <span class="status-badge active">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                style="margin-right:0.25rem;">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            Active: Clocked In {{ attendance.clock_in|time:"H:i" }}
+                        </span>
+                        {% else %}
+                        <span class="status-badge completed">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                style="margin-right:0.25rem; color:#059669;">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Shift Completed
+                        </span>
+                        <p style="font-size:0.85rem; color:var(--text-muted); line-height: 1.4;">
+                            Clock In: <strong>{{ attendance.clock_in|time:"H:i" }}</strong><br>
+                            Clock Out: <strong>{{ attendance.clock_out|time:"H:i" }}</strong><br>
+                            Duration: <strong>{{ attendance.total_hours|default:"-" }} hours</strong>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
             <div style="margin-top:1.5rem;">
                 <!-- Personal Summary Card -->
                 <div class="card">
