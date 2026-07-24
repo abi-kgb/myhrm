@@ -1837,36 +1837,6 @@ from .models import Notification, Holiday, Project, ProjectUpdate, GoalTracking
 import json
 from django.core.serializers.json import DjangoJSONEncoder
 
-@login_required
-def client_dashboard_view(request):
-    try:
-        client = request.user.client_profile
-    except Exception:
-        messages.error(request, 'Access denied. This area is for clients only.')
-        return redirect('client_login')
-    projects = Project.objects.filter(client=client).order_by('-created_at')
-
-    holidays = Holiday.objects.all().order_by('date')
-    events = []
-    for h in holidays:
-        events.append({
-            'title': h.name,
-            'start': h.date.isoformat(),
-            'color': '#2563eb' if getattr(h, 'type', 'Holiday') == 'Holiday' else '#94a3b8',
-            'extendedProps': {
-                'type': getattr(h, 'type', 'Holiday')
-            }
-        })
-    events_json = json.dumps(events, cls=DjangoJSONEncoder)
-
-    goals = GoalTracking.objects.filter(project__client=client).order_by('-created_at')
-
-    return render(request, 'employees/client_dashboard.html', {
-        'goals': goals,
-        'events_json': events_json,
-        'client': client,
-        'projects': projects,
-    })
 
 @admin_only
 def admin_project_detail_view(request, project_id):

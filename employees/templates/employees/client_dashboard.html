@@ -14,6 +14,12 @@
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
     <style>
+        .hero-company-name {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         * {
             box-sizing: border-box;
             margin: 0;
@@ -499,7 +505,7 @@
                 <div class="user-name">{{ client.company_name }}</div>
                 <div class="user-role">Client Portal</div>
             </div>
-            <button onclick="window.location.reload();" class="btn-logout"
+            <button onclick="window.location.href = window.location.pathname;" class="btn-logout"
                 style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(37,99,235,0.08); color: var(--primary); font-weight:700; margin-left: 0.5rem;"
                 title="Refresh Page">
                 ↻ Refresh
@@ -562,9 +568,7 @@
                     style="background:rgba(0,85,255,0.08);color:var(--primary);font-size:0.72rem;font-weight:700;padding:0.3rem 0.85rem;border-radius:9999px;letter-spacing:0.05em;text-transform:uppercase;">🤝
                     Client Portal</span>
             </div>
-            <h1>Welcome, <span
-                    style="background:linear-gradient(135deg,var(--primary),var(--primary-hover));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{
-                    client.company_name }}</span></h1>
+            <h1>Welcome, <span class="hero-company-name">{{ client.company_name }}</span></h1>
             <p>Track the progress of your projects in real-time. Contact us if you have any questions.</p>
             <div style="margin-top:1.5rem;">
                 <button onclick="openCalendarModal()"
@@ -853,7 +857,7 @@
                     ptrText.textContent = 'Refreshing...';
                     spinner.style.animation = 'ptrSpin 0.8s linear infinite';
                     setTimeout(function () {
-                        window.location.reload();
+                        window.location.href = window.location.pathname;
                     }, 250);
                 } else {
                     ptr.style.top = '-60px';
