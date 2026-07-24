@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Project Details | {{ project.name }} | Client Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,15 +34,18 @@
             --danger: #ef4444;
             --danger-bg: rgba(239, 68, 68, 0.1);
         }
-body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); padding-top: 64px; }
+body { background: #f0f4ff; min-height: 100vh; color: var(--text-main); padding-top: calc(64px + env(safe-area-inset-top, 0px)); }
 
         /* NAVBAR */
         .navbar {
-            background: var(--card-bg); height: 64px; padding: 0 2rem;
+            background: var(--card-bg);
+            padding: env(safe-area-inset-top, 0px) 2rem 0 2rem;
+            padding-top: max(env(safe-area-inset-top, 0px), 0px);
+            min-height: 64px;
             display: flex; align-items: center; justify-content: space-between;
             border-bottom: 1px solid var(--border);
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            position: sticky; top: 0; z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
         }
         .navbar-brand { font-size: 1.25rem; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
         .navbar-brand span { background: linear-gradient(135deg,var(--primary),var(--primary-hover)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
