@@ -703,14 +703,25 @@ def add_employee(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         department_id = request.POST.get('department_id')
+        department_name = request.POST.get('department')
+        designation_id = request.POST.get('designation_id')
+        designation = request.POST.get('designation', '')
+        
+        if not department_id and department_name:
+            dept_obj, _ = Department.objects.get_or_create(name=department_name)
+            department_id = dept_obj.id
+            
+        if not designation_id and designation:
+            desig_obj, _ = Designation.objects.get_or_create(name=designation)
+            designation_id = desig_obj.id
+
         role = request.POST.get('role', 'Employee')
         phone = request.POST.get('phone')
         salary = request.POST.get('salary', 0.0)
         gender = request.POST.get('gender')
         date_of_birth = request.POST.get('date_of_birth')
         address = request.POST.get('address')
-        designation_id = request.POST.get('designation_id')
-        # employee_id_code = request.POST.get('employee_id_code')
+        
         # Auto-generate employee ID
         prefix_map = {
             'General Manager (GM)': 'GM',
@@ -728,7 +739,7 @@ def add_employee(request):
         max_num = 0
         for emp in existing_emps:
             if emp.employee_id_code:
-                match = re.match(f"^{prefix}(\d+)$", emp.employee_id_code)
+                match = re.match(fr"^{prefix}(\d+)$", emp.employee_id_code)
                 if match:
                     num = int(match.group(1))
                     if num > max_num:
