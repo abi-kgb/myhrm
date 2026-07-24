@@ -1474,6 +1474,25 @@ def goals_view(request):
     return render(request, 'employees/goals.html', {'goals': goals, 'projects': projects})
 
 @admin_only
+def update_goal_status(request, goal_id):
+    if request.method == 'POST':
+        goal = get_object_or_404(GoalTracking, id=goal_id)
+        new_status = request.POST.get('status')
+        if new_status in ['Active', 'Pending', 'Completed']:
+            goal.status = new_status
+            goal.save()
+            messages.success(request, f"Goal status updated to {new_status}.")
+    return redirect('goals')
+
+@admin_only
+def delete_goal(request, goal_id):
+    if request.method == 'POST':
+        goal = get_object_or_404(GoalTracking, id=goal_id)
+        goal.delete()
+        messages.success(request, "Goal deleted successfully.")
+    return redirect('goals')
+
+@admin_only
 def projects_view(request):
     if request.method == 'POST':
         name = request.POST.get('name')

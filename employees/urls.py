@@ -110,6 +110,10 @@ urlpatterns = [
     path('personal-notes/add/', views.add_personal_note, name='add_personal_note'),
     path('personal-notes/delete/<int:note_id>/', views.delete_personal_note, name='delete_personal_note'),
 
+    # Goals Status & Delete
+    path('goals/<int:goal_id>/update-status/', views.update_goal_status, name='update_goal_status'),
+    path('goals/<int:goal_id>/delete/', views.delete_goal, name='delete_goal'),
+
     # PWA Routes
     path('manifest.json', views.manifest_view, name='manifest'),
     path('sw.js', views.service_worker_view, name='service_worker'),
