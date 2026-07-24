@@ -2624,21 +2624,19 @@
                 <h1 class="page-title" style="margin: 0; font-size: 1.5rem; font-weight: 800;">📅 Unified Calendar & Holidays</h1>
                 <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.25rem 0 0 0;">Holidays, Leaves, Birthdays, and Events</p>
             </div>
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
-                <button type="button" 
-                        style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); color: #334155; border: 1.5px solid #cbd5e1; padding: 0.6rem 1.2rem; border-radius: 0.6rem; font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.04); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;"
-                        onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';" 
-                        onmouseout="this.style.transform='none'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.04)';"
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem;">
+                <button type="button" class="btn" 
+                        style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); color: #334155; border: 1.5px solid #cbd5e1; padding: 0.5rem 0.85rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;"
                         onclick="document.getElementById('addHolidayModal').style.display='flex'">
                     <span>🏖️</span> Add Holiday
                 </button>
-                <button type="button" 
-                        style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; border: none; padding: 0.6rem 1.2rem; border-radius: 0.6rem; font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;"
-                        onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 16px rgba(37, 99, 235, 0.35)';" 
-                        onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(37, 99, 235, 0.25)';"
+                <button type="button" class="btn" 
+                        style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; border: none; padding: 0.5rem 0.85rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);"
                         onclick="document.getElementById('addEventModal').style.display='flex'">
-                <button type="button" 
-                        style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; border: none; padding: 0.6rem 1.2rem; border-radius: 0.6rem; font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;"
+                    <span>📅</span> Add Event
+                </button>
+                <button type="button" class="btn" 
+                        style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; border: none; padding: 0.5rem 0.85rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);"
                         onclick="document.getElementById('addPersonalNoteModal').style.display='flex'">
                     <span>🔒</span> Add Private Note
                 </button>
@@ -2956,7 +2954,7 @@
                     var isMobile = window.innerWidth < 768;
                     adminCalendarObj = new FullCalendar.Calendar(calEl, {
                         initialView: 'dayGridMonth',
-                        contentHeight: isMobile ? 450 : 550,
+                        contentHeight: isMobile ? 360 : 500,
                         headerToolbar: isMobile ? {
                             left: 'prev,next',
                             center: 'title',

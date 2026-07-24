@@ -277,8 +277,10 @@
             .fc-col-header-cell-cushion { font-size: 0.72rem !important; padding: 2px 0 !important; }
             .fc-daygrid-day-number { font-size: 0.72rem !important; padding: 2px 4px !important; }
             .fc-event-title { font-size: 0.68rem !important; }
-            .fc-daygrid-day-frame { min-height: 44px !important; }
-            .fc-view-harness { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+            .fc-daygrid-day-frame { min-height: 38px !important; }
+            .fc-view-harness { overflow-x: auto !important; -webkit-overflow-scrolling: touch; max-height: 360px !important; }
+            .fc { max-height: 390px !important; }
+        }
         @keyframes ptrSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
             </style>
     {% block extra_head %}{% endblock %}
