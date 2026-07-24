@@ -1801,10 +1801,7 @@
         const el = document.getElementById('live-clock');
         if (!el) return;
         const now = new Date();
-        const h = String(now.getHours()).padStart(2, '0');
-        const m = String(now.getMinutes()).padStart(2, '0');
-        const s = String(now.getSeconds()).padStart(2, '0');
-        el.textContent = h + ':' + m + ':' + s;
+        el.textContent = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true});
     }
     updateClock();
     setInterval(updateClock, 1000);
