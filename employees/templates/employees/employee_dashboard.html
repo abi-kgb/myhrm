@@ -714,6 +714,52 @@
         }
     });
 </script>
+<!-- Slide-out Sidebar Drawer Menu -->
+<aside class="sidebar-menu">
+    <div class="sidebar-brand" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border);">
+        <div>
+            <div class="sidebar-brand-name" style="font-weight:700; font-size:0.95rem; color:var(--text-main);">{{ employee.user.first_name }} {{ employee.user.last_name }}</div>
+            <div class="sidebar-brand-role" style="font-size:0.78rem; color:var(--primary);">{{ employee.role }}</div>
+        </div>
+        <button id="sidebarCloseBtn" class="btn-close" aria-label="Close" style="font-size: 1.2rem; cursor: pointer; background: none; border: none; font-weight: bold; color: var(--text-muted);" onclick="closeEmpSidebar()">&times;</button>
+    </div>
+
+    <span class="sidebar-title" style="color:var(--text-muted); font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:0.75rem;">Menu & Navigation</span>
+    <button class="nav-link-item active" id="emp-nav-summary" onclick="switchTab('summary-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        📊 Dashboard Overview
+    </button>
+    <button class="nav-link-item" id="emp-nav-leaves" onclick="switchTab('leaves-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        📅 Leaves / Shifts
+    </button>
+    <button class="nav-link-item" id="emp-nav-attendance" onclick="switchTab('attendance-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        🕒 Attendance Logs
+    </button>
+    <button class="nav-link-item" id="emp-nav-payslips" onclick="switchTab('payslips-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        💵 Payslip Center
+    </button>
+    <button class="nav-link-item" id="emp-nav-profile" onclick="switchTab('profile-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        ⚙️ Profile Settings
+    </button>
+    <button class="nav-link-item" id="emp-nav-calendar" onclick="switchTab('calendar-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        🗓️ Calendar & Holidays
+    </button>
+    <button class="nav-link-item" id="emp-nav-goals" onclick="switchTab('goals-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        🎯 Goals & Targets
+    </button>
+    <button class="nav-link-item" id="emp-nav-projects" onclick="switchTab('projects-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        📁 My Projects
+    </button>
+    <button class="nav-link-item" id="emp-nav-assets" onclick="switchTab('assets-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        💻 Asset Manager
+    </button>
+    <button class="nav-link-item" id="emp-nav-expenses" onclick="switchTab('expenses-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        🧾 My Expenses
+    </button>
+    <button class="nav-link-item" id="emp-nav-letters" onclick="switchTab('letters-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+        📑 HR Letters & Certificates
+    </button>
+</aside>
+
 <div class="dashboard-grid">
 
     <!-- Welcome Banner -->
@@ -1771,16 +1817,29 @@
 </div>
 
 <script>
+    function closeEmpSidebar() {
+        const sb = document.querySelector('.sidebar-menu');
+        if (sb) sb.classList.remove('active');
+    }
+
     // Tab switching logic
     function switchTab(tabId) {
         const panes = document.querySelectorAll('.tab-pane');
         panes.forEach(pane => pane.classList.remove('active'));
-        const buttons = document.querySelectorAll('.tab-button');
-        buttons.forEach(button => button.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        const clickedButton = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(tabId));
-        if (clickedButton) clickedButton.classList.add('active');
-                localStorage.setItem('activeEmployeeTab', tabId);
+        
+        const allButtons = document.querySelectorAll('.tab-button, .nav-link-item');
+        allButtons.forEach(button => button.classList.remove('active'));
+        
+        const targetPane = document.getElementById(tabId);
+        if (targetPane) targetPane.classList.add('active');
+        
+        allButtons.forEach(btn => {
+            const attr = btn.getAttribute('onclick');
+            if (attr && attr.includes(tabId)) {
+                btn.classList.add('active');
+            }
+        });
+        localStorage.setItem('activeEmployeeTab', tabId);
         
         if (tabId === 'calendar-tab' && window.calendarObj) {
             setTimeout(() => { window.calendarObj.render(); }, 100);

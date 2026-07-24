@@ -302,7 +302,7 @@
     {% if request.user.is_authenticated %}
     <header class="navbar">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <button id="mobileMenuToggle" class="mobile-menu-btn" style="display: none; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main);">
+            <button id="mobileMenuToggle" class="mobile-menu-btn" style="display: inline-block; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); padding: 0 0.3rem;" title="Toggle Menu">
                 ☰
             </button>
             <a href="{% url 'home' %}" class="navbar-brand">
