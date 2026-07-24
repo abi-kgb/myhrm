@@ -98,7 +98,7 @@
                 height: 190px !important;
                 z-index: 9999 !important;
             }
-            body {
+            body.auth-body {
                 padding-top: 190px !important;
             }
         }
@@ -323,7 +323,7 @@
             </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% if request.user.is_authenticated %}auth-body{% endif %}">
     <!-- Pull To Refresh UI Indicator -->
     <div id="pullToRefreshIndicator" style="position: fixed; top: -60px; left: 50%; transform: translateX(-50%); z-index: 9999; background: var(--card-bg, #ffffff); border: 1px solid var(--border, #e2e8f0); border-radius: 9999px; padding: 0.5rem 1rem; box-shadow: 0 4px 14px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.5rem; transition: top 0.2s ease, transform 0.2s ease; pointer-events: none;">
         <div id="ptrSpinner" style="width: 18px; height: 18px; border: 2.5px solid #cbd5e1; border-top-color: var(--primary, #2563eb); border-radius: 50%; transition: transform 0.1s linear;"></div>
