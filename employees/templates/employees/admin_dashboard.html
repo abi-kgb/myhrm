@@ -1628,11 +1628,11 @@
                             <tbody>
                                 {% for pay in payslips %}
                                 <tr>
-                                    <td style="padding:0.75rem 1.5rem;"><strong>{{ pay.employee.user.first_name }} {{ pay.employee.user.last_name }}</strong></td>
-                                    <td style="padding:0.75rem 1.5rem;">{{ pay.month_year }}</td>
-                                    <td style="padding:0.75rem 1.5rem;">₹{{ pay.basic_salary }}</td>
-                                    <td style="padding:0.75rem 1.5rem; color:#059669;">+₹{{ pay.allowances }}</td>
-                                    <td style="padding:0.75rem 1.5rem; color:var(--danger);">
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle;"><strong>{{ pay.employee.user.first_name }} {{ pay.employee.user.last_name }}</strong></td>
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle;">{{ pay.month_year }}</td>
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle;">₹{{ pay.basic_salary }}</td>
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle; color:#059669;">+₹{{ pay.allowances }}</td>
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle; color:var(--danger);">
                                         -₹{{ pay.deductions }}
                                         {% if pay.lop_days > 0 %}
                                             <br><span style="font-size:0.7rem;">(LOP: {{ pay.lop_days }} days, ₹{{ pay.lop_deduction }})</span>
@@ -1641,8 +1641,8 @@
                                             <br><span style="font-size:0.7rem;">(Late: {{ pay.total_late_mins }}m, Penalty: {{ pay.late_penalty_lop_days }}d)</span>
                                         {% endif %}
                                     </td>
-                                    <td style="padding:0.75rem 1.5rem;"><strong style="color:var(--primary);">₹{{ pay.net_salary }}</strong></td>
-                                    <td style="padding:0.75rem 1.5rem;">
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle;"><strong style="color:var(--primary);">₹{{ pay.net_salary }}</strong></td>
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle;">
                                         <form method="POST" action="{% url 'toggle_payslip_status' pay.id %}" style="display:inline; margin:0;">
                                             {% csrf_token %}
                                             <select name="status" onchange="this.form.submit()"
@@ -1653,16 +1653,18 @@
                                             </select>
                                         </form>
                                     </td>
-                                    <td style="padding:0.75rem 1.5rem; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; border-bottom: none;">
-                                        <a href="{% url 'view_payslip' pay.id %}" class="btn-submit" style="padding:0.25rem 0.6rem; font-size:0.75rem; border:none; cursor:pointer; background: #3b82f6; color: white; border-radius: 0.3rem; text-decoration: none; display: inline-flex; align-items: center; height: 26px;">View</a>
-                                        <form method="POST" action="{% url 'delete_payslip' pay.id %}" style="display:inline; margin: 0;"
-                                              onsubmit="return confirm('Delete this payslip? It will also be removed from the employee\'s view.');">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn-reject" title="Delete Payslip"
-                                                style="padding:0 0.4rem; font-size:0.75rem; border:none; cursor:pointer; border-radius: 0.3rem; display: inline-flex; align-items: center; justify-content: center; height: 26px;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
-                                            </button>
-                                        </form>
+                                    <td style="padding:0.75rem 1.5rem; vertical-align:middle;">
+                                        <div style="display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                                            <a href="{% url 'view_payslip' pay.id %}" class="btn-submit" style="padding:0.35rem 0.75rem; font-size:0.75rem; border:none; cursor:pointer; background: #3b82f6; color: white; border-radius: 0.35rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; height: 28px; font-weight: 600; line-height: 1;">View</a>
+                                            <form method="POST" action="{% url 'delete_payslip' pay.id %}" style="display:inline; margin: 0;"
+                                                  onsubmit="return confirm('Delete this payslip? It will also be removed from the employee\'s view.');">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn-reject" title="Delete Payslip"
+                                                    style="padding:0 0.55rem; font-size:0.75rem; border:none; cursor:pointer; background: #ef4444; color: white; border-radius: 0.35rem; display: inline-flex; align-items: center; justify-content: center; height: 28px;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% endfor %}
