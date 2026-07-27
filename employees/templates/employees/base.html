@@ -356,15 +356,6 @@
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
-                    {% if unread_notifications_count > 0 %}
-                    <span id="notifBadge" style="position: absolute; top: -5px; right: -5px; background: var(--danger, #ef4444); color: white; font-size: 0.65rem; font-weight: bold; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid var(--card-bg, #fff);">
-                        {{ unread_notifications_count }}
-                    </span>
-                    {% elif admin_notifications_count > 0 %}
-                    <span id="notifBadgeAdmin" style="position: absolute; top: -5px; right: -5px; background: var(--danger, #ef4444); color: white; font-size: 0.65rem; font-weight: bold; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid var(--card-bg, #fff);">
-                        !
-                    </span>
-                    {% endif %}
                 </div>
                 
                 <!-- Dropdown Menu -->
