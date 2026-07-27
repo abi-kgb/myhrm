@@ -2882,12 +2882,12 @@
 <script>
         var calendarEventsData = {{ calendar_events_json|safe|default:"[]" }};
         var adminCalendarObj = null;
-        // Read tab from URL parameter or localStorage fallback
+        // Read tab from URL parameter or default to overview
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             let tab = params.get('tab');
             if (!tab) {
-                tab = localStorage.getItem('admin_active_tab') || 'overview';
+                tab = 'overview';
             }
             switchTab(tab);
             
