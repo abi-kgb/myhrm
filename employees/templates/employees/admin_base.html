@@ -195,6 +195,7 @@
         <a href="{% url 'goals' %}" class="nav-link-item {% block nav_goals %}{% endblock %}">Goals</a>
         <a href="{% url 'shift_list' %}" class="nav-link-item {% block nav_shifts %}{% endblock %}">Shifts</a>
         <a href="{% url 'admin_dashboard' %}?tab=audit" id="nav-link-audit" class="nav-link-item {% block nav_audit %}{% endblock %}">Security & Audit Logs</a>
+        <a href="{% url 'logout' %}" class="nav-link-item mobile-only-logout" style="color: var(--danger); margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem; display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">🚪 Sign Out</a>
     </aside>
 
     <!-- Page Content -->

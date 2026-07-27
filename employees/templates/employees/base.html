@@ -143,6 +143,7 @@
             font-size: 0.85rem; font-weight: 500; transition: color 0.2s;
         }
         .btn-logout:hover { color: var(--text-main); }
+        .mobile-only-logout { display: none !important; }
 
         .container, .container-fluid {
             max-width: 1400px; width: 100%; margin: 1.5rem auto 2rem auto; padding: 1rem 1.5rem 0 1.5rem; flex-grow: 1;
@@ -272,6 +273,8 @@
             transform: translateX(0) !important;
         }
         @media (max-width: 768px) {
+            .btn-logout { display: none !important; }
+            .mobile-only-logout { display: flex !important; }
             .stats-grid, .grid-cards, .responsive-grid-detail, .responsive-grid-half { grid-template-columns: 1fr !important; }
             .page-hero { flex-direction: column; align-items: flex-start; gap: 0.5rem; padding-top: 0.75rem; }
             .hero-time-wrapper { text-align: left; margin-top: 0.25rem; width: 100%; }
