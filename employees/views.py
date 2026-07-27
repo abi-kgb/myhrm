@@ -13,6 +13,7 @@ from .models import (
 )
 import os
 import json
+from django.conf import settings
 
 def log_activity(user, action, module, request=None, details=""):
     ip_address = None

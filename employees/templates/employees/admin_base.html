@@ -68,6 +68,7 @@
         font-weight: 600; border-left: 3px solid var(--primary);
         border-radius: 0 8px 8px 0;
     }
+    .mobile-only-logout { display: none !important; }
 
     /* Page Hero Minimalist */
     .page-hero {
@@ -93,6 +94,7 @@
         /* RESPONSIVE DESIGN */
         @media (max-width: 992px) {
             .mobile-menu-btn { display: inline-block !important; margin-right: 0.5rem; }
+            .mobile-only-logout { display: flex !important; }
             .admin-layout { grid-template-columns: 1fr; }
             .sidebar-menu {
                 position: fixed; top: 0; left: 0;
