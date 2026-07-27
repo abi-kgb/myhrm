@@ -11,6 +11,7 @@ from .models import (
     Training, TrainingEnrollment, Holiday, Client, GoalTracking, Project, ProjectUpdate, EmployeeDocument,
     Shift, Asset, Expense, Department, Designation, ActivityLog, Event, HRLetter, PersonalNote
 )
+import os
 import json
 
 def log_activity(user, action, module, request=None, details=""):
