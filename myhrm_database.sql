@@ -1028,6 +1028,12 @@ INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [pho
 SET IDENTITY_INSERT [dbo].[employees_employee] OFF;
 GO
 
+-- Data for [employees_client] (1 row)
+SET IDENTITY_INSERT [dbo].[employees_client] ON;
+INSERT INTO [dbo].[employees_client] ([id], [company_name], [client_id], [contact_person], [email], [phone], [status], [created_at], [user_id]) VALUES (1, N'Acme Global Corp', N'CL-001', N'John Doe', N'john@gmail.com', N'+1 (555) 019-2834', N'Active', N'2026-11-20T12:24:15.4075030Z', 2);
+SET IDENTITY_INSERT [dbo].[employees_client] OFF;
+GO
+
 -- Data for [employees_notification] (19 rows)
 SET IDENTITY_INSERT [dbo].[employees_notification] ON;
 INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (1, N'Late Arrival Request', N'abi b (M003) clocked in 50 mins late.', NULL, 0, N'2026-09-15T04:20:10.4727210Z', 1);
