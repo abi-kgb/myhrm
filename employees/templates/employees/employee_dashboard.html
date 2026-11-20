@@ -32,6 +32,125 @@
         font-weight: 600 !important;
     }
 
+    /* ===== EMPLOYEE 2-COLUMN LAYOUT (SIDEBAR ON LEFT, CONTENT ON RIGHT) ===== */
+    .employee-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 2rem;
+        align-items: flex-start;
+        min-height: calc(100vh - 150px);
+        margin-top: 0.5rem;
+    }
+
+    @media (max-width: 992px) {
+        .employee-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .employee-layout .sidebar-menu {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem 1.15rem;
+        position: sticky;
+        top: 85px;
+        box-shadow: var(--shadow-md);
+        display: block;
+        width: 100%;
+    }
+
+    .employee-layout .sidebar-brand {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 1rem;
+        margin-bottom: 1.25rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .employee-layout .sidebar-avatar {
+        width: 42px;
+        height: 42px;
+        background: rgba(37, 99, 235, 0.12);
+        color: var(--primary);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .employee-layout .sidebar-title {
+        color: var(--text-muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        display: block;
+        margin-bottom: 0.75rem;
+    }
+
+    .employee-layout .nav-link-item {
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.68rem 0.85rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.86rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+    }
+
+    .employee-layout .nav-link-item:hover {
+        background: rgba(37, 99, 235, 0.08);
+        color: var(--primary);
+    }
+
+    .employee-layout .nav-link-item.active {
+        background: rgba(37, 99, 235, 0.12);
+        color: var(--primary);
+        font-weight: 700;
+        border-left: 3px solid var(--primary);
+        border-radius: 0 8px 8px 0;
+    }
+
+    .employee-content {
+        flex-grow: 1;
+        min-width: 0;
+    }
+
+    @media (max-width: 992px) {
+        .employee-layout .sidebar-menu {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 280px !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            background: #ffffff !important;
+            z-index: 99999 !important;
+            transform: translateX(-100%) !important;
+            transition: transform 0.3s ease-in-out !important;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.2) !important;
+            border-radius: 0 !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            padding: 1.25rem 1rem 5rem 1rem !important;
+        }
+        .employee-layout .sidebar-menu.active {
+            transform: translateX(0) !important;
+        }
+    }
+
     .dashboard-grid {
         display: flex;
         flex-direction: column;
@@ -712,56 +831,62 @@
         }
     });
 </script>
-<!-- Slide-out Sidebar Drawer Menu -->
-<aside class="sidebar-menu">
-    <div class="sidebar-brand" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border);">
-        <div>
-            <div class="sidebar-brand-name" style="font-weight:700; font-size:0.95rem; color:var(--text-main);">{{ employee.user.first_name }} {{ employee.user.last_name }}</div>
-            <div class="sidebar-brand-role" style="font-size:0.78rem; color:var(--primary);">{{ employee.role }}</div>
+<div class="employee-layout">
+    <!-- Slide-out Sidebar Drawer Menu (Left Side) -->
+    <aside class="sidebar-menu">
+        <div class="sidebar-brand">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="sidebar-avatar">{{ employee.user.first_name|first }}{{ employee.user.last_name|first }}</div>
+                <div>
+                    <div class="sidebar-brand-name" style="font-weight:700; font-size:0.95rem; color:var(--text-main);">{{ employee.user.first_name }} {{ employee.user.last_name }}</div>
+                    <div class="sidebar-brand-role" style="font-size:0.78rem; color:var(--primary); font-weight:500;">{{ employee.role }}</div>
+                </div>
+            </div>
+            <button id="sidebarCloseBtn" class="btn-close d-lg-none" aria-label="Close" style="font-size: 1.2rem; cursor: pointer; background: none; border: none; font-weight: bold; color: var(--text-muted);" onclick="closeEmpSidebar()">&times;</button>
         </div>
-        <button id="sidebarCloseBtn" class="btn-close" aria-label="Close" style="font-size: 1.2rem; cursor: pointer; background: none; border: none; font-weight: bold; color: var(--text-muted);" onclick="closeEmpSidebar()">&times;</button>
-    </div>
 
-    <span class="sidebar-title" style="color:var(--text-muted); font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:0.75rem;">Menu & Navigation</span>
-    <button class="nav-link-item active" id="emp-nav-summary" onclick="switchTab('summary-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        📊 Dashboard Overview
-    </button>
-    <button class="nav-link-item" id="emp-nav-leaves" onclick="switchTab('leaves-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        📅 Leaves / Shifts
-    </button>
-    <button class="nav-link-item" id="emp-nav-attendance" onclick="switchTab('attendance-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        🕒 Attendance Logs
-    </button>
-    <button class="nav-link-item" id="emp-nav-payslips" onclick="switchTab('payslips-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        💵 Payslip Center
-    </button>
-    <button class="nav-link-item" id="emp-nav-profile" onclick="switchTab('profile-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        ⚙️ Profile Settings
-    </button>
-    <button class="nav-link-item" id="emp-nav-calendar" onclick="switchTab('calendar-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        🗓️ Calendar & Holidays
-    </button>
-    <button class="nav-link-item" id="emp-nav-goals" onclick="switchTab('goals-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        🎯 Goals & Targets
-    </button>
-    <button class="nav-link-item" id="emp-nav-projects" onclick="switchTab('projects-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        📁 My Projects
-    </button>
-    <button class="nav-link-item" id="emp-nav-assets" onclick="switchTab('assets-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        💻 Asset Manager
-    </button>
-    <button class="nav-link-item" id="emp-nav-expenses" onclick="switchTab('expenses-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        🧾 My Expenses
-    </button>
-    <button class="nav-link-item" id="emp-nav-letters" onclick="switchTab('letters-tab'); closeEmpSidebar();" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-        📑 HR Letters & Certificates
-    </button>
-    <a href="{% url 'logout' %}" class="nav-link-item mobile-only-logout" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 0.65rem 0.75rem; border-radius: 0.4rem; font-weight: 600; font-size: 0.85rem; color: var(--danger); text-decoration: none; align-items: center; gap: 0.5rem; margin-top: 1rem; border-top: 1px solid var(--border);">
-        🚪 Sign Out
-    </a>
-</aside>
+        <span class="sidebar-title">Menu & Navigation</span>
+        <button class="nav-link-item active" id="emp-nav-summary" onclick="switchTab('summary-tab'); closeEmpSidebar();">
+            📊 Dashboard Overview
+        </button>
+        <button class="nav-link-item" id="emp-nav-leaves" onclick="switchTab('leaves-tab'); closeEmpSidebar();">
+            📅 Leaves / Shifts
+        </button>
+        <button class="nav-link-item" id="emp-nav-attendance" onclick="switchTab('attendance-tab'); closeEmpSidebar();">
+            🕒 Attendance Logs
+        </button>
+        <button class="nav-link-item" id="emp-nav-payslips" onclick="switchTab('payslips-tab'); closeEmpSidebar();">
+            💵 Payslip Center
+        </button>
+        <button class="nav-link-item" id="emp-nav-profile" onclick="switchTab('profile-tab'); closeEmpSidebar();">
+            ⚙️ Profile Settings
+        </button>
+        <button class="nav-link-item" id="emp-nav-calendar" onclick="switchTab('calendar-tab'); closeEmpSidebar();">
+            🗓️ Calendar & Holidays
+        </button>
+        <button class="nav-link-item" id="emp-nav-goals" onclick="switchTab('goals-tab'); closeEmpSidebar();">
+            🎯 Goals & Targets
+        </button>
+        <button class="nav-link-item" id="emp-nav-projects" onclick="switchTab('projects-tab'); closeEmpSidebar();">
+            📁 My Projects
+        </button>
+        <button class="nav-link-item" id="emp-nav-assets" onclick="switchTab('assets-tab'); closeEmpSidebar();">
+            💻 Asset Manager
+        </button>
+        <button class="nav-link-item" id="emp-nav-expenses" onclick="switchTab('expenses-tab'); closeEmpSidebar();">
+            🧾 My Expenses
+        </button>
+        <button class="nav-link-item" id="emp-nav-letters" onclick="switchTab('letters-tab'); closeEmpSidebar();">
+            📑 HR Letters & Certificates
+        </button>
+        <a href="{% url 'logout' %}" class="nav-link-item mobile-only-logout" style="color: var(--danger); text-decoration: none; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.75rem;">
+            🚪 Sign Out
+        </a>
+    </aside>
 
-<div class="dashboard-grid" style="margin-top: 0.5rem;">
+    <!-- Main Content Area (Right Side) -->
+    <main class="employee-content">
+        <div class="dashboard-grid">
 
         <!-- Tab: Summary -->
         <div id="summary-tab" class="tab-pane active">
@@ -937,7 +1062,7 @@
         </div>
     
         <!-- Tab 1: Leaves Portal -->
-        <div id="leaves-tab" class="tab-pane active">
+        <div id="leaves-tab" class="tab-pane">
             <!-- Apply leave form -->
             <div class="card">
                 <div class="card-header">
@@ -1592,8 +1717,8 @@
         </div>
     </div>
 </div>
-    </div>
-
+        </div>
+    </main>
 </div>
 
 <!-- Submit Expense Modal -->
