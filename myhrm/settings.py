@@ -139,7 +139,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # TODO: Replace with your actual Gmail address and App Password
 EMAIL_HOST_USER = 'adminuser.93@gmail.com'
-EMAIL_HOST_USER = 'adminuser.93@gmail.com'
 EMAIL_HOST_PASSWORD = 'wtedthlzugvbnqvm'
 DEFAULT_FROM_EMAIL = 'adminuser.93@gmail.com'
 

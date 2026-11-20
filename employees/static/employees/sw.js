@@ -1,6 +1,5 @@
-const CACHE_NAME = 'hrm-mobile-v1';
+const CACHE_NAME = 'hrm-mobile-v2';
 const ASSETS_TO_CACHE = [
-  '/employee-login/',
   '/static/employees/manifest.json',
   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap'
 ];
