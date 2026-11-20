@@ -830,16 +830,17 @@ INSERT INTO [dbo].[auth_permission] ([id], [name], [content_type_id], [codename]
 SET IDENTITY_INSERT [dbo].[auth_permission] OFF;
 GO
 
--- Data for [auth_user] (8 rows)
+-- Data for [auth_user] (9 rows)
 SET IDENTITY_INSERT [dbo].[auth_user] ON;
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (1, N'pbkdf2_sha256$1200000$3hspg2sGUMXZgJ2cckD7fQ$dqNvt+uc2OqbIgElJ6NXwzjiOS6of8DapKsbQu6kMDU=', N'2026-11-20T10:55:34.1419740Z', 1, N'admin', N'', N'', N'abhinaya.kgb@gmail.com', 1, 1, N'2026-06-11T00:58:21.6273190Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (2, N'pbkdf2_sha256$1200000$20HKelboLJZKNBn8Hw0f5a$AxgoYt7qD9fvciUC0ktwVFE4mtIk+31upBcSiPDSIKU=', NULL, 0, N'client1', N'john', N'', N'john@gmail.com', 0, 1, N'2026-07-14T00:41:19.0021640Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (3, N'pbkdf2_sha256$1200000$JSilnpc7g4h6NMRu09ND89$Ft45Day0h9qUB1sLZddr0NaV2V7GKs+DnVXplp/8E2I=', NULL, 0, N'mick', N'mickle', N'', N'mick@gmail.com', 0, 1, N'2026-07-15T05:15:44.8981650Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (4, N'pbkdf2_sha256$1200000$f7jz7IYr1Qo2ecll3v8abY$pWhrH0SBNdSZjoobIaLu4bybooylXXd97rOjqKc/S+Q=', NULL, 0, N'Sankari S', N'sankari', N's', N'sankari.mca2025@gmail.com', 0, 1, N'2026-09-10T07:10:22.1787740Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (5, N'pbkdf2_sha256$1200000$AhXY4gBlJzzOKofHK6pika$EuuvH1uGVN/2UOMmJCgssgSNKt4CobZbPp3Ak1IDMQ8=', NULL, 0, N'Sabari s', N'sabari', N's', N'sabari.mca2025@adhiyamaan.in', 0, 1, N'2026-09-10T23:29:18.6100450Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (6, N'pbkdf2_sha256$1200000$7XXGyVi4a6NsiJvp8liFfJ$V5Aa9/WJwtuAQgEqXHzANkNMEH/f8wyMVpbTThsySIw=', NULL, 0, N'abi b', N'abi', N'b', N'abinaya.kgb@gmail.com', 0, 1, N'2026-09-11T04:32:23.8751580Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (7, N'pbkdf2_sha256$1200000$zYL6KUoV5Kwtt9f2i5PcQx$IWuSJZGr2LYxzg0xj0te+EFol8w2neewTYQE9yTLS24=', NULL, 0, N'merlin joice', N'merlin', N'joice', N'merlinjoice.mca2025@adhiyamaan.in', 0, 1, N'2026-09-15T05:24:35.9767740Z');
-INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (8, N'pbkdf2_sha256$1200000$MuTtyRfI2TqWcYvWMXPdje$Pz9Q0aE0kDTV7YKhkuByngDZkFi8Guhu3HKCD+L8ypQ=', N'2026-11-20T10:54:29.6411280Z', 0, N'arun', N'arun', N'k', N'arun@gmail.com', 0, 1, N'2026-11-20T10:31:39.6116650Z');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (1, N'pbkdf2_sha256$1200000$3hspg2sGUMXZgJ2cckD7fQ$dqNvt+uc2OqbIgElJ6NXwzjiOS6of8DapKsbQu6kMDU=', N'2026-11-20 12:16:17.043147+00:00', 1, N'admin', N'', N'', N'abhinaya.kgb@gmail.com', 1, 1, N'2026-06-11 00:58:21.627319+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (2, N'pbkdf2_sha256$1200000$20HKelboLJZKNBn8Hw0f5a$AxgoYt7qD9fvciUC0ktwVFE4mtIk+31upBcSiPDSIKU=', N'2026-11-20 12:30:56.818920+00:00', 0, N'client1', N'john', N'', N'john@gmail.com', 0, 1, N'2026-07-14 00:41:19.002164+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (3, N'pbkdf2_sha256$1200000$JSilnpc7g4h6NMRu09ND89$Ft45Day0h9qUB1sLZddr0NaV2V7GKs+DnVXplp/8E2I=', NULL, 0, N'mick', N'mickle', N'', N'mick@gmail.com', 0, 1, N'2026-07-15 05:15:44.898165+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (4, N'pbkdf2_sha256$1200000$f7jz7IYr1Qo2ecll3v8abY$pWhrH0SBNdSZjoobIaLu4bybooylXXd97rOjqKc/S+Q=', NULL, 0, N'Sankari S', N'sankari', N's', N'sankari.mca2025@gmail.com', 0, 1, N'2026-09-10 07:10:22.178774+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (5, N'pbkdf2_sha256$1200000$AhXY4gBlJzzOKofHK6pika$EuuvH1uGVN/2UOMmJCgssgSNKt4CobZbPp3Ak1IDMQ8=', NULL, 0, N'Sabari s', N'sabari', N's', N'sabari.mca2025@adhiyamaan.in', 0, 1, N'2026-09-10 23:29:18.610045+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (6, N'pbkdf2_sha256$1200000$7XXGyVi4a6NsiJvp8liFfJ$V5Aa9/WJwtuAQgEqXHzANkNMEH/f8wyMVpbTThsySIw=', NULL, 0, N'abi b', N'abi', N'b', N'abinaya.kgb@gmail.com', 0, 1, N'2026-09-11 04:32:23.875158+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (7, N'pbkdf2_sha256$1200000$zYL6KUoV5Kwtt9f2i5PcQx$IWuSJZGr2LYxzg0xj0te+EFol8w2neewTYQE9yTLS24=', NULL, 0, N'merlin joice', N'merlin', N'joice', N'merlinjoice.mca2025@adhiyamaan.in', 0, 1, N'2026-09-15 05:24:35.976774+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (8, N'pbkdf2_sha256$1200000$MuTtyRfI2TqWcYvWMXPdje$Pz9Q0aE0kDTV7YKhkuByngDZkFi8Guhu3HKCD+L8ypQ=', N'2026-11-20 12:32:15.367483+00:00', 0, N'arun', N'arun', N'k', N'arun@gmail.com', 0, 1, N'2026-11-20 10:31:39.611665+00:00');
+INSERT INTO [dbo].[auth_user] ([id], [password], [last_login], [is_superuser], [username], [first_name], [last_name], [email], [is_staff], [is_active], [date_joined]) VALUES (10, N'pbkdf2_sha256$1200000$gwk6PM42jBOfMfLh2ZknyO$gPT81zHodryhN6cYSwV9tfO34/J0g0nRhbDvz83cyzI=', NULL, 0, N'yuvan', N'yuvan', N'a', N'yuvan@gmail.com', 0, 1, N'2026-11-20 11:10:18.244737+00:00');
 SET IDENTITY_INSERT [dbo].[auth_user] OFF;
 GO
 
@@ -882,118 +883,77 @@ GO
 
 -- Data for [django_migrations] (50 rows)
 SET IDENTITY_INSERT [dbo].[django_migrations] ON;
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (1, N'contenttypes', N'0001_initial', N'2026-11-20T10:06:32.0653560Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (2, N'auth', N'0001_initial', N'2026-11-20T10:06:32.6872220Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (3, N'admin', N'0001_initial', N'2026-11-20T10:06:32.8673580Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (4, N'admin', N'0002_logentry_remove_auto_add', N'2026-11-20T10:06:32.9338940Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (5, N'admin', N'0003_logentry_add_action_flag_choices', N'2026-11-20T10:06:33.1157780Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (6, N'contenttypes', N'0002_remove_content_type_name', N'2026-11-20T10:06:47.3115210Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (7, N'auth', N'0002_alter_permission_name_max_length', N'2026-11-20T10:06:47.3609290Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (8, N'auth', N'0003_alter_user_email_max_length', N'2026-11-20T10:06:47.4355340Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (9, N'auth', N'0004_alter_user_username_opts', N'2026-11-20T10:06:47.5207520Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (10, N'auth', N'0005_alter_user_last_login_null', N'2026-11-20T10:06:53.1140300Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (11, N'auth', N'0006_require_contenttypes_0002', N'2026-11-20T10:06:53.1498200Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (12, N'auth', N'0007_alter_validators_add_error_messages', N'2026-11-20T10:06:53.2068730Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (13, N'auth', N'0008_alter_user_username_max_length', N'2026-11-20T10:07:07.8590470Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (14, N'auth', N'0009_alter_user_last_name_max_length', N'2026-11-20T10:07:07.9764390Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (15, N'auth', N'0010_alter_group_name_max_length', N'2026-11-20T10:07:30.4823940Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (16, N'auth', N'0011_update_proxy_permissions', N'2026-11-20T10:07:30.5765120Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (17, N'auth', N'0012_alter_user_first_name_max_length', N'2026-11-20T10:07:30.7681570Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (18, N'employees', N'0001_initial', N'2026-11-20T10:07:31.3463550Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (19, N'employees', N'0002_jobposting_employee_annual_leave_balance_and_more', N'2026-11-20T10:07:33.5167350Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (20, N'employees', N'0003_training_attendance_status_employee_address_and_more', N'2026-11-20T10:07:36.8111260Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (21, N'employees', N'0004_alter_employee_annual_leave_balance', N'2026-11-20T10:07:36.8952660Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (22, N'employees', N'0005_alter_employee_casual_leave_balance_and_more', N'2026-11-20T10:07:37.0645140Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (23, N'employees', N'0006_jobapplication_resume_pdf', N'2026-11-20T10:07:37.0949850Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (24, N'employees', N'0007_client_goaltracking_holiday', N'2026-11-20T10:07:37.1608920Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (25, N'employees', N'0008_client_user_project', N'2026-11-20T10:07:37.5294360Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (26, N'employees', N'0009_projectupdate', N'2026-11-20T10:07:37.8000510Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (27, N'employees', N'0010_leaverequest_lop_days_payslip_lop_days_and_more', N'2026-11-20T10:07:39.5597800Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (28, N'employees', N'0011_employeedocument', N'2026-11-20T10:07:39.6635790Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (29, N'employees', N'0012_holiday_type', N'2026-11-20T10:07:40.5095780Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (30, N'employees', N'0013_remove_goaltracking_target_achievement_and_more', N'2026-11-20T10:07:46.0595440Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (31, N'employees', N'0014_remove_goaltracking_type_alter_goaltracking_status', N'2026-11-20T10:07:51.5111970Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (32, N'employees', N'0015_notification', N'2026-11-20T10:07:51.7187020Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (33, N'employees', N'0016_project_assigned_employees', N'2026-11-20T10:07:51.8448530Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (34, N'employees', N'0017_shift_attendance_late_minutes_and_more', N'2026-11-20T10:07:53.3963260Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (35, N'employees', N'0018_remove_shift_grace_period_minutes', N'2026-11-20T10:07:58.1596110Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (36, N'employees', N'0019_employee_grace_period_minutes', N'2026-11-20T10:07:58.6340890Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (37, N'employees', N'0020_payslip_late_penalty_lop_days_and_more', N'2026-11-20T10:08:00.9283980Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (38, N'employees', N'0021_shiftrequest', N'2026-11-20T10:08:01.1766990Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (39, N'employees', N'0022_alter_leaverequest_leave_type', N'2026-11-20T10:08:01.4588040Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (40, N'employees', N'0023_alter_employee_casual_leave_balance_and_more', N'2026-11-20T10:08:01.9652450Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (41, N'employees', N'0024_employee_maternity_leave_balance_and_more', N'2026-11-20T10:08:03.2989950Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (42, N'employees', N'0025_asset_expense', N'2026-11-20T10:08:03.6022580Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (43, N'employees', N'0026_employee_department_old_employee_designation_old_and_more', N'2026-11-20T10:08:29.1983510Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (44, N'employees', N'0027_expense_medical_report_expense_prescription_and_more', N'2026-11-20T10:08:35.2996310Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (45, N'employees', N'0028_activitylog', N'2026-11-20T10:08:35.3835400Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (46, N'employees', N'0029_remove_activitylog_details_and_more', N'2026-11-20T10:08:48.0628530Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (47, N'employees', N'0030_activitylog_details_activitylog_ip_address_and_more', N'2026-11-20T10:08:48.8032390Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (48, N'employees', N'0031_hrletter', N'2026-11-20T10:08:48.8754420Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (49, N'employees', N'0032_personalnote', N'2026-11-20T10:08:48.9307450Z');
-INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (50, N'sessions', N'0001_initial', N'2026-11-20T10:08:48.9521160Z');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (1, N'contenttypes', N'0001_initial', N'2026-11-20 10:06:32.065356+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (2, N'auth', N'0001_initial', N'2026-11-20 10:06:32.687222+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (3, N'admin', N'0001_initial', N'2026-11-20 10:06:32.867358+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (4, N'admin', N'0002_logentry_remove_auto_add', N'2026-11-20 10:06:32.933894+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (5, N'admin', N'0003_logentry_add_action_flag_choices', N'2026-11-20 10:06:33.115778+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (6, N'contenttypes', N'0002_remove_content_type_name', N'2026-11-20 10:06:47.311521+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (7, N'auth', N'0002_alter_permission_name_max_length', N'2026-11-20 10:06:47.360929+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (8, N'auth', N'0003_alter_user_email_max_length', N'2026-11-20 10:06:47.435534+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (9, N'auth', N'0004_alter_user_username_opts', N'2026-11-20 10:06:47.520752+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (10, N'auth', N'0005_alter_user_last_login_null', N'2026-11-20 10:06:53.114030+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (11, N'auth', N'0006_require_contenttypes_0002', N'2026-11-20 10:06:53.149820+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (12, N'auth', N'0007_alter_validators_add_error_messages', N'2026-11-20 10:06:53.206873+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (13, N'auth', N'0008_alter_user_username_max_length', N'2026-11-20 10:07:07.859047+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (14, N'auth', N'0009_alter_user_last_name_max_length', N'2026-11-20 10:07:07.976439+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (15, N'auth', N'0010_alter_group_name_max_length', N'2026-11-20 10:07:30.482394+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (16, N'auth', N'0011_update_proxy_permissions', N'2026-11-20 10:07:30.576512+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (17, N'auth', N'0012_alter_user_first_name_max_length', N'2026-11-20 10:07:30.768157+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (18, N'employees', N'0001_initial', N'2026-11-20 10:07:31.346355+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (19, N'employees', N'0002_jobposting_employee_annual_leave_balance_and_more', N'2026-11-20 10:07:33.516735+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (20, N'employees', N'0003_training_attendance_status_employee_address_and_more', N'2026-11-20 10:07:36.811126+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (21, N'employees', N'0004_alter_employee_annual_leave_balance', N'2026-11-20 10:07:36.895266+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (22, N'employees', N'0005_alter_employee_casual_leave_balance_and_more', N'2026-11-20 10:07:37.064514+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (23, N'employees', N'0006_jobapplication_resume_pdf', N'2026-11-20 10:07:37.094985+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (24, N'employees', N'0007_client_goaltracking_holiday', N'2026-11-20 10:07:37.160892+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (25, N'employees', N'0008_client_user_project', N'2026-11-20 10:07:37.529436+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (26, N'employees', N'0009_projectupdate', N'2026-11-20 10:07:37.800051+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (27, N'employees', N'0010_leaverequest_lop_days_payslip_lop_days_and_more', N'2026-11-20 10:07:39.559780+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (28, N'employees', N'0011_employeedocument', N'2026-11-20 10:07:39.663579+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (29, N'employees', N'0012_holiday_type', N'2026-11-20 10:07:40.509578+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (30, N'employees', N'0013_remove_goaltracking_target_achievement_and_more', N'2026-11-20 10:07:46.059544+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (31, N'employees', N'0014_remove_goaltracking_type_alter_goaltracking_status', N'2026-11-20 10:07:51.511197+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (32, N'employees', N'0015_notification', N'2026-11-20 10:07:51.718702+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (33, N'employees', N'0016_project_assigned_employees', N'2026-11-20 10:07:51.844853+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (34, N'employees', N'0017_shift_attendance_late_minutes_and_more', N'2026-11-20 10:07:53.396326+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (35, N'employees', N'0018_remove_shift_grace_period_minutes', N'2026-11-20 10:07:58.159611+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (36, N'employees', N'0019_employee_grace_period_minutes', N'2026-11-20 10:07:58.634089+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (37, N'employees', N'0020_payslip_late_penalty_lop_days_and_more', N'2026-11-20 10:08:00.928398+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (38, N'employees', N'0021_shiftrequest', N'2026-11-20 10:08:01.176699+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (39, N'employees', N'0022_alter_leaverequest_leave_type', N'2026-11-20 10:08:01.458804+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (40, N'employees', N'0023_alter_employee_casual_leave_balance_and_more', N'2026-11-20 10:08:01.965245+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (41, N'employees', N'0024_employee_maternity_leave_balance_and_more', N'2026-11-20 10:08:03.298995+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (42, N'employees', N'0025_asset_expense', N'2026-11-20 10:08:03.602258+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (43, N'employees', N'0026_employee_department_old_employee_designation_old_and_more', N'2026-11-20 10:08:29.198351+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (44, N'employees', N'0027_expense_medical_report_expense_prescription_and_more', N'2026-11-20 10:08:35.299631+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (45, N'employees', N'0028_activitylog', N'2026-11-20 10:08:35.383540+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (46, N'employees', N'0029_remove_activitylog_details_and_more', N'2026-11-20 10:08:48.062853+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (47, N'employees', N'0030_activitylog_details_activitylog_ip_address_and_more', N'2026-11-20 10:08:48.803239+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (48, N'employees', N'0031_hrletter', N'2026-11-20 10:08:48.875442+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (49, N'employees', N'0032_personalnote', N'2026-11-20 10:08:48.930745+00:00');
+INSERT INTO [dbo].[django_migrations] ([id], [app], [name], [applied]) VALUES (50, N'sessions', N'0001_initial', N'2026-11-20 10:08:48.952116+00:00');
 SET IDENTITY_INSERT [dbo].[django_migrations] OFF;
 GO
 
--- Data for [django_session] (9 rows)
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'39ftplrplf3hs3de91qto29trdvxzxhm', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUMFB:XCKlHbZnvw4n_X3IC-mdBIDta4DLq5syKS0gfXFqi7g', N'2026-12-04T10:53:25.4602760Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'3je23vjlvgrd0vw5um004oyr0xqzsgrl', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMEL:t70VeNWB2Er-j9EI9WWCRdvmqBDRXyNe1BUijnnOCtA', N'2026-12-04T10:52:33.4731230Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'8shfkmvgclcbqjbhw9vri1zo4l1hqipm', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xULqc:C3xQzoyy6pwQ1bHZi1b9EZMrlEWYv8zYK5kjHjnTLik', N'2026-12-04T10:28:02.0319880Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'94q2a68wc6el0c8cg1yvjy893jqdf7t3', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMHG:lcyntSnRhRpS5Ntk9nqXAwoVHh3r1bBN7mIT3yY00PM', N'2026-12-04T10:55:34.1474120Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'd09zmp07kr032m0b8z4ocf5v1ziudz28', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUMGD:STisnzXZbmc1grlXgJRBWsUGfz12rsNdhKiS3pdyan8', N'2026-12-04T10:54:29.6474240Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'epd7oppyznxduvzl5s848oqhv1z4o7sr', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMGi:JVQbG0m-7G7i6yZWA98pbrOer5nCXY28c1m5orwI6Pg', N'2026-12-04T10:55:00.1636880Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'ffivp64w67g3cumdos63iwwcv1ylr9s3', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMEv:Xup_ZtRd0P42-J9mr6G3u2OO-Hi8qMU6PJOcSuhpmHI', N'2026-12-04T10:53:09.1634990Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'fzvedbsiexvpgtrbayyuzd406x8fb33i', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMEZ:JYIvbMGUfDopgVFG7Bsm73uiUPTDr1f7EMfi6GNlN7M', N'2026-12-04T10:52:47.2865700Z');
-INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'jtdrk3wnj96kyinaubwrjjymizr936xf', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xULqc:C3xQzoyy6pwQ1bHZi1b9EZMrlEWYv8zYK5kjHjnTLik', N'2026-12-04T10:28:02.0317550Z');
-GO
-
--- Data for [employees_activitylog] (31 rows)
-SET IDENTITY_INSERT [dbo].[employees_activitylog] ON;
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (1, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-09-11T10:46:34.9543770Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (2, N'Logged Out', 1, N'', N'127.0.0.1', N'Authentication', N'2026-09-15T04:01:45.3287440Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (3, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-09-15T04:02:03.0161430Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (4, N'Rejected Early Departure for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:20:47.1377930Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (5, N'Approved Late Arrival for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:20:53.8862100Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (6, N'Early Departure Request', 6, N'Early clock-out by abi b (488 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:21:10.0315230Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (7, N'Early Departure Request', 6, N'Early clock-out by abi b (488 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:21:12.3679750Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (8, N'Early Departure Request', 6, N'Early clock-out by abi b (488 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:21:14.1588320Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (9, N'Approved Early Departure for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:22:59.0131200Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (10, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:25:01.5938050Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (11, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:25:01.6120460Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (12, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:25:01.5946190Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (13, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:25:01.6117630Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (14, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:25:01.6122050Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (15, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:25:19.4834360Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (16, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:25:23.1919080Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (17, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:25:26.4646360Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (18, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:25:30.4944020Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (19, N'Approved Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:25:34.4992350Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (20, N'Early Departure Request', 4, N'Early clock-out by sankari s (470 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T04:40:02.1585700Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (21, N'Approved Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T04:40:10.3308310Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (22, N'Created Employee merlin joice', 1, N'', N'127.0.0.1', N'Employee Management', N'2026-09-15T05:24:38.3202730Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (23, N'Approved Late Arrival for merlin joice', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T05:25:32.6815150Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (24, N'Approved Late Arrival for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T10:52:55.8384640Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (25, N'Early Departure Request', 6, N'Early clock-out by abi b (93 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15T10:56:55.6750130Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (26, N'Approved Early Departure for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15T10:56:59.4639310Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (27, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20T10:28:01.9097080Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (28, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20T10:28:01.9106180Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (29, N'Created Employee arun k', 1, N'', N'127.0.0.1', N'Employee Management', N'2026-11-20T10:31:41.7871840Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (30, N'Created Meeting: Sprint Review Meeting', 1, N'', N'127.0.0.1', N'Unified Calendar', N'2026-11-20T10:53:11.0479160Z');
-INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (31, N'Generated Experience Certificate for arun', 1, N'', N'127.0.0.1', N'HR Certificates', N'2026-11-20T10:55:22.0079020Z');
-SET IDENTITY_INSERT [dbo].[employees_activitylog] OFF;
-GO
-
--- Data for [employees_attendance] (8 rows)
-SET IDENTITY_INSERT [dbo].[employees_attendance] ON;
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (2, '2026-09-11', '10:24:59.306686', '12:49:00', 2, N'Present', 0, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (3, '2026-09-11', '10:32:48.673051', '12:30:00', 3, N'Present', 0, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (4, '2026-09-11', '09:45:00', '16:30:00', 1, N'Present', 45, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (6, '2026-09-11', '16:26:47.942906', '19:15:23.497391', 4, N'Present', 0, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (8, '2026-09-15', '09:43:46.556060', '10:09:57.604624', 2, N'Present', 0, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (10, '2026-09-15', '10:55:03.863536', NULL, 5, N'Present', 115, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (11, '2026-09-15', '14:12:55.293468', '16:26:51.154806', 4, N'Present', 312, 0);
-INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (12, '2026-11-20', '16:23:25.674962', '16:23:25.750983', 6, N'Present', 0, 0);
-SET IDENTITY_INSERT [dbo].[employees_attendance] OFF;
+-- Data for [django_session] (17 rows)
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'39ftplrplf3hs3de91qto29trdvxzxhm', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUMFB:XCKlHbZnvw4n_X3IC-mdBIDta4DLq5syKS0gfXFqi7g', N'2026-12-04 10:53:25.460276+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'3je23vjlvgrd0vw5um004oyr0xqzsgrl', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMEL:t70VeNWB2Er-j9EI9WWCRdvmqBDRXyNe1BUijnnOCtA', N'2026-12-04 10:52:33.473123+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'3rcn7hih8wua6rholsog9oad0co8rz6e', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUNkl:4IVTw5S_0Pdjj2-AVPEvUyYfpJ7FhxLfhmHmnoLZPrY', N'2026-12-04 12:30:07.727848+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'7m3ah7fghvp7fgangdr23lmf2cdd104c', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUNBp:vfMfoZYIgnjUJHiI-zzqeIZ7jzrW6vlCE4zAEwnFmB8', N'2026-12-04 11:54:01.287435+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'8shfkmvgclcbqjbhw9vri1zo4l1hqipm', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xULqc:C3xQzoyy6pwQ1bHZi1b9EZMrlEWYv8zYK5kjHjnTLik', N'2026-12-04 10:28:02.031988+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'94q2a68wc6el0c8cg1yvjy893jqdf7t3', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMHG:lcyntSnRhRpS5Ntk9nqXAwoVHh3r1bBN7mIT3yY00PM', N'2026-12-04 10:55:34.147412+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'cjyeot4iila2mgao3kyu4l6owe1861sv', N'.eJxVjDEOgzAMAP_iuYqSELsxY3fegBziFNoKJAJT1b9XSAztene6N_Syb2O_V137KUMLHi6_LMnw1PkQ-SHzfTHDMm_rlMyRmNNW0y1ZX7ez_RuMUkdoQTEW9l7YZ0pWHZMgOmmcb4KzjoJS4UjepoiUMV21REvEgQoys4XPF7qJNm8:1xUNk1:vDFggkRQ05Xky8dVDuxF5hBYAPPAfnoiijAizoOE2fE', N'2026-12-04 12:29:21.819023+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'd09zmp07kr032m0b8z4ocf5v1ziudz28', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUMGD:STisnzXZbmc1grlXgJRBWsUGfz12rsNdhKiS3pdyan8', N'2026-12-04 10:54:29.647424+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'epd7oppyznxduvzl5s848oqhv1z4o7sr', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMGi:JVQbG0m-7G7i6yZWA98pbrOer5nCXY28c1m5orwI6Pg', N'2026-12-04 10:55:00.163688+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'ffivp64w67g3cumdos63iwwcv1ylr9s3', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMEv:Xup_ZtRd0P42-J9mr6G3u2OO-Hi8qMU6PJOcSuhpmHI', N'2026-12-04 10:53:09.163499+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'fzvedbsiexvpgtrbayyuzd406x8fb33i', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUMEZ:JYIvbMGUfDopgVFG7Bsm73uiUPTDr1f7EMfi6GNlN7M', N'2026-12-04 10:52:47.286570+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'j532kuexmnsgb0tljv77xf5h9bmfq4kx', N'.eJxVjDEOgzAMAP_iuYqSELsxY3fegBziFNoKJAJT1b9XSAztene6N_Syb2O_V137KUMLHi6_LMnw1PkQ-SHzfTHDMm_rlMyRmNNW0y1ZX7ez_RuMUkdoQTEW9l7YZ0pWHZMgOmmcb4KzjoJS4UjepoiUMV21REvEgQoys4XPF7qJNm8:1xUNfX:FHT227qF6a-tqIHhIn6fEvVgjkLndCmb4cXpi5kHsbs', N'2026-12-04 12:24:43.473909+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'loy17m9njzux4nz7msolmkgyqszfc8ij', N'.eJxVjDEOgzAMAP_iuYqSELsxY3fegBziFNoKJAJT1b9XSAztene6N_Syb2O_V137KUMLHi6_LMnw1PkQ-SHzfTHDMm_rlMyRmNNW0y1ZX7ez_RuMUkdoQTEW9l7YZ0pWHZMgOmmcb4KzjoJS4UjepoiUMV21REvEgQoys4XPF7qJNm8:1xUNh5:CYs5WAluSS2RNa44uBs9vP0uxVjUhZiAHi24kjAJyK0', N'2026-12-04 12:26:19.215904+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'pyd5iwehb2u6mygcynz3wlp7u6mme2ll', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUNjH:vnAfN9hAJlBk1HYnArib1hUzi393HoKY3aMAKTRsh0Q', N'2026-12-04 12:28:35.045296+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'rwifdax1c4v4as42eje50wh2i4w8xozu', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUNLJ:3kW-VkEw9SLbZHVCytSUiFnYgvPKLcjwN9hjiDcX9Ms', N'2026-12-04 12:03:49.782853+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'sfi4cuuq5jaykaq43vodb2ow0i5ftytp', N'.eJxVjEEOwiAQAP-yZ0OgCCw9eu8bmgV2pWrapLQn499Nkx70OjOZN4y0b3XcG6_jVKAHA5dflig_eT5EedB8X1Re5m2dkjoSddqmhqXw63a2f4NKrUIPiKgDsghh9jqSTeSYQ84cgtE2XoMVG50hp8WUTmL0SB1nH9FLIIHPF-ZrN_4:1xUNUx:iYrisYuztvv2GU8NzKTE9Ucmm_1xVN2ZdhhXDqjVYE4', N'2026-12-04 12:13:47.935888+00:00');
+INSERT INTO [dbo].[django_session] ([session_key], [session_data], [expire_date]) VALUES (N'stc9rbv6q8skp5ctf1bvxy66wpm9g7qx', N'.eJxVjLEOAiEQBf-F2hAQWMDS3m8gCwtyaiA57irjvxuSK7R9M_PeLOC-1bCPvIaF2IU5dvrdIqZnbhPQA9u989Tbti6RT4UfdPBbp_y6Hu7fQcVRZ-2LAm-0KzkKE7UTngy6RB4ITHEGFBQtTXYA9myVVAQ2C5lQAEat2OcL2Cg3Nw:1xUNmp:jRLiAAACQwqjuUA4wxJnl2DXjyLs-wwUmP2RE96bLFU', N'2026-12-04 12:32:15.392432+00:00');
 GO
 
 -- Data for [employees_department] (6 rows)
@@ -1009,69 +969,149 @@ GO
 
 -- Data for [employees_designation] (5 rows)
 SET IDENTITY_INSERT [dbo].[employees_designation] ON;
-INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (1, N'Admin', 0.00, 1);
-INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (2, N'Employee (EMP)', 0.00, 2);
-INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (3, N'General HR (GH)', 0.00, 3);
-INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (4, N'Manager (BM)', 0.00, 4);
-INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (5, N'General Manager (GM)', 0.00, 5);
+INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (1, N'Admin', N'0.00', 1);
+INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (2, N'Employee (EMP)', N'0.00', 2);
+INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (3, N'General HR (GH)', N'0.00', 3);
+INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (4, N'Manager (BM)', N'0.00', 4);
+INSERT INTO [dbo].[employees_designation] ([id], [name], [base_salary], [department_id]) VALUES (5, N'General Manager (GM)', N'0.00', 5);
 SET IDENTITY_INSERT [dbo].[employees_designation] OFF;
-GO
-
--- Data for [employees_employee] (6 rows)
-SET IDENTITY_INSERT [dbo].[employees_employee] ON;
-INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (1, NULL, NULL, NULL, '2026-09-11', 30000.00, 1, 1, 15, 12, 10, NULL, NULL, NULL, N'ADM001', NULL, 0.00, 3, 120, 90, 14, N'Employee', 1, 1);
-INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (2, NULL, NULL, N'9876543210', '2026-09-11', 5000.00, 0, 4, 20, 10, 10, NULL, NULL, NULL, N'M001', NULL, 0.00, 3, 120, 90, 14, N'front end dev', 2, 4);
-INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (3, NULL, NULL, N'9876543210', '2026-09-11', 5000.00, 0, 5, 20, 10, 10, NULL, NULL, NULL, N'M002', NULL, 0.00, 3, 120, 90, 14, N'full stack', 2, 4);
-INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (4, NULL, NULL, N'9751791404', '2026-09-11', 5000.00, 0, 6, 20, 10, 10, NULL, NULL, NULL, N'M003', NULL, 0.00, 3, 120, 90, 14, N'front end dev', 2, 4);
-INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (5, NULL, NULL, N'9876543210', '2026-09-15', 5000.00, 0, 7, 20, 10, 10, NULL, NULL, NULL, N'EMP001', NULL, 100.00, 3, 120, 90, 14, N'full stack', 2, 2);
-INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (6, NULL, NULL, N'9876543210', '2026-11-20', 5000.00, 0, 8, 20, 10, 10, NULL, NULL, NULL, N'M004', NULL, 0.00, NULL, 120, 90, 14, N'Employee', 2, 4);
-SET IDENTITY_INSERT [dbo].[employees_employee] OFF;
-GO
-
--- Data for [employees_client] (1 row)
-SET IDENTITY_INSERT [dbo].[employees_client] ON;
-INSERT INTO [dbo].[employees_client] ([id], [company_name], [client_id], [contact_person], [email], [phone], [status], [created_at], [user_id]) VALUES (1, N'Acme Global Corp', N'CL-001', N'John Doe', N'john@gmail.com', N'+1 (555) 019-2834', N'Active', N'2026-11-20T12:24:15.4075030Z', 2);
-SET IDENTITY_INSERT [dbo].[employees_client] OFF;
-GO
-
--- Data for [employees_notification] (19 rows)
-SET IDENTITY_INSERT [dbo].[employees_notification] ON;
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (1, N'Late Arrival Request', N'abi b (M003) clocked in 50 mins late.', NULL, 0, N'2026-09-15T04:20:10.4727210Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (2, N'Early Departure Approval Request', N'abi b (M003) clocked out early by 488 mins at 09:51 AM. Approval required.', NULL, 0, N'2026-09-15T04:21:05.9227080Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (3, N'Early Departure Approval Request', N'abi b (M003) clocked out early by 488 mins at 09:51 AM. Approval required.', NULL, 0, N'2026-09-15T04:21:08.3340400Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (4, N'Early Departure Approval Request', N'abi b (M003) clocked out early by 488 mins at 09:51 AM. Approval required.', NULL, 0, N'2026-09-15T04:21:10.1001440Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (5, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15T04:24:57.4617490Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (6, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15T04:24:57.4624930Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (7, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15T04:24:57.4782370Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (8, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15T04:24:57.4812250Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (9, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15T04:24:57.5154460Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (10, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 470 mins at 10:09 AM.', NULL, 0, N'2026-09-15T04:39:58.0444890Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (11, N'Late Arrival Request', N'merlin joice (EMP001) clocked in 115 mins late.', NULL, 0, N'2026-09-15T05:25:04.1719280Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (12, N'Late Arrival Request', N'abi b (M003) clocked in 312 mins late.', NULL, 0, N'2026-09-15T08:42:56.9345780Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (13, N'Early Departure Approval Request', N'abi b (M003) requested early clock-out by 93 mins at 04:26 PM.', NULL, 0, N'2026-09-15T10:56:51.5169370Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (14, N'Leave Request Submitted', N'New leave request from arun k (Casual).', NULL, 0, N'2026-11-20T10:54:30.0174440Z', 1);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (15, N'Expense Submitted', N'Your expense claim for ''Client Travel Taxi'' is pending approval.', NULL, 0, N'2026-11-20T10:54:33.9897730Z', 8);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (16, N'New Payslip Available', N'Your payslip for November 2026 is now available.', NULL, 0, N'2026-11-20T10:55:00.4843170Z', 8);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (17, N'Payslip Marked as Paid', N'Your payslip for November 2026 has been marked as Paid.', NULL, 0, N'2026-11-20T10:55:04.4629870Z', 8);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (18, N'New Performance Review', N'A new performance review for Q4 2026 has been added to your profile.', NULL, 0, N'2026-11-20T10:55:12.7137780Z', 8);
-INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (19, N'New Training Enrollment', N'You have been enrolled in ''SQL Server Performance Tuning''.', NULL, 0, N'2026-11-20T10:55:18.0561390Z', 8);
-SET IDENTITY_INSERT [dbo].[employees_notification] OFF;
-GO
-
--- Data for [employees_performancereview] (1 rows)
-SET IDENTITY_INSERT [dbo].[employees_performancereview] ON;
-INSERT INTO [dbo].[employees_performancereview] ([id], [review_period], [rating], [goals], [feedback], [created_at], [employee_id], [reviewer_id]) VALUES (1, N'Q4 2026', 5.0, N'Excellent performance', N'Great dedication', N'2026-11-20T10:55:12.6081460Z', 6, 1);
-SET IDENTITY_INSERT [dbo].[employees_performancereview] OFF;
 GO
 
 -- Data for [employees_shift] (5 rows)
 SET IDENTITY_INSERT [dbo].[employees_shift] ON;
-INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (1, N'earlymorningshift', '06:00:00', '15:00:00');
-INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (2, N'Early Morning Shift', '06:00:00', '15:00:00');
-INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (3, N'General Shift', '09:00:00', '18:00:00');
-INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (4, N'Afternoon Shift', '14:00:00', '23:00:00');
-INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (5, N'Night Shift', '22:00:00', '07:00:00');
+INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (1, N'earlymorningshift', N'06:00:00', N'15:00:00');
+INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (2, N'Early Morning Shift', N'06:00:00', N'15:00:00');
+INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (3, N'General Shift', N'09:00:00', N'18:00:00');
+INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (4, N'Afternoon Shift', N'14:00:00', N'23:00:00');
+INSERT INTO [dbo].[employees_shift] ([id], [name], [start_time], [end_time]) VALUES (5, N'Night Shift', N'22:00:00', N'07:00:00');
 SET IDENTITY_INSERT [dbo].[employees_shift] OFF;
+GO
+
+-- Data for [employees_employee] (7 rows)
+SET IDENTITY_INSERT [dbo].[employees_employee] ON;
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (1, NULL, NULL, NULL, N'2026-09-11', N'30000.00', 1, 1, 15, 12, 10, NULL, NULL, NULL, N'ADM001', NULL, N'0.00', 3, 120, 90, 14, N'Employee', 1, 1);
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (2, NULL, NULL, N'9876543210', N'2026-09-11', N'5000.00', 0, 4, 20, 10, 10, NULL, NULL, NULL, N'M001', NULL, N'0.00', 3, 120, 90, 14, N'front end dev', 2, 4);
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (3, NULL, NULL, N'9876543210', N'2026-09-11', N'5000.00', 0, 5, 20, 10, 10, NULL, NULL, NULL, N'M002', NULL, N'0.00', 3, 120, 90, 14, N'full stack', 2, 4);
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (4, NULL, NULL, N'9751791404', N'2026-09-11', N'5000.00', 0, 6, 20, 10, 10, NULL, NULL, NULL, N'M003', NULL, N'0.00', 3, 120, 90, 14, N'front end dev', 2, 4);
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (5, NULL, NULL, N'9876543210', N'2026-09-15', N'5000.00', 0, 7, 20, 10, 10, NULL, NULL, NULL, N'EMP001', NULL, N'100.00', 3, 120, 90, 14, N'full stack', 2, 2);
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (6, NULL, NULL, N'9876543210', N'2026-11-20', N'5000.00', 0, 8, 20, 10, 10, NULL, NULL, NULL, N'M004', NULL, N'0.00', NULL, 120, 90, 14, N'Employee', 2, 4);
+INSERT INTO [dbo].[employees_employee] ([id], [department_old], [role_old], [phone], [hire_date], [salary], [is_company_admin], [user_id], [annual_leave_balance], [casual_leave_balance], [sick_leave_balance], [address], [date_of_birth], [designation_old], [employee_id_code], [gender], [ot_hourly_rate], [shift_id], [grace_period_minutes], [maternity_leave_balance], [paternity_leave_balance], [role], [department_id], [designation_id]) VALUES (7, NULL, NULL, N'8876544578', N'2026-11-20', N'5000.00', 0, 10, 20, 10, 10, NULL, NULL, NULL, N'M005', NULL, N'0.00', 4, 120, 90, 14, N'front end dev', 2, 4);
+SET IDENTITY_INSERT [dbo].[employees_employee] OFF;
+GO
+
+-- Data for [employees_client] (1 rows)
+SET IDENTITY_INSERT [dbo].[employees_client] ON;
+INSERT INTO [dbo].[employees_client] ([id], [company_name], [client_id], [contact_person], [email], [phone], [status], [created_at], [user_id]) VALUES (1, N'Acme Global Corp', N'CL-001', N'John Doe', N'john@gmail.com', N'+1 (555) 019-2834', N'Active', N'2026-11-20 12:24:15.407503+00:00', 2);
+SET IDENTITY_INSERT [dbo].[employees_client] OFF;
+GO
+
+-- Data for [employees_project] (1 rows)
+SET IDENTITY_INSERT [dbo].[employees_project] ON;
+INSERT INTO [dbo].[employees_project] ([id], [name], [description], [deadline], [progress], [status], [created_at], [client_id]) VALUES (1, N'Automated Portal Test Project', N'Project created to verify client project detail menu and view', N'2026-11-20', 60, N'Active', N'2026-11-20 12:29:21.865824+00:00', 1);
+SET IDENTITY_INSERT [dbo].[employees_project] OFF;
+GO
+
+-- Data for [employees_attendance] (8 rows)
+SET IDENTITY_INSERT [dbo].[employees_attendance] ON;
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (2, N'2026-09-11', N'10:24:59.306686', N'12:49:00', 2, N'Present', 0, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (3, N'2026-09-11', N'10:32:48.673051', N'12:30:00', 3, N'Present', 0, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (4, N'2026-09-11', N'09:45:00', N'16:30:00', 1, N'Present', 45, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (6, N'2026-09-11', N'16:26:47.942906', N'19:15:23.497391', 4, N'Present', 0, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (8, N'2026-09-15', N'09:43:46.556060', N'10:09:57.604624', 2, N'Present', 0, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (10, N'2026-09-15', N'10:55:03.863536', NULL, 5, N'Present', 115, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (11, N'2026-09-15', N'14:12:55.293468', N'16:26:51.154806', 4, N'Present', 312, 0);
+INSERT INTO [dbo].[employees_attendance] ([id], [date], [clock_in], [clock_out], [employee_id], [status], [late_minutes], [overtime_minutes]) VALUES (12, N'2026-11-20', N'16:23:25.674962', N'16:23:25.750983', 6, N'Present', 0, 0);
+SET IDENTITY_INSERT [dbo].[employees_attendance] OFF;
+GO
+
+-- Data for [employees_event] (1 rows)
+SET IDENTITY_INSERT [dbo].[employees_event] ON;
+INSERT INTO [dbo].[employees_event] ([id], [title], [description], [event_type], [start_time], [end_time], [created_at], [created_by_id]) VALUES (2, N'meeting', N'', N'Meeting', N'2026-11-17 03:30:00+00:00', N'2026-11-17 04:30:00+00:00', N'2026-11-20 11:31:07.182405+00:00', 1);
+SET IDENTITY_INSERT [dbo].[employees_event] OFF;
+GO
+
+-- Data for [employees_performancereview] (1 rows)
+SET IDENTITY_INSERT [dbo].[employees_performancereview] ON;
+INSERT INTO [dbo].[employees_performancereview] ([id], [review_period], [rating], [goals], [feedback], [created_at], [employee_id], [reviewer_id]) VALUES (1, N'Q4 2026', N'5.0', N'Excellent performance', N'Great dedication', N'2026-11-20 10:55:12.608146+00:00', 6, 1);
+SET IDENTITY_INSERT [dbo].[employees_performancereview] OFF;
+GO
+
+-- Data for [employees_notification] (25 rows)
+SET IDENTITY_INSERT [dbo].[employees_notification] ON;
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (1, N'Late Arrival Request', N'abi b (M003) clocked in 50 mins late.', NULL, 0, N'2026-09-15 04:20:10.472721+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (2, N'Early Departure Approval Request', N'abi b (M003) clocked out early by 488 mins at 09:51 AM. Approval required.', NULL, 0, N'2026-09-15 04:21:05.922708+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (3, N'Early Departure Approval Request', N'abi b (M003) clocked out early by 488 mins at 09:51 AM. Approval required.', NULL, 0, N'2026-09-15 04:21:08.334040+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (4, N'Early Departure Approval Request', N'abi b (M003) clocked out early by 488 mins at 09:51 AM. Approval required.', NULL, 0, N'2026-09-15 04:21:10.100144+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (5, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15 04:24:57.461749+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (6, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15 04:24:57.462493+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (7, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15 04:24:57.478237+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (8, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15 04:24:57.481225+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (9, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 485 mins at 09:54 AM.', NULL, 0, N'2026-09-15 04:24:57.515446+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (10, N'Early Departure Approval Request', N'sankari s (M001) requested early clock-out by 470 mins at 10:09 AM.', NULL, 0, N'2026-09-15 04:39:58.044489+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (11, N'Late Arrival Request', N'merlin joice (EMP001) clocked in 115 mins late.', NULL, 0, N'2026-09-15 05:25:04.171928+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (12, N'Late Arrival Request', N'abi b (M003) clocked in 312 mins late.', NULL, 0, N'2026-09-15 08:42:56.934578+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (13, N'Early Departure Approval Request', N'abi b (M003) requested early clock-out by 93 mins at 04:26 PM.', NULL, 0, N'2026-09-15 10:56:51.516937+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (14, N'Leave Request Submitted', N'New leave request from arun k (Casual).', NULL, 0, N'2026-11-20 10:54:30.017444+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (15, N'Expense Submitted', N'Your expense claim for ''Client Travel Taxi'' is pending approval.', NULL, 0, N'2026-11-20 10:54:33.989773+00:00', 8);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (16, N'New Payslip Available', N'Your payslip for November 2026 is now available.', NULL, 0, N'2026-11-20 10:55:00.484317+00:00', 8);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (17, N'Payslip Marked as Paid', N'Your payslip for November 2026 has been marked as Paid.', NULL, 0, N'2026-11-20 10:55:04.462987+00:00', 8);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (18, N'New Performance Review', N'A new performance review for Q4 2026 has been added to your profile.', NULL, 0, N'2026-11-20 10:55:12.713778+00:00', 8);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (19, N'New Training Enrollment', N'You have been enrolled in ''SQL Server Performance Tuning''.', NULL, 0, N'2026-11-20 10:55:18.056139+00:00', 8);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (20, N'Leave Request Submitted', N'New leave request from arun k (Casual).', NULL, 0, N'2026-11-20 12:29:16.860087+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (21, N'Leave Request Submitted', N'New leave request from arun k (Casual).', NULL, 0, N'2026-11-20 12:30:08.151252+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (22, N'Leave Request Submitted', N'New leave request from arun k (Casual).', NULL, 0, N'2026-11-20 12:30:48.463827+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (23, N'Expense Submitted', N'Your expense claim for ''Test Office Travel'' is pending approval.', NULL, 0, N'2026-11-20 12:30:52.157074+00:00', 8);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (24, N'Client Project Update', N'Client ''Acme Global Corp'' posted an update for project ''Automated Portal Test Project''.', NULL, 0, N'2026-11-20 12:30:56.920126+00:00', 1);
+INSERT INTO [dbo].[employees_notification] ([id], [title], [message], [link], [is_read], [created_at], [user_id]) VALUES (25, N'Leave Request Submitted', N'New leave request from arun k (Annual).', NULL, 0, N'2026-11-20 12:32:29.198815+00:00', 1);
+SET IDENTITY_INSERT [dbo].[employees_notification] OFF;
+GO
+
+-- Data for [employees_activitylog] (37 rows)
+SET IDENTITY_INSERT [dbo].[employees_activitylog] ON;
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (1, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-09-11 10:46:34.954377+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (2, N'Logged Out', 1, N'', N'127.0.0.1', N'Authentication', N'2026-09-15 04:01:45.328744+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (3, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-09-15 04:02:03.016143+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (4, N'Rejected Early Departure for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:20:47.137793+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (5, N'Approved Late Arrival for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:20:53.886210+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (6, N'Early Departure Request', 6, N'Early clock-out by abi b (488 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:21:10.031523+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (7, N'Early Departure Request', 6, N'Early clock-out by abi b (488 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:21:12.367975+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (8, N'Early Departure Request', 6, N'Early clock-out by abi b (488 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:21:14.158832+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (9, N'Approved Early Departure for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:22:59.013120+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (10, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:25:01.593805+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (11, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:25:01.612046+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (12, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:25:01.594619+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (13, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:25:01.611763+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (14, N'Early Departure Request', 4, N'Early clock-out by sankari s (485 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:25:01.612205+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (15, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:25:19.483436+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (16, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:25:23.191908+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (17, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:25:26.464636+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (18, N'Rejected Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:25:30.494402+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (19, N'Approved Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:25:34.499235+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (20, N'Early Departure Request', 4, N'Early clock-out by sankari s (470 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 04:40:02.158570+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (21, N'Approved Early Departure for sankari s', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 04:40:10.330831+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (22, N'Created Employee merlin joice', 1, N'', N'127.0.0.1', N'Employee Management', N'2026-09-15 05:24:38.320273+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (23, N'Approved Late Arrival for merlin joice', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 05:25:32.681515+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (24, N'Approved Late Arrival for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 10:52:55.838464+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (25, N'Early Departure Request', 6, N'Early clock-out by abi b (93 mins before shift end). Submitted for admin approval.', NULL, N'General', N'2026-09-15 10:56:55.675013+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (26, N'Approved Early Departure for abi b', 1, N'', N'127.0.0.1', N'Attendance Approval', N'2026-09-15 10:56:59.463931+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (27, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20 10:28:01.909708+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (28, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20 10:28:01.910618+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (29, N'Created Employee arun k', 1, N'', N'127.0.0.1', N'Employee Management', N'2026-11-20 10:31:41.787184+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (30, N'Created Meeting: Sprint Review Meeting', 1, N'', N'127.0.0.1', N'Unified Calendar', N'2026-11-20 10:53:11.047916+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (31, N'Generated Experience Certificate for arun', 1, N'', N'127.0.0.1', N'HR Certificates', N'2026-11-20 10:55:22.007902+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (32, N'Created Employee yuvan a', 1, N'', N'127.0.0.1', N'Employee Management', N'2026-11-20 11:10:19.984511+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (33, N'Created Meeting: meeting', 1, N'', N'127.0.0.1', N'Unified Calendar', N'2026-11-20 11:31:10.634047+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (34, N'Logged In', 8, N'Unified Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20 11:38:27.477640+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (35, N'Logged In', 1, N'Admin Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20 12:16:17.096435+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (36, N'Logged Out', 2, N'', N'127.0.0.1', N'Authentication', N'2026-11-20 12:31:00.680900+00:00');
+INSERT INTO [dbo].[employees_activitylog] ([id], [action], [user_id], [details], [ip_address], [module], [timestamp]) VALUES (37, N'Logged In', 8, N'Unified Login Portal', N'127.0.0.1', N'Authentication', N'2026-11-20 12:32:15.375100+00:00');
+SET IDENTITY_INSERT [dbo].[employees_activitylog] OFF;
+GO
+
+-- Data for [employees_leaverequest] (1 rows)
+SET IDENTITY_INSERT [dbo].[employees_leaverequest] ON;
+INSERT INTO [dbo].[employees_leaverequest] ([id], [leave_type], [start_date], [end_date], [reason], [status], [employee_id], [lop_days]) VALUES (6, N'Annual', N'2026-11-27', N'2026-11-30', N'sick', N'Pending', 6, 0);
+SET IDENTITY_INSERT [dbo].[employees_leaverequest] OFF;
 GO
 
 -- =====================================================================

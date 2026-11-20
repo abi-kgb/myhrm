@@ -20,11 +20,15 @@ A full-featured, production-ready **Human Resource & Payroll Management System**
   * **Recruitment Portal:** Job vacancy postings and public career application pipeline with resume parsing/upload.
   * **HR Document Generation:** Automated dynamic letters (Experience, Appointment, Relieving) with print-ready views.
 
-### 🎨 Frontend
+### 🎨 Frontend & UI Architecture
+* **Modern 2-Column Responsive Layout:**
+  * **Fixed Header (Navbar):** Pinned at `top: 0` (`position: fixed; z-index: 1000;`) with notification bell and user profile controls.
+  * **Fixed Sidebar Menu with Independent Scrolling:** Desktop sidebars (`260px`) stay pinned at `top: 70px` with custom slim scrollbars (`max-height: calc(100vh - 85px); overflow-y: auto;`) so long menus are easily reachable without moving page content.
+  * **Mobile Responsive Drawer:** Collapses into a full-height touch slide-out drawer on tablet/mobile screens (`<= 992px`) via the `☰` toggle.
 * **Templating Engine:** Django Template Language (`DTL`) with modular base templates.
-* **UI & Styling:** Custom modern responsive CSS with Bootstrap 4 grid and utility classes.
-* **Icons:** FontAwesome & LineAwesome vector icon suites.
-* **Interactive Components:** JavaScript, jQuery, DataTables (instant search & pagination), Select2 (searchable dropdowns), and FullCalendar.
+* **UI & Styling:** Custom modern responsive CSS with Bootstrap grid and utility classes.
+* **Icons:** FontAwesome vector icon suites and custom SVG icons.
+* **Interactive Components:** JavaScript, DataTables (instant search & pagination), FullCalendar (interactive holiday and attendance calendars).
 * **Progressive Web App (PWA):** Service worker (`sw.js`) and Web App Manifest (`manifest.json`) support for installability on mobile devices and responsive touch interfaces.
 
 ---
@@ -121,13 +125,14 @@ Now open your web browser and navigate to:
 
 ## 🔑 Ready-to-Use Login Credentials
 
-The included database comes with pre-configured accounts for testing:
+The included MSSQL database (`myhrm_database.sql`) comes with pre-configured accounts for testing:
 
 | Portal | URL Route | Username | Password | Role Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **Admin Portal** | `/admin-login/` | `admin` | `admin` | Full HR Admin & Superuser privileges |
-| **Employee Portal** | `/login/` | `abi` | `abi` | Standard employee self-service account |
-| **Client Portal** | `/client-login/` | `client1` | `client1` | External client project monitoring |
+| **Admin Portal** | [`/admin-login/`](http://127.0.0.1:8000/admin-login/) | `admin` | `admin` | Full HR Administrator & Superuser privileges |
+| **Employee Portal** | [`/login/`](http://127.0.0.1:8000/login/) | `arun` | `arun` | Employee account (Engineering / Manager) |
+| **Employee Portal** | [`/login/`](http://127.0.0.1:8000/login/) | `abi` | `abi` | Employee account (Frontend Dev) |
+| **Client Portal** | [`/client-login/`](http://127.0.0.1:8000/client-login/) | `client1` | `client1` | Client account (*Acme Global Corp* / John Doe) |
 
 > 💡 **Need a custom admin account?** You can create one anytime with:
 > ```bash
