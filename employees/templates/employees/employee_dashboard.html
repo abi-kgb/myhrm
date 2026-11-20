@@ -52,26 +52,50 @@
         background: var(--bg-secondary);
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        padding: 1.5rem 1.15rem;
+        padding: 1.25rem 0.85rem;
         position: sticky;
-        top: 85px;
+        top: 70px;
+        max-height: calc(100vh - 85px);
+        overflow-y: auto;
+        overflow-x: hidden;
         box-shadow: var(--shadow-md);
-        display: block;
+        display: flex;
+        flex-direction: column;
         width: 100%;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(37, 99, 235, 0.25) transparent;
+    }
+
+    .employee-layout .sidebar-menu::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .employee-layout .sidebar-menu::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .employee-layout .sidebar-menu::-webkit-scrollbar-thumb {
+        background: rgba(37, 99, 235, 0.25);
+        border-radius: 9999px;
+    }
+
+    .employee-layout .sidebar-menu::-webkit-scrollbar-thumb:hover {
+        background: var(--primary);
     }
 
     .employee-layout .sidebar-brand {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 1rem;
-        margin-bottom: 1.25rem;
+        padding-bottom: 0.85rem;
+        margin-bottom: 1rem;
         border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
     }
 
     .employee-layout .sidebar-avatar {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         background: rgba(37, 99, 235, 0.12);
         color: var(--primary);
         border-radius: 10px;
@@ -79,7 +103,8 @@
         align-items: center;
         justify-content: center;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.95rem;
+        flex-shrink: 0;
     }
 
     .employee-layout .sidebar-title {
@@ -89,7 +114,8 @@
         text-transform: uppercase;
         letter-spacing: 0.08em;
         display: block;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.6rem;
+        flex-shrink: 0;
     }
 
     .employee-layout .nav-link-item {
@@ -98,16 +124,17 @@
         background: none;
         border: none;
         cursor: pointer;
-        padding: 0.68rem 0.85rem;
+        padding: 0.62rem 0.8rem;
         border-radius: 8px;
         font-weight: 600;
-        font-size: 0.86rem;
+        font-size: 0.85rem;
         color: var(--text-muted);
         display: flex;
         align-items: center;
         gap: 0.65rem;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.2rem;
         transition: all 0.2s ease;
+        flex-shrink: 0;
     }
 
     .employee-layout .nav-link-item:hover {
