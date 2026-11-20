@@ -1487,7 +1487,7 @@
                     </div>
                     <!-- Modal Body -->
                     <div style="padding:1.75rem;">
-                        <form class="admin-form" method="POST" action="{% url 'add_employee' %}" id="addMemberForm">
+                        <form class="admin-form" method="POST" action="{% url 'add_employee' %}" id="addMemberForm" onsubmit="const btn = this.querySelector('button[type=submit]'); if(btn){btn.disabled=true; btn.innerText='Creating Profile...';}">
                             {% csrf_token %}
 
                             <div class="form-group">
@@ -2915,6 +2915,22 @@
                     }
                 });
             });
+
+            // Double-submit protection on all forms
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function() {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn && !submitBtn.disabled) {
+                        setTimeout(() => {
+                            submitBtn.disabled = true;
+                            if (!submitBtn.dataset.originalText) {
+                                submitBtn.dataset.originalText = submitBtn.innerText;
+                            }
+                            submitBtn.innerText = 'Processing...';
+                        }, 10);
+                    }
+                });
+            });
         });
 
 
@@ -2938,10 +2954,14 @@
                 'leaves': 'Leave Requests',
                 'payroll': 'Payroll Management',
                 'recruitment': 'Recruitment (ATS)',
-                'performance': 'Performance',
+                'performance': 'Performance Management',
                 'audit': 'Security & Audit Logs',
                 'calendar': 'Holidays / Calendar',
-                'letters': 'HR Certificates & Official Letters'
+                'letters': 'HR Certificates & Official Letters',
+                'departments': 'Department Management',
+                'designations': 'Designation Management',
+                'assets': 'Asset Management',
+                'expenses': 'Expense Claims'
             };
             const heroTitle = document.querySelector('.page-hero h1');
             if(heroTitle && titles[tabId]) heroTitle.innerText = titles[tabId];

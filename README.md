@@ -8,7 +8,7 @@ A full-featured, production-ready **Human Resource & Payroll Management System**
 
 ### ⚙️ Backend
 * **Language & Framework:** Python (3.10+ compatible), Django 5.0+ / 6.0+
-* **Database:** SQLite (`db.sqlite3` is bundled and pre-configured; requires **zero database installation** like MySQL/PostgreSQL to get started).
+* **Database:** Microsoft SQL Server (MSSQL via `mssql-django` and `pyodbc` connecting to database `myhrm`).
 * **Core Application (`employees/`):**
   * **Role-Based Access Control (RBAC):** Admin, Employee, and Client authorization and dedicated portals.
   * **Employee Directory:** Full CRUD, profile records, department/designation assignments, document uploads, and credential management.
@@ -74,8 +74,28 @@ pip install -r requirements.txt
 
 ---
 
-### 5. Run Database Migrations
-The SQLite database `db.sqlite3` is already pre-populated, but run migrations to ensure everything is synced:
+### 5. Setup Microsoft SQL Server Database
+
+We have included a complete database script **`myhrm_database.sql`** that creates the `myhrm` database, all required tables, foreign keys, and seed user accounts (`admin`, `abi`, etc.).
+
+#### Method A: Using SQL Server Management Studio (SSMS) (Recommended)
+1. Open **SSMS** and connect to your SQL Server instance.
+2. Open `myhrm_database.sql` (**File -> Open -> File...**).
+3. Click **Execute** (or press **F5**).
+
+#### Method B: Using Command Line (sqlcmd)
+Run this command in terminal:
+```bash
+sqlcmd -S .\SQLEXPRESS -E -i myhrm_database.sql
+```
+*(Replace `.\SQLEXPRESS` with your SQL Server name if different, e.g. `localhost`)*.
+
+#### Method C: Using Django Migrations
+If you prefer building from an empty database:
+```sql
+CREATE DATABASE myhrm;
+```
+Then run:
 ```bash
 python manage.py migrate
 ```
@@ -147,7 +167,7 @@ myyhrmm/
 │   ├── urls.py             # Root URL routing
 │   └── wsgi.py             # WSGI deployment config
 ├── datadump.json           # Database fixture / backup data
-├── db.sqlite3              # Active SQLite database file
+├── myhrm_database.sql      # Full Microsoft SQL Server setup & seed script
 ├── manage.py               # Django command-line utility
 └── requirements.txt        # Python package dependencies
 ```

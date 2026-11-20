@@ -9,11 +9,24 @@ from .models import (
     Employee, LeaveRequest, Attendance, Payslip, ShiftRequest,
     JobPosting, JobApplication, PerformanceReview,
     Training, TrainingEnrollment, Holiday, Client, GoalTracking, Project, ProjectUpdate, EmployeeDocument,
-    Shift, Asset, Expense, Department, Designation, ActivityLog, Event, HRLetter, PersonalNote
+    Shift, Asset, Expense, Department, Designation, ActivityLog, Event, HRLetter, PersonalNote, Notification
 )
 import os
 import json
 from django.conf import settings
+from django.db import IntegrityError, transaction
+
+def to_int(val, default=0):
+    try:
+        return int(val)
+    except (ValueError, TypeError):
+        return default
+
+def to_float(val, default=0.0):
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return default
 
 def log_activity(user, action, module, request=None, details=""):
     ip_address = None
@@ -516,18 +529,19 @@ def admin_only(view_func):
         if not request.user.is_authenticated:
             return redirect('admin_login')
         try:
-            if not request.user.employee.is_company_admin:
+            if not getattr(request.user, 'is_superuser', False) and not request.user.employee.is_company_admin:
                 messages.error(request, "Unauthorized access. Admins only.")
                 return redirect('employee_dashboard')
-        except Employee.DoesNotExist:
-            logout(request)
-            return redirect('admin_login')
+        except (Employee.DoesNotExist, AttributeError):
+            if not getattr(request.user, 'is_superuser', False):
+                logout(request)
+                return redirect('admin_login')
         return view_func(request, *args, **kwargs)
     return wrapper
 
 @admin_only
 def admin_dashboard(request):
-    admin_employee = request.user.employee
+    admin_employee = getattr(request.user, 'employee', None)
     
     # Get stats
     total_employees = Employee.objects.filter(is_company_admin=False).count()
@@ -714,27 +728,47 @@ def admin_dashboard(request):
 @admin_only
 def add_employee(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+        username = request.POST.get('username', '').strip()
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('password', '').strip()
         department_id = request.POST.get('department_id')
-        department_name = request.POST.get('department')
+        department_name = request.POST.get('department', '').strip()
         designation_id = request.POST.get('designation_id')
-        designation = request.POST.get('designation', '')
+        designation = request.POST.get('designation', '').strip()
         
+        if not username:
+            messages.error(request, "Username is required.")
+            return redirect('/admin-dashboard/?tab=directory')
+
+        if not password:
+            messages.error(request, "Password is required.")
+            return redirect('/admin-dashboard/?tab=directory')
+
+        if User.objects.filter(username__iexact=username).exists():
+            messages.error(request, f"Username '{username}' already exists. Please choose a different username.")
+            return redirect('/admin-dashboard/?tab=directory')
+
+        if email and User.objects.filter(email__iexact=email).exists():
+            messages.error(request, f"An account with email '{email}' already exists.")
+            return redirect('/admin-dashboard/?tab=directory')
+
         if not department_id and department_name:
             dept_obj, _ = Department.objects.get_or_create(name=department_name)
             department_id = dept_obj.id
             
         if not designation_id and designation:
-            desig_obj, _ = Designation.objects.get_or_create(name=designation)
+            dept_for_desig = Department.objects.filter(id=department_id).first() if department_id else None
+            if not dept_for_desig:
+                dept_for_desig, _ = Department.objects.get_or_create(name='General')
+                department_id = dept_for_desig.id
+            desig_obj, _ = Designation.objects.get_or_create(name=designation, defaults={'department': dept_for_desig})
             designation_id = desig_obj.id
 
-        role = request.POST.get('role', 'Employee')
-        phone = request.POST.get('phone')
-        salary = request.POST.get('salary', 0.0)
+        role = request.POST.get('role', 'Employee').strip() or 'Employee'
+        phone = request.POST.get('phone', '').strip()
+        salary = to_float(request.POST.get('salary'), 5000.0)
         gender = request.POST.get('gender')
         date_of_birth = request.POST.get('date_of_birth')
         address = request.POST.get('address')
@@ -767,56 +801,57 @@ def add_employee(request):
 
         is_admin_flag = request.POST.get('is_company_admin') == 'on'
         shift_id = request.POST.get('shift_id')
-        ot_hourly_rate = request.POST.get('ot_hourly_rate', 0.0)
-        grace_period_minutes = int(request.POST.get('grace_period_minutes', 120))
+        ot_hourly_rate = to_float(request.POST.get('ot_hourly_rate'), 0.0)
+        grace_period_minutes = to_int(request.POST.get('grace_period_minutes'), 120)
         
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists.")
-        elif User.objects.filter(email=email).exists():
-            messages.error(request, "Email already exists.")
-        else:
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-                email=email,
-                first_name=first_name,
-                last_name=last_name
-            )
-            emp_kwargs = dict(
-                user=user,
-                phone=phone,
-                salary=salary,
-                is_company_admin=is_admin_flag,
-                ot_hourly_rate=ot_hourly_rate,
-                grace_period_minutes=grace_period_minutes,
-                role=role
-            )
-            if department_id:
-                emp_kwargs['department_id'] = department_id
-            if designation_id:
-                emp_kwargs['designation_id'] = designation_id
-            if shift_id:
-                try:
-                    emp_kwargs['shift_id'] = shift_id
-                except ValueError:
-                    pass
-            if gender:
-                emp_kwargs['gender'] = gender
-            if date_of_birth:
-                try:
-                    emp_kwargs['date_of_birth'] = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
-                except Exception:
-                    pass
-            if address:
-                emp_kwargs['address'] = address
-            if employee_id_code:
-                emp_kwargs['employee_id_code'] = employee_id_code
+        try:
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=username,
+                    password=password,
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name
+                )
+                emp_kwargs = dict(
+                    user=user,
+                    phone=phone,
+                    salary=salary,
+                    is_company_admin=is_admin_flag,
+                    ot_hourly_rate=ot_hourly_rate,
+                    grace_period_minutes=grace_period_minutes,
+                    role=role
+                )
+                if department_id:
+                    emp_kwargs['department_id'] = department_id
+                if designation_id:
+                    emp_kwargs['designation_id'] = designation_id
+                if shift_id:
+                    try:
+                        emp_kwargs['shift_id'] = int(shift_id)
+                    except (ValueError, TypeError):
+                        pass
+                if gender:
+                    emp_kwargs['gender'] = gender
+                if date_of_birth:
+                    try:
+                        emp_kwargs['date_of_birth'] = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
+                    except Exception:
+                        pass
+                if address:
+                    emp_kwargs['address'] = address
+                if employee_id_code:
+                    emp_kwargs['employee_id_code'] = employee_id_code
 
-            Employee.objects.create(**emp_kwargs)
-            log_activity(request.user, f'Created Employee {first_name} {last_name}', 'Employee Management', request)
-            messages.success(request, f"Employee {first_name} {last_name} created successfully!")
+                Employee.objects.create(**emp_kwargs)
+                log_activity(request.user, f'Created Employee {first_name} {last_name}', 'Employee Management', request)
+                messages.success(request, f"Employee '{first_name} {last_name}' created successfully with ID {employee_id_code}!")
+        except IntegrityError:
+            messages.error(request, f"Could not create employee: Username '{username}' or email '{email}' already exists.")
+        except Exception as e:
+            messages.error(request, f"Could not create employee: {str(e)}")
             
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=directory')
 
 @admin_only
 def approve_leave(request, leave_id):
@@ -841,7 +876,7 @@ def approve_leave(request, leave_id):
             Notification.objects.create(user=leave.employee.user, title="Leave Approved", message=f"Your {leave.leave_type} request has been approved.")
             
         messages.success(request, f"Leave request for {leave.employee.user.first_name} was approved and balances updated.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=leaves')
 
 @admin_only
 def reject_leave(request, leave_id):
@@ -854,7 +889,7 @@ def reject_leave(request, leave_id):
             Notification.objects.create(user=leave.employee.user, title="Leave Rejected", message=f"Your {leave.leave_type} request has been rejected.")
             
         messages.success(request, f"Leave request for {leave.employee.user.first_name} was rejected.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=leaves')
 
 # --- Recruitment / ATS Views ---
 
@@ -926,7 +961,7 @@ def add_job(request):
             salary_range=salary_range
         )
         messages.success(request, f"Job posting '{title}' created successfully!")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=recruitment')
 
 @admin_only
 def update_application_status(request, app_id):
@@ -966,7 +1001,7 @@ def update_application_status(request, app_id):
                 pass
                 
         messages.success(request, f"Candidate {application.candidate_name}'s status updated to {status}, and an email has been sent!")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=recruitment')
 
 # --- Payroll / Payslip Views ---
 
@@ -976,13 +1011,13 @@ def generate_payslip(request):
         employee_id = request.POST.get('employee_id')
         month_year = request.POST.get('month_year')
         # Detailed breakdowns
-        hra = float(request.POST.get('hra', 0.0))
-        travel_allowance = float(request.POST.get('travel_allowance', 0.0))
-        other_allowances = float(request.POST.get('allowances', 0.0))
-        pf_deduction = float(request.POST.get('pf_deduction', 0.0))
-        tax_deduction = float(request.POST.get('tax_deduction', 0.0))
-        esi_deduction = float(request.POST.get('esi_deduction', 0.0))
-        other_deductions = float(request.POST.get('deductions', 0.0))
+        hra = to_float(request.POST.get('hra'), 0.0)
+        travel_allowance = to_float(request.POST.get('travel_allowance'), 0.0)
+        other_allowances = to_float(request.POST.get('allowances'), 0.0)
+        pf_deduction = to_float(request.POST.get('pf_deduction'), 0.0)
+        tax_deduction = to_float(request.POST.get('tax_deduction'), 0.0)
+        esi_deduction = to_float(request.POST.get('esi_deduction'), 0.0)
+        other_deductions = to_float(request.POST.get('deductions'), 0.0)
         allowances = hra + travel_allowance + other_allowances
         deductions = pf_deduction + tax_deduction + esi_deduction + other_deductions
         status = request.POST.get('status', 'Pending')
@@ -1121,7 +1156,7 @@ def generate_payslip(request):
                     f"No attendance logs found for {month_year}; used full base salary (₹{basic:.2f})."
                 )
             
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=payroll')
 
 
 @admin_only
@@ -1130,7 +1165,7 @@ def add_performance_review(request):
         employee_id = request.POST.get('employee_id')
         reviewer_id = request.POST.get('reviewer_id')
         review_period = request.POST.get('review_period')
-        rating = request.POST.get('rating')
+        rating = to_int(request.POST.get('rating'), 0)
         goals = request.POST.get('goals')
         feedback = request.POST.get('feedback')
 
@@ -1143,14 +1178,14 @@ def add_performance_review(request):
             employee=employee,
             reviewer=reviewer,
             review_period=review_period,
-            rating=rating or 0,
+            rating=rating,
             goals=goals,
             feedback=feedback
         )
         if employee.user and employee.user != request.user:
             Notification.objects.create(user=employee.user, title="New Performance Review", message=f"A new performance review for {review_period} has been added to your profile.")
         messages.success(request, "Performance review added.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=performance')
 
 
 @admin_only
@@ -1174,7 +1209,7 @@ def add_training(request):
             status=status
         )
         messages.success(request, "Training program created.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=performance')
 
 
 @admin_only
@@ -1188,7 +1223,7 @@ def enroll_training(request):
         if employee.user and employee.user != request.user:
             Notification.objects.create(user=employee.user, title="New Training Enrollment", message=f"You have been enrolled in '{training.title}'.")
         messages.success(request, f"{employee.user.first_name} enrolled in {training.title}.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=performance')
 
 
 @admin_only
@@ -1200,7 +1235,7 @@ def complete_training(request, enrollment_id):
         enrollment.certificate_url = cert
     enrollment.save()
     messages.success(request, f"Marked training '{enrollment.training.title}' as completed for {enrollment.employee.user.first_name}.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=performance')
 
 
 @admin_only
@@ -1233,23 +1268,27 @@ def reports_data(request):
 @login_required
 def profile_update_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
+        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
         
         user = request.user
-        employee = user.employee
+        employee = getattr(user, 'employee', None)
         
         if not email:
             messages.error(request, "Email address is required.")
         else:
-            if User.objects.filter(email=email).exclude(id=user.id).exists():
+            if User.objects.filter(email__iexact=email).exclude(id=user.id).exists():
                 messages.error(request, "Email address is already in use by another user.")
             else:
-                user.email = email
-                user.save()
-                employee.phone = phone
-                employee.save()
-                messages.success(request, "Profile details updated successfully!")
+                try:
+                    user.email = email
+                    user.save()
+                    if employee:
+                        employee.phone = phone
+                        employee.save()
+                    messages.success(request, "Profile details updated successfully!")
+                except Exception as e:
+                    messages.error(request, f"Could not update profile: {str(e)}")
                 
     return redirect('employee_dashboard')
 
@@ -1286,7 +1325,7 @@ def toggle_job_status(request, job_id):
     job.save()
     status_str = "activated" if job.is_active else "deactivated"
     messages.success(request, f"Job posting '{job.title}' has been {status_str}.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=recruitment')
 
 
 @admin_only
@@ -1295,13 +1334,17 @@ def delete_employee(request, employee_id):
         employee = get_object_or_404(Employee, id=employee_id)
         if employee.user == request.user:
             messages.error(request, "You cannot delete your own admin account.")
-            return redirect('admin_dashboard')
+            return redirect('/admin-dashboard/?tab=directory')
         
-        user = employee.user
-        username = user.username
-        user.delete()
-        messages.success(request, f"Employee '{username}' deleted successfully.")
-    return redirect('admin_dashboard')
+        try:
+            with transaction.atomic():
+                user = employee.user
+                username = user.username
+                user.delete()
+                messages.success(request, f"Employee '{username}' deleted successfully.")
+        except Exception as e:
+            messages.error(request, f"Could not delete employee: {str(e)}")
+    return redirect('/admin-dashboard/?tab=directory')
 
 
 @admin_only
@@ -1310,12 +1353,15 @@ def reset_employee_password(request, employee_id):
         employee = get_object_or_404(Employee, id=employee_id)
         new_pw = request.POST.get('new_password', '').strip()
         if new_pw:
-            employee.user.set_password(new_pw)
-            employee.user.save()
-            messages.success(request, f"Password for '{employee.user.username}' reset successfully.")
+            try:
+                employee.user.set_password(new_pw)
+                employee.user.save()
+                messages.success(request, f"Password for '{employee.user.username}' reset successfully.")
+            except Exception as e:
+                messages.error(request, f"Could not reset password: {str(e)}")
         else:
             messages.error(request, "Password cannot be empty.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=directory')
 
 
 @admin_only
@@ -1329,7 +1375,7 @@ def delete_payslip(request, payslip_id):
             messages.success(request, f"Payslip for {emp_name} for {month} has been deleted.")
         else:
             messages.warning(request, "This payslip was already deleted or does not exist.")
-    return redirect('admin_dashboard')
+    return redirect('/admin-dashboard/?tab=payroll')
 
 @admin_only
 def toggle_payslip_status(request, payslip_id):
@@ -1396,37 +1442,52 @@ def holidays_view(request):
 @admin_only
 def clients_view(request):
     if request.method == 'POST':
-        company_name = request.POST.get('company_name')
-        client_id_val = request.POST.get('client_id')
-        contact_person = request.POST.get('contact_person')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
+        company_name = request.POST.get('company_name', '').strip()
+        client_id_val = request.POST.get('client_id', '').strip()
+        contact_person = request.POST.get('contact_person', '').strip()
+        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '').strip()
+
+        if not company_name:
+            messages.error(request, "Company Name is required.")
+            return redirect('clients')
 
         # Optionally create a User for client portal login
         user_obj = None
         if username and password:
-            if User.objects.filter(username=username).exists():
+            if User.objects.filter(username__iexact=username).exists():
                 messages.error(request, f"Username '{username}' already taken. Client not created.")
                 return redirect('clients')
-            user_obj = User.objects.create_user(
-                username=username, password=password,
-                email=email, first_name=contact_person
-            )
+            if email and User.objects.filter(email__iexact=email).exists():
+                messages.error(request, f"Email '{email}' is already registered with another user.")
+                return redirect('clients')
 
-        Client.objects.create(
-            user=user_obj,
-            company_name=company_name,
-            client_id=client_id_val,
-            contact_person=contact_person,
-            email=email,
-            phone=phone
-        )
-        if user_obj:
-            messages.success(request, f"Client '{company_name}' added with portal login '{username}'.")
-        else:
-            messages.success(request, f"Client '{company_name}' added successfully.")
+        try:
+            with transaction.atomic():
+                if username and password:
+                    user_obj = User.objects.create_user(
+                        username=username, password=password,
+                        email=email, first_name=contact_person
+                    )
+
+                Client.objects.create(
+                    user=user_obj,
+                    company_name=company_name,
+                    client_id=client_id_val,
+                    contact_person=contact_person,
+                    email=email,
+                    phone=phone
+                )
+                if user_obj:
+                    messages.success(request, f"Client '{company_name}' added with portal login '{username}'.")
+                else:
+                    messages.success(request, f"Client '{company_name}' added successfully.")
+        except IntegrityError:
+            messages.error(request, f"Could not create client: Client ID '{client_id_val}' or username already exists.")
+        except Exception as e:
+            messages.error(request, f"Could not create client: {str(e)}")
         return redirect('clients')
 
     clients = Client.objects.all().order_by('-created_at')
@@ -1435,40 +1496,47 @@ def clients_view(request):
 @admin_only
 def goals_view(request):
     if request.method == 'POST':
-        subject = request.POST.get('subject')
+        subject = request.POST.get('subject', '').strip()
         project_id = request.POST.get('project_id')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        description = request.POST.get('description')
+        start_date = request.POST.get('start_date') or None
+        end_date = request.POST.get('end_date') or None
+        description = request.POST.get('description', '').strip()
         status = request.POST.get('status', 'Active')
         
+        if not subject:
+            messages.error(request, "Goal Subject is required.")
+            return redirect('goals')
+
         project = None
         if project_id:
             project = Project.objects.filter(id=project_id).first()
         
-        goal = GoalTracking.objects.create(
-            subject=subject,
-            project=project,
-            start_date=start_date,
-            end_date=end_date,
-            description=description,
-            status=status
-        )
-        
-        # Broadcast notifications
-        msg = f"A new goal '{subject}' has been added."
-        
-        # 1. Notify all employees
-        employees = Employee.objects.all()
-        for emp in employees:
-            if emp.user and emp.user != request.user:
-                Notification.objects.create(user=emp.user, title="New Goal Added", message=msg)
-                
-        # 2. Notify client if project exists
-        if project and project.client and project.client.user and project.client.user != request.user:
-            Notification.objects.create(user=project.client.user, title="New Project Goal", message=msg)
+        try:
+            goal = GoalTracking.objects.create(
+                subject=subject,
+                project=project,
+                start_date=start_date,
+                end_date=end_date,
+                description=description,
+                status=status
+            )
+            
+            # Broadcast notifications
+            msg = f"A new goal '{subject}' has been added."
+            
+            # 1. Notify all employees
+            employees = Employee.objects.all()
+            for emp in employees:
+                if emp.user and emp.user != request.user:
+                    Notification.objects.create(user=emp.user, title="New Goal Added", message=msg)
+                    
+            # 2. Notify client if project exists
+            if project and project.client and project.client.user and project.client.user != request.user:
+                Notification.objects.create(user=project.client.user, title="New Project Goal", message=msg)
 
-        messages.success(request, "Goal created successfully.")
+            messages.success(request, "Goal created successfully.")
+        except Exception as e:
+            messages.error(request, f"Error creating goal: {str(e)}")
         return redirect('goals')
 
     goals = GoalTracking.objects.all().order_by('-created_at')
@@ -1497,39 +1565,47 @@ def delete_goal(request, goal_id):
 @admin_only
 def projects_view(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        name = request.POST.get('name', '').strip()
         client_id = request.POST.get('client_id') or None
-        description = request.POST.get('description')
+        description = request.POST.get('description', '').strip()
         deadline = request.POST.get('deadline') or None
-        progress = int(request.POST.get('progress', 0))
+        progress = to_int(request.POST.get('progress'), 0)
         status = request.POST.get('status', 'Active')
+        
+        if not name:
+            messages.error(request, "Project Name is required.")
+            return redirect('projects')
+
         client = None
         if client_id:
             client = Client.objects.filter(id=client_id).first()
         assigned_employee_ids = request.POST.getlist('assigned_employees')
         
-        project = Project.objects.create(
-            name=name, client=client, description=description,
-            deadline=deadline, progress=progress, status=status
-        )
-        
-        if assigned_employee_ids:
-            project.assigned_employees.set(assigned_employee_ids)
-            for emp_id in assigned_employee_ids:
-                emp = Employee.objects.filter(id=emp_id).first()
-                if emp and emp.user and emp.user != request.user:
-                    Notification.objects.create(user=emp.user, title="New Project Assignment", message=f"You have been assigned to project '{name}'.")
-
-        msg = f"Project '{name}' has been created."
-        if client and client.user and client.user != request.user:
-            Notification.objects.create(user=client.user, title="New Project Created", message=msg)
+        try:
+            project = Project.objects.create(
+                name=name, client=client, description=description,
+                deadline=deadline, progress=progress, status=status
+            )
             
-        admins = Employee.objects.filter(is_company_admin=True)
-        for adm in admins:
-            if adm.user and adm.user != request.user:
-                Notification.objects.create(user=adm.user, title="New Project Created", message=msg)
+            if assigned_employee_ids:
+                project.assigned_employees.set(assigned_employee_ids)
+                for emp_id in assigned_employee_ids:
+                    emp = Employee.objects.filter(id=emp_id).first()
+                    if emp and emp.user and emp.user != request.user:
+                        Notification.objects.create(user=emp.user, title="New Project Assignment", message=f"You have been assigned to project '{name}'.")
+
+            msg = f"Project '{name}' has been created."
+            if client and client.user and client.user != request.user:
+                Notification.objects.create(user=client.user, title="New Project Created", message=msg)
                 
-        messages.success(request, f"Project '{name}' created successfully.")
+            admins = Employee.objects.filter(is_company_admin=True)
+            for adm in admins:
+                if adm.user and adm.user != request.user:
+                    Notification.objects.create(user=adm.user, title="New Project Created", message=msg)
+                    
+            messages.success(request, f"Project '{name}' created successfully.")
+        except Exception as e:
+            messages.error(request, f"Error creating project: {str(e)}")
         return redirect('projects')
 
     projects = Project.objects.all().select_related('client').prefetch_related('assigned_employees__user').order_by('-created_at')
@@ -1541,7 +1617,7 @@ def projects_view(request):
 def update_project_progress(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
-        project.progress = int(request.POST.get('progress', project.progress))
+        project.progress = to_int(request.POST.get('progress'), project.progress)
         project.status = request.POST.get('status', project.status)
         project.save()
         messages.success(request, f"Project '{project.name}' updated.")
@@ -1551,16 +1627,16 @@ def update_project_progress(request, project_id):
 def edit_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == 'POST':
-        project.name = request.POST.get('name', project.name)
+        project.name = request.POST.get('name', project.name).strip()
         client_id = request.POST.get('client_id')
         if client_id:
             project.client = Client.objects.filter(id=client_id).first()
         else:
             project.client = None
         project.deadline = request.POST.get('deadline') or None
-        project.progress = int(request.POST.get('progress', project.progress))
+        project.progress = to_int(request.POST.get('progress'), project.progress)
         project.status = request.POST.get('status', project.status)
-        project.description = request.POST.get('description', project.description)
+        project.description = request.POST.get('description', project.description).strip()
         project.save()
 
         assigned_employee_ids = request.POST.getlist('assigned_employees')
@@ -1572,7 +1648,30 @@ def edit_project(request, project_id):
 
 # ---- Client Portal ----
 
-client_login_view = employee_login_view
+def client_login(request):
+    if request.user.is_authenticated:
+        try:
+            client = request.user.client_profile
+            return redirect('client_dashboard')
+        except Exception:
+            pass
+            
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            try:
+                client = user.client_profile
+                login(request, user)
+                return redirect('client_dashboard')
+            except Exception:
+                messages.error(request, "This account is not a client account.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    return render(request, 'employees/client_login.html')
+
+client_login_view = client_login
 
 @login_required
 def client_dashboard_view(request):
@@ -1709,10 +1808,14 @@ def client_project_detail_view(request, project_id):
             for adm in admins:
                 if adm.user and adm.user != request.user:
                     Notification.objects.create(user=adm.user, title="Client Project Update", message=f"Client '{client.company_name}' posted an update for project '{project.name}'.")
+            for emp in project.assigned_employees.all():
+                if emp.user and emp.user != request.user:
+                    Notification.objects.create(user=emp.user, title="Client Project Update", message=f"Client '{client.company_name}' posted an update for project '{project.name}'.")
         return redirect('client_project_detail', project_id=project.id)
         
     return render(request, 'employees/client_project_detail.html', {
         'project': project,
+        'client': client,
         'updates': updates
     })
 
@@ -1722,42 +1825,52 @@ def edit_employee(request, employee_id):
         employee = get_object_or_404(Employee, id=employee_id)
         user = employee.user
         
-        user.first_name = request.POST.get('first_name', user.first_name)
-        user.last_name = request.POST.get('last_name', user.last_name)
-        user.email = request.POST.get('email', user.email)
-        user.save()
+        email = request.POST.get('email', '').strip()
+        if email and User.objects.filter(email__iexact=email).exclude(id=user.id).exists():
+            messages.error(request, f"Email '{email}' is already in use by another user.")
+            return redirect('/admin-dashboard/?tab=directory')
         
-        dept_id = request.POST.get('department_id')
-        if dept_id:
-            employee.department_id = dept_id
-        desig_id = request.POST.get('designation_id')
-        if desig_id:
-            employee.designation_id = desig_id
-        role = request.POST.get('role')
-        if role:
-            employee.role = role
-        if request.POST.get('basic_salary'):
-            employee.salary = request.POST.get('basic_salary')
-            
-        shift_id = request.POST.get('shift_id')
-        if shift_id:
-            try:
-                employee.shift_id = shift_id
-            except ValueError:
-                pass
-        else:
-            employee.shift = None
-            
-        if request.POST.get('ot_hourly_rate'):
-            employee.ot_hourly_rate = request.POST.get('ot_hourly_rate')
-            
-        if request.POST.get('grace_period_minutes'):
-            employee.grace_period_minutes = int(request.POST.get('grace_period_minutes'))
-            
-        employee.save()
-        Notification.objects.create(user=user, title="Profile Updated", message="Your employee profile and/or settings have been updated by the administrator.")
-        messages.success(request, f"Employee {user.first_name} {user.last_name} updated successfully!")
-    return redirect('admin_dashboard')
+        try:
+            with transaction.atomic():
+                user.first_name = request.POST.get('first_name', user.first_name).strip()
+                user.last_name = request.POST.get('last_name', user.last_name).strip()
+                if email:
+                    user.email = email
+                user.save()
+                
+                dept_id = request.POST.get('department_id')
+                if dept_id:
+                    employee.department_id = dept_id
+                desig_id = request.POST.get('designation_id')
+                if desig_id:
+                    employee.designation_id = desig_id
+                role = request.POST.get('role')
+                if role:
+                    employee.role = role
+                if request.POST.get('basic_salary'):
+                    employee.salary = to_float(request.POST.get('basic_salary'), employee.salary)
+                    
+                shift_id = request.POST.get('shift_id')
+                if shift_id:
+                    try:
+                        employee.shift_id = int(shift_id)
+                    except (ValueError, TypeError):
+                        pass
+                else:
+                    employee.shift = None
+                    
+                if request.POST.get('ot_hourly_rate'):
+                    employee.ot_hourly_rate = to_float(request.POST.get('ot_hourly_rate'), employee.ot_hourly_rate)
+                    
+                if request.POST.get('grace_period_minutes'):
+                    employee.grace_period_minutes = to_int(request.POST.get('grace_period_minutes'), employee.grace_period_minutes)
+                    
+                employee.save()
+                Notification.objects.create(user=user, title="Profile Updated", message="Your employee profile and/or settings have been updated by the administrator.")
+                messages.success(request, f"Employee {user.first_name} {user.last_name} updated successfully!")
+        except Exception as e:
+            messages.error(request, f"Could not update employee: {str(e)}")
+    return redirect('/admin-dashboard/?tab=directory')
 
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -1805,148 +1918,6 @@ def delete_document(request, doc_id):
     doc.delete()
     messages.success(request, "Document deleted successfully.")
     return HttpResponseRedirect(reverse('admin_dashboard') + f'?tab=directory&open_modal=docsModal-{employee_id}')
-
-def client_login(request):
-    if request.user.is_authenticated:
-        try:
-            client = request.user.client_profile
-            return redirect('client_dashboard')
-        except Exception:
-            pass
-            
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            try:
-                client = user.client_profile
-                login(request, user)
-                return redirect('client_dashboard')
-            except Exception:
-                messages.error(request, "This account is not a client account.")
-        else:
-            messages.error(request, "Invalid username or password.")
-def delete_shift(request, shift_id):
-    shift = get_object_or_404(Shift, id=shift_id)
-    if request.method == 'POST':
-        shift.delete()
-        messages.success(request, "Shift deleted successfully.")
-    return redirect('shift_list')
-
-from django.http import JsonResponse
-from .models import Notification, Holiday, Project, ProjectUpdate, GoalTracking
-import json
-from django.core.serializers.json import DjangoJSONEncoder
-
-
-@admin_only
-def admin_project_detail_view(request, project_id):
-    project = get_object_or_404(Project, id=project_id)
-    updates = project.updates.all().order_by('created_at')
-    all_employees = Employee.objects.select_related('user').order_by('user__first_name')
-
-    if request.method == 'POST':
-        action = request.POST.get('action')
-
-        if action == 'add_member':
-            emp_id = request.POST.get('employee_id')
-            if emp_id:
-                emp = Employee.objects.filter(id=emp_id).first()
-                if emp:
-                    project.assigned_employees.add(emp)
-                    messages.success(request, f'{emp.user.get_full_name()} added to project.')
-                    if emp.user and emp.user != request.user:
-                        Notification.objects.create(user=emp.user, title='Project Assignment', message=f'You have been assigned to project \'{project.name}\'.')
-            return redirect('admin_project_detail', project_id=project.id)
-
-        message = request.POST.get('message', '').strip()
-        progress = request.POST.get('progress')
-        status = request.POST.get('status')
-
-        updated_anything = False
-
-        if progress is not None and progress != '':
-            project.progress = int(progress)
-            updated_anything = True
-        if status:
-            project.status = status
-            updated_anything = True
-
-        if updated_anything:
-            project.save()
-
-        if message:
-            ProjectUpdate.objects.create(
-                project=project,
-                author=request.user,
-                message=message,
-                is_admin=True
-            )
-            messages.success(request, 'Project status update posted successfully.')
-            if project.client and project.client.user and project.client.user != request.user:
-                Notification.objects.create(user=project.client.user, title='Project Update', message=f'A new update was posted for project \'{project.name}\'.')
-            for emp in project.assigned_employees.all():
-                if emp.user:
-                    Notification.objects.create(user=emp.user, title='Project Update', message=f'A new update was posted for project \'{project.name}\'.')
-        elif updated_anything:
-            messages.success(request, 'Project details updated.')
-
-        return redirect('admin_project_detail', project_id=project.id)
-
-    return render(request, 'employees/admin_project_detail.html', {
-        'project': project,
-        'updates': updates,
-        'all_employees': all_employees
-    })
-
-@admin_only
-def remove_project_employee(request, project_id, employee_id):
-    project = get_object_or_404(Project, id=project_id)
-    emp = get_object_or_404(Employee, id=employee_id)
-    project.assigned_employees.remove(emp)
-
-    if emp.user and emp.user != request.user:
-        Notification.objects.create(user=emp.user, title='Project Removal', message=f'You have been removed from project \'{project.name}\'.')
-
-    messages.success(request, f'{emp.user.get_full_name()} removed from project.')
-    return redirect('admin_project_detail', project_id=project.id)
-
-@login_required
-def client_project_detail_view(request, project_id):
-    try:
-        client = request.user.client_profile
-    except Exception:
-        messages.error(request, 'Access denied. This area is for clients only.')
-        return redirect('client_login')
-
-    project = get_object_or_404(Project, id=project_id, client=client)
-    updates = project.updates.all().order_by('created_at')
-
-    if request.method == 'POST':
-        message = request.POST.get('message', '').strip()
-        if message:
-            ProjectUpdate.objects.create(
-                project=project,
-                author=request.user,
-                message=message,
-                is_admin=False
-            )
-            messages.success(request, 'Your reply has been posted.')
-            admins = Employee.objects.filter(is_company_admin=True)
-            for adm in admins:
-                if adm.user and adm.user != request.user:
-                    Notification.objects.create(user=adm.user, title='Client Project Update', message=f'Client \'{client.company_name}\' posted an update for project \'{project.name}\'.')
-            for emp in project.assigned_employees.all():
-                if emp.user and emp.user != request.user:
-                    Notification.objects.create(user=emp.user, title='Client Project Update', message=f'Client \'{client.company_name}\' posted an update for project \'{project.name}\'.')
-        return redirect('client_project_detail', project_id=project.id)
-
-    return render(request, 'employees/client_project_detail.html', {
-        'project': project,
-        'client': client,
-        'updates': updates
-    })
 
 @login_required
 def apply_shift_request(request):
@@ -2085,8 +2056,13 @@ def edit_shift(request, shift_id):
 def delete_shift(request, shift_id):
     shift = get_object_or_404(Shift, id=shift_id)
     if request.method == 'POST':
-        shift.delete()
-        messages.success(request, 'Shift deleted successfully.')
+        try:
+            shift.delete()
+            messages.success(request, 'Shift deleted successfully.')
+        except IntegrityError:
+            messages.error(request, f"Cannot delete shift '{shift.name}' because employees are currently assigned to it.")
+        except Exception as e:
+            messages.error(request, f"Error deleting shift: {str(e)}")
     return redirect('shift_list')
 
 import csv
@@ -2177,54 +2153,69 @@ def export_attendance_csv(request):
 @admin_only
 def add_asset(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        asset_id = request.POST.get('asset_id')
-        category = request.POST.get('category')
+        name = request.POST.get('name', '').strip()
+        asset_id = request.POST.get('asset_id', '').strip()
+        category = request.POST.get('category', '').strip()
         
-        if Asset.objects.filter(asset_id=asset_id).exists():
-            messages.error(request, 'An asset with this ID already exists.')
+        if not name or not asset_id:
+            messages.error(request, 'Asset Name and Asset ID are required.')
+            return redirect('/admin-dashboard/?tab=assets')
+
+        if Asset.objects.filter(asset_id__iexact=asset_id).exists():
+            messages.error(request, f"An asset with ID '{asset_id}' already exists.")
             return redirect('/admin-dashboard/?tab=assets')
             
         assigned_to_id = request.POST.get('assigned_to')
-        if assigned_to_id:
-            employee = get_object_or_404(Employee, id=assigned_to_id)
-            from datetime import date
-            Asset.objects.create(name=name, asset_id=asset_id, category=category, assigned_to=employee, status='Assigned', assigned_date=date.today())
-            messages.success(request, f'Asset added and assigned to {employee.user.username}.')
-        else:
-            Asset.objects.create(name=name, asset_id=asset_id, category=category)
-            messages.success(request, 'Asset added successfully.')
+        try:
+            if assigned_to_id:
+                employee = get_object_or_404(Employee, id=assigned_to_id)
+                from datetime import date
+                Asset.objects.create(name=name, asset_id=asset_id, category=category, assigned_to=employee, status='Assigned', assigned_date=date.today())
+                messages.success(request, f'Asset added and assigned to {employee.user.username}.')
+            else:
+                Asset.objects.create(name=name, asset_id=asset_id, category=category)
+                messages.success(request, 'Asset added successfully.')
+        except IntegrityError:
+            messages.error(request, f"An asset with ID '{asset_id}' already exists.")
+        except Exception as e:
+            messages.error(request, f"Error adding asset: {str(e)}")
     return redirect('/admin-dashboard/?tab=assets')
 
 @admin_only
 def assign_asset(request, asset_id):
     asset = get_object_or_404(Asset, id=asset_id)
     if request.method == 'POST':
-        employee_id = request.POST.get('employee_id')
-        if employee_id:
-            employee = get_object_or_404(Employee, id=employee_id)
-            asset.assigned_to = employee
-            asset.status = 'Assigned'
-            from datetime import date
-            asset.assigned_date = date.today()
-            asset.save()
-            messages.success(request, f'Asset {asset.name} assigned to {employee.user.username}.')
-        else:
-            asset.assigned_to = None
-            asset.status = 'Available'
-            asset.assigned_date = None
-            from datetime import date
-            asset.return_date = date.today()
-            asset.save()
-            messages.success(request, f'Asset {asset.name} returned.')
+        try:
+            employee_id = request.POST.get('employee_id')
+            if employee_id:
+                employee = get_object_or_404(Employee, id=employee_id)
+                asset.assigned_to = employee
+                asset.status = 'Assigned'
+                from datetime import date
+                asset.assigned_date = date.today()
+                asset.save()
+                messages.success(request, f'Asset {asset.name} assigned to {employee.user.username}.')
+            else:
+                asset.assigned_to = None
+                asset.status = 'Available'
+                asset.assigned_date = None
+                from datetime import date
+                asset.return_date = date.today()
+                asset.save()
+                messages.success(request, f'Asset {asset.name} returned.')
+        except Exception as e:
+            messages.error(request, f"Error updating asset: {str(e)}")
     return redirect('/admin-dashboard/?tab=assets')
 
 @admin_only
 def delete_asset(request, asset_id):
     asset = get_object_or_404(Asset, id=asset_id)
     if request.method == 'POST':
-        asset.delete()
-        messages.success(request, 'Asset deleted successfully.')
+        try:
+            asset.delete()
+            messages.success(request, 'Asset deleted successfully.')
+        except Exception as e:
+            messages.error(request, f"Error deleting asset: {str(e)}")
     return redirect('/admin-dashboard/?tab=assets')
 
 # Expense Management Views
@@ -2259,13 +2250,17 @@ def submit_expense(request):
     if request.method == 'POST':
         try:
             employee = request.user.employee
-            title = request.POST.get('title')
-            amount = request.POST.get('amount')
-            category = request.POST.get('category')
+            title = request.POST.get('title', '').strip()
+            amount = to_float(request.POST.get('amount'), 0.0)
+            category = request.POST.get('category', '').strip()
             receipt = request.FILES.get('receipt')
             prescription = request.FILES.get('prescription')
             medical_report = request.FILES.get('medical_report')
             
+            if not title or amount <= 0:
+                messages.error(request, "Please provide a valid title and amount.")
+                return redirect('employee_dashboard')
+
             Expense.objects.create(
                 employee=employee,
                 title=title,
@@ -2285,71 +2280,115 @@ def submit_expense(request):
 @admin_only
 def add_department(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
         head_id = request.POST.get('head_id')
         
-        department = Department(name=name, description=description)
-        if head_id:
-            head = get_object_or_404(Employee, id=head_id)
-            department.head = head
-        department.save()
-        messages.success(request, 'Department added successfully.')
+        if not name:
+            messages.error(request, "Department name is required.")
+            return redirect('/admin-dashboard/?tab=departments')
+
+        try:
+            department = Department(name=name, description=description)
+            if head_id:
+                head = get_object_or_404(Employee, id=head_id)
+                department.head = head
+            department.save()
+            messages.success(request, 'Department added successfully.')
+        except IntegrityError:
+            messages.error(request, f"Department '{name}' already exists.")
+        except Exception as e:
+            messages.error(request, f"Error adding department: {str(e)}")
     return redirect('/admin-dashboard/?tab=departments')
 
 @admin_only
 def edit_department(request, dept_id):
     department = get_object_or_404(Department, id=dept_id)
     if request.method == 'POST':
-        department.name = request.POST.get('name')
-        department.description = request.POST.get('description')
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
         head_id = request.POST.get('head_id')
-        if head_id:
-            department.head = get_object_or_404(Employee, id=head_id)
-        else:
-            department.head = None
-        department.save()
-        messages.success(request, 'Department updated successfully.')
+        if not name:
+            messages.error(request, "Department name is required.")
+            return redirect('/admin-dashboard/?tab=departments')
+        try:
+            department.name = name
+            department.description = description
+            if head_id:
+                department.head = get_object_or_404(Employee, id=head_id)
+            else:
+                department.head = None
+            department.save()
+            messages.success(request, 'Department updated successfully.')
+        except IntegrityError:
+            messages.error(request, f"A department named '{name}' already exists.")
+        except Exception as e:
+            messages.error(request, f"Error updating department: {str(e)}")
     return redirect('/admin-dashboard/?tab=departments')
 
 @admin_only
 def delete_department(request, dept_id):
     department = get_object_or_404(Department, id=dept_id)
     if request.method == 'POST':
-        department.delete()
-        messages.success(request, 'Department deleted successfully.')
+        try:
+            department.delete()
+            messages.success(request, 'Department deleted successfully.')
+        except IntegrityError:
+            messages.error(request, f"Cannot delete department '{department.name}' because employees or designations are assigned to it.")
+        except Exception as e:
+            messages.error(request, f"Error deleting department: {str(e)}")
     return redirect('/admin-dashboard/?tab=departments')
 
 @admin_only
 def add_designation(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        name = request.POST.get('name', '').strip()
         dept_id = request.POST.get('department_id')
-        base_salary = request.POST.get('base_salary') or 0.0
+        base_salary = to_float(request.POST.get('base_salary'), 0.0)
         
+        if not name or not dept_id:
+            messages.error(request, "Designation name and department are required.")
+            return redirect('/admin-dashboard/?tab=designations')
+
         department = get_object_or_404(Department, id=dept_id)
-        Designation.objects.create(name=name, department=department, base_salary=base_salary)
-        messages.success(request, 'Designation added successfully.')
+        try:
+            Designation.objects.create(name=name, department=department, base_salary=base_salary)
+            messages.success(request, 'Designation added successfully.')
+        except IntegrityError:
+            messages.error(request, f"Designation '{name}' already exists in department '{department.name}'.")
+        except Exception as e:
+            messages.error(request, f"Error adding designation: {str(e)}")
     return redirect('/admin-dashboard/?tab=designations')
 
 @admin_only
 def edit_designation(request, desig_id):
     designation = get_object_or_404(Designation, id=desig_id)
     if request.method == 'POST':
-        designation.name = request.POST.get('name')
-        dept_id = request.POST.get('department_id')
-        designation.department = get_object_or_404(Department, id=dept_id)
-        designation.base_salary = request.POST.get('base_salary') or 0.0
-        designation.save()
-        messages.success(request, 'Designation updated successfully.')
+        try:
+            designation.name = request.POST.get('name', '').strip()
+            dept_id = request.POST.get('department_id')
+            if dept_id:
+                designation.department = get_object_or_404(Department, id=dept_id)
+            designation.base_salary = to_float(request.POST.get('base_salary'), 0.0)
+            designation.save()
+            messages.success(request, 'Designation updated successfully.')
+        except IntegrityError:
+            messages.error(request, "A designation with this name already exists in this department.")
+        except Exception as e:
+            messages.error(request, f"Error updating designation: {str(e)}")
     return redirect('/admin-dashboard/?tab=designations')
 
 @admin_only
 def delete_designation(request, desig_id):
     designation = get_object_or_404(Designation, id=desig_id)
     if request.method == 'POST':
-        designation.delete()
-        messages.success(request, 'Designation deleted successfully.')
+        try:
+            designation.delete()
+            messages.success(request, 'Designation deleted successfully.')
+        except IntegrityError:
+            messages.error(request, f"Cannot delete designation '{designation.name}' because employees are currently assigned to it.")
+        except Exception as e:
+            messages.error(request, f"Error deleting designation: {str(e)}")
     return redirect('/admin-dashboard/?tab=designations')
 
 DEFAULT_LETTER_TEMPLATES = {
