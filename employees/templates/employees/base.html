@@ -192,16 +192,31 @@
 
         /* Forms */
         label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--text-muted); }
-        input, select, textarea {
+        input, select, textarea, .form-control {
             width: 100%; padding: 0.65rem 1rem;
             background: #ffffff; border: 1.5px solid #64748b;
             border-radius: 8px; font-size: 0.9rem; color: var(--text-main);
             transition: all 0.2s; font-family: 'Outfit', sans-serif;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            line-height: 1.5;
         }
-        input:focus, select:focus, textarea:focus {
+        input:focus, select:focus, textarea:focus, .form-control:focus {
             outline: none; border-color: var(--primary); background: #ffffff;
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+        select, select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.85rem center;
+            background-size: 1rem 1rem;
+            padding-right: 2.25rem !important;
+            min-height: 42px;
+            cursor: pointer;
         }
         
         /* Buttons */
@@ -528,6 +543,23 @@
                     currentY = 0;
                 }, { passive: true });
             })();
+
+            // Global Modal Scroll & Dismiss Handlers
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-backdrop, .modal-overlay, .modal').forEach(function(m) {
+                        m.style.display = 'none';
+                    });
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (e.target && (e.target.classList.contains('modal-backdrop') || e.target.classList.contains('modal-overlay'))) {
+                    e.target.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
         });
     </script>
     <!-- Bootstrap 5 JavaScript Bundle -->

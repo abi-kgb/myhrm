@@ -2089,18 +2089,16 @@
 
     <!-- ================== ADD PERFORMANCE REVIEW MODAL ================== -->
     <div id="addReviewModal" class="modal-backdrop" style="display: none;">
-        <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; overflow: hidden; width: 100%; max-width: 500px;">
-            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);">
+        <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; display: flex; flex-direction: column; max-height: calc(100vh - 3rem); width: 100%; max-width: 520px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; margin: auto;">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
                 <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Submit Performance Review</h2>
-                <button type="button" class="btn-close" onclick="document.getElementById('addReviewModal').style.display='none'" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addReviewModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
             </div>
-            <form action="{% url 'add_performance_review' %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem;">
+            <form action="{% url 'add_performance_review' %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                 {% csrf_token %}
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main);">Select Employee</label>
-                    <select name="employee_id" required class="form-control" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit;">
+                    <select name="employee_id" required class="form-control" style="width: 100%; padding: 0.75rem 2.25rem 0.75rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit; min-height: 44px; font-size: 0.9rem; line-height: 1.5; appearance: none; -webkit-appearance: none; background-color: #fff; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
                         <option value="">-- Choose Employee --</option>
                         {% for emp in employees_list %}
                         <option value="{{ emp.id }}">{{ emp.user.get_full_name|default:emp.user.username }}</option>
@@ -2109,11 +2107,11 @@
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main);">Review Period (e.g. Q3 2026)</label>
-                    <input type="text" name="review_period" required class="form-control" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit;">
+                    <input type="text" name="review_period" required class="form-control" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main);">Rating (1.0 to 5.0)</label>
-                    <input type="number" step="0.1" min="1" max="5" name="rating" required class="form-control" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit;">
+                    <input type="number" step="0.1" min="1" max="5" name="rating" required class="form-control" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main);">Performance Goals</label>
@@ -2123,8 +2121,8 @@
                     <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main);">Feedback</label>
                     <textarea name="feedback" rows="3" class="form-control" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-family: inherit; resize: vertical;"></textarea>
                 </div>
-                <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
-                    <button type="button" onclick="document.getElementById('addReviewModal').style.display='none'" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; background: #e2e8f0; font-weight: 600; cursor: pointer;">Cancel</button>
+                <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('addReviewModal').style.display='none'; document.body.style.overflow='auto';" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; font-weight: 600; cursor: pointer;">Cancel</button>
                     <button type="submit" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Submit Review</button>
                 </div>
             </form>
@@ -2190,23 +2188,26 @@
                         
                         <!-- Assign/Return Modal -->
                         <div id="assignAssetModal{{ asset.id }}" class="modal-backdrop" style="display: none;">
-                            <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; overflow: hidden; width: 100%; max-width: 400px;">
-                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);">
+                            <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; display: flex; flex-direction: column; max-height: calc(100vh - 3rem); width: 100%; max-width: 440px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; margin: auto;">
+                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
                                     <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Assign {{ asset.name }}</h2>
-                                    <button type="button" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none';" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);"><i class="fas fa-times"></i></button>
+                                    <button type="button" class="modal-close-btn" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
                                 </div>
-                                <form action="{% url 'assign_asset' asset.id %}" method="POST" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                                <form action="{% url 'assign_asset' asset.id %}" method="POST" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                                     {% csrf_token %}
                                     <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                                         <label style="font-weight: 600; font-size: 0.85rem;">Assign To Employee</label>
-                                        <select name="employee_id" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                                        <select name="employee_id" class="form-control" style="padding: 0.75rem 2.25rem 0.75rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5; appearance: none; -webkit-appearance: none; background-color: #fff; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
                                             <option value="">-- Unassign (Return Asset) --</option>
                                             {% for emp in employees_list %}
                                             <option value="{{ emp.id }}" {% if asset.assigned_to and asset.assigned_to.id == emp.id %}selected{% endif %}>{{ emp.user.get_full_name|default:emp.user.username }} ({{ emp.employee_id_code }})</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <button type="submit" style="padding: 0.75rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer; margin-top: 1rem;">Update Status</button>
+                                    <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 0.5rem; flex-shrink: 0;">
+                                        <button type="button" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none'; document.body.style.overflow='auto';" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; color: var(--text-main); font-weight: 600; cursor: pointer;">Cancel</button>
+                                        <button type="submit" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Update Status</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -2222,24 +2223,24 @@
 
     <!-- Add Asset Modal -->
     <div id="addAssetModal" class="modal-backdrop" style="display: none;">
-        <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; overflow: hidden; width: 100%; max-width: 400px;">
-            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);">
+        <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; display: flex; flex-direction: column; max-height: calc(100vh - 3rem); width: 100%; max-width: 440px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; margin: auto;">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
                 <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Add New Asset</h2>
-                <button type="button" onclick="document.getElementById('addAssetModal').style.display='none'; document.body.style.overflow='auto';" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);"><i class="fas fa-times"></i></button>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addAssetModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
             </div>
-            <form action="{% url 'add_asset' %}" method="POST" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+            <form action="{% url 'add_asset' %}" method="POST" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                 {% csrf_token %}
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem;">Asset Name</label>
-                    <input type="text" name="name" required placeholder="e.g. MacBook Pro 14" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <input type="text" name="name" required placeholder="e.g. MacBook Pro 14" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem;">Asset ID / Serial</label>
-                    <input type="text" name="asset_id" required placeholder="e.g. AST-001" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <input type="text" name="asset_id" required placeholder="e.g. AST-001" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem;">Category</label>
-                    <select name="category" required class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <select name="category" required class="form-control" style="padding: 0.75rem 2.25rem 0.75rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5; appearance: none; -webkit-appearance: none; background-color: #fff; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
                         <option value="Electronics">Electronics</option>
                         <option value="Furniture">Furniture</option>
                         <option value="ID/Access Card">ID/Access Card</option>
@@ -2249,14 +2250,17 @@
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
                     <label style="font-weight: 600; font-size: 0.85rem;">Assign To (Optional)</label>
-                    <select name="assigned_to" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;">
+                    <select name="assigned_to" class="form-control" style="padding: 0.75rem 2.25rem 0.75rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5; appearance: none; -webkit-appearance: none; background-color: #fff; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
                         <option value="">-- Leave Unassigned --</option>
                         {% for emp in employees_list %}
                         <option value="{{ emp.id }}">{{ emp.user.get_full_name|default:emp.user.username }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <button type="submit" style="padding: 0.75rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer; margin-top: 1rem;">Add Asset</button>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 0.5rem; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('addAssetModal').style.display='none'; document.body.style.overflow='auto';" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; color: var(--text-main); font-weight: 600; cursor: pointer;">Cancel</button>
+                    <button type="submit" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Add Asset</button>
+                </div>
             </form>
         </div>
     </div>
@@ -2379,9 +2383,12 @@
                         
                         <!-- Edit Dept Modal -->
                         <div id="editDeptModal{{ dept.id }}" class="modal-backdrop" style="display: none;">
-                            <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 400px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                                <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-main);">Edit Department</h2>
-                                <form action="{% url 'edit_department' dept.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                                    <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Edit Department</h2>
+                                    <button type="button" class="modal-close-btn" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+                                </div>
+                                <form action="{% url 'edit_department' dept.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label>Department Name</label>
@@ -2400,8 +2407,8 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
-                                        <button type="button" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
+                                        <button type="button" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
                                         <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Save Changes</button>
                                     </div>
                                 </form>
@@ -2419,9 +2426,12 @@
     
     <!-- Add Dept Modal -->
     <div id="addDeptModal" class="modal-backdrop" style="display: none;">
-        <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 400px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-main);">Add New Department</h2>
-            <form action="{% url 'add_department' %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Add New Department</h2>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addDeptModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+            </div>
+            <form action="{% url 'add_department' %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                 {% csrf_token %}
                 <div class="form-group">
                     <label>Department Name</label>
@@ -2440,8 +2450,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
-                    <button type="button" onclick="document.getElementById('addDeptModal').style.display='none';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('addDeptModal').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
                     <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Create Department</button>
                 </div>
             </form>
@@ -2489,9 +2499,12 @@
                         
                         <!-- Edit Desig Modal -->
                         <div id="editDesigModal{{ desig.id }}" class="modal-backdrop" style="display: none;">
-                            <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 400px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                                <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-main);">Edit Designation</h2>
-                                <form action="{% url 'edit_designation' desig.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                                    <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Edit Designation</h2>
+                                    <button type="button" class="modal-close-btn" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+                                </div>
+                                <form action="{% url 'edit_designation' desig.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label>Designation Title</label>
@@ -2509,8 +2522,8 @@
                                         <label>Base Salary</label>
                                         <input type="number" step="0.01" name="base_salary" value="{{ desig.base_salary }}" class="form-control" style="width: 100%;">
                                     </div>
-                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
-                                        <button type="button" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
+                                        <button type="button" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
                                         <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Save Changes</button>
                                     </div>
                                 </form>
@@ -2528,9 +2541,12 @@
 
     <!-- Add Desig Modal -->
     <div id="addDesigModal" class="modal-backdrop" style="display: none;">
-        <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 400px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-            <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-main);">Add New Designation</h2>
-            <form action="{% url 'add_designation' %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Add New Designation</h2>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addDesigModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+            </div>
+            <form action="{% url 'add_designation' %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
                 {% csrf_token %}
                 <div class="form-group">
                     <label>Designation Title</label>
@@ -2549,8 +2565,8 @@
                     <label>Base Salary</label>
                     <input type="number" step="0.01" name="base_salary" value="0.0" class="form-control" style="width: 100%;">
                 </div>
-                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
-                    <button type="button" onclick="document.getElementById('addDesigModal').style.display='none';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('addDesigModal').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
                     <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Create Designation</button>
                 </div>
             </form>
@@ -2695,11 +2711,11 @@
     </div>
     
     <!-- Add Event Modal -->
-    <div id="addEventModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-        <div class="modal-content" style="background:var(--card-bg); width:450px; border-radius:12px; padding:2rem; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    <div id="addEventModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; overflow-y:auto; padding:1.5rem 1rem;">
+        <div class="modal-content" style="background:var(--card-bg); width:100%; max-width:450px; max-height:calc(100vh - 3rem); overflow-y:auto; border-radius:12px; padding:2rem; box-shadow:0 10px 25px rgba(0,0,0,0.2); margin:auto;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
                 <h2 style="font-size:1.25rem;">Add Calendar Event</h2>
-                <button type="button" onclick="document.getElementById('addEventModal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addEventModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
             </div>
             <form method="POST" action="{% url 'add_calendar_event' %}">
                 {% csrf_token %}
@@ -2741,7 +2757,7 @@
                     <textarea name="description" rows="3" style="width:100%; padding:0.75rem; border:1px solid var(--border); border-radius:6px; resize:vertical;"></textarea>
                 </div>
                 <div style="display:flex; justify-content:flex-end; gap:1rem;">
-                    <button type="button" class="btn" style="background:#f1f5f9; color:#475569;" onclick="document.getElementById('addEventModal').style.display='none'">Cancel</button>
+                    <button type="button" class="btn" style="background:#f1f5f9; color:#475569;" onclick="document.getElementById('addEventModal').style.display='none'; document.body.style.overflow='auto';">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Event</button>
                 </div>
             </form>
@@ -2749,11 +2765,11 @@
     </div>
 
     <!-- Add Holiday Modal -->
-    <div id="addHolidayModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-        <div class="modal-content" style="background:var(--card-bg); width:450px; border-radius:12px; padding:2rem; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    <div id="addHolidayModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; overflow-y:auto; padding:1.5rem 1rem;">
+        <div class="modal-content" style="background:var(--card-bg); width:100%; max-width:450px; max-height:calc(100vh - 3rem); overflow-y:auto; border-radius:12px; padding:2rem; box-shadow:0 10px 25px rgba(0,0,0,0.2); margin:auto;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
                 <h2 style="font-size:1.25rem;">➕ Add Holiday / Weekoff</h2>
-                <button type="button" onclick="document.getElementById('addHolidayModal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted); font-weight:bold;">&times;</button>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addHolidayModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
             </div>
             <form method="POST" action="{% url 'holidays' %}" class="admin-form">
                 {% csrf_token %}
@@ -2773,7 +2789,7 @@
                     <input type="date" name="date" required style="width:100%; padding:0.75rem; border:1px solid var(--border); border-radius:6px;">
                 </div>
                 <div style="display:flex; justify-content:flex-end; gap:1rem;">
-                    <button type="button" class="btn" style="background:#f1f5f9; color:#475569;" onclick="document.getElementById('addHolidayModal').style.display='none'">Cancel</button>
+                    <button type="button" class="btn" style="background:#f1f5f9; color:#475569;" onclick="document.getElementById('addHolidayModal').style.display='none'; document.body.style.overflow='auto';">Cancel</button>
                     <button type="submit" class="btn btn-primary">Add Holiday</button>
                 </div>
             </form>
@@ -2781,11 +2797,11 @@
     </div>
 
     <!-- Add Personal Private Note Modal -->
-    <div id="addPersonalNoteModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
-        <div class="modal-content" style="background:var(--card-bg); width:450px; border-radius:12px; padding:1.75rem; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    <div id="addPersonalNoteModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; overflow-y:auto; padding:1.5rem 1rem;">
+        <div class="modal-content" style="background:var(--card-bg); width:100%; max-width:450px; max-height:calc(100vh - 3rem); overflow-y:auto; border-radius:12px; padding:1.75rem; box-shadow:0 10px 25px rgba(0,0,0,0.2); margin:auto;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
                 <h2 style="font-size:1.15rem; font-weight:700;">🔒 Add Private Calendar Note</h2>
-                <button type="button" onclick="document.getElementById('addPersonalNoteModal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('addPersonalNoteModal').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
             </div>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">
                 This note is confidential to your personal account. No managers, admins, or coworkers will see it.
