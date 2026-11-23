@@ -133,6 +133,7 @@ The included MSSQL database (`myhrm_database.sql`) comes with pre-configured acc
 | **Employee Portal** | [`/login/`](http://127.0.0.1:8000/login/) | `arun` | `arun` | Employee account (Engineering / Manager) |
 | **Employee Portal** | [`/login/`](http://127.0.0.1:8000/login/) | `abi` | `abi` | Employee account (Frontend Dev) |
 | **Client Portal** | [`/client-login/`](http://127.0.0.1:8000/client-login/) | `client1` | `client1` | Client account (*Acme Global Corp* / John Doe) |
+| **Client Portal** | [`/client-login/`](http://127.0.0.1:8000/client-login/) | `technoworld` | `technoworld` | Client account (*technoworld* / arunkk) |
 
 > 💡 **Need a custom admin account?** You can create one anytime with:
 > ```bash
