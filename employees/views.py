@@ -344,21 +344,54 @@ def employee_dashboard(request):
     attendance_history = paginator.get_page(page_number)
     
 
+    goals = GoalTracking.objects.all().order_by('-created_at')
+    projects = Project.objects.filter(assigned_employees=employee).order_by('-created_at')
+
+    # 1. Company Holidays
     holidays = Holiday.objects.all().order_by('date')
     events = []
     for h in holidays:
         events.append({
-            'title': h.name,
+            'title': f"🎉 {h.name}",
             'start': h.date.isoformat(),
+            'allDay': True,
             'color': '#2563eb' if getattr(h, 'type', 'Holiday') == 'Holiday' else '#94a3b8',
             'extendedProps': {
                 'type': getattr(h, 'type', 'Holiday')
             }
         })
-    events_json = json.dumps(events, cls=DjangoJSONEncoder)
 
-    goals = GoalTracking.objects.all().order_by('-created_at')
-    projects = Project.objects.filter(assigned_employees=employee).order_by('-created_at')
+    # 2. Company Events
+    try:
+        custom_events = Event.objects.all()
+        for e in custom_events:
+            events.append({
+                'title': f"📌 {e.title}",
+                'start': e.start_time.isoformat(),
+                'end': e.end_time.isoformat() if e.end_time else None,
+                'allDay': False,
+                'color': '#3b82f6' if getattr(e, 'event_type', '') == 'Meeting' else '#8b5cf6',
+                'extendedProps': {
+                    'type': getattr(e, 'event_type', 'Event')
+                }
+            })
+    except Exception:
+        pass
+
+    # 3. Project Deadlines
+    for p in projects:
+        if p.deadline:
+            events.append({
+                'title': f"🚀 {p.name} (Deadline)",
+                'start': p.deadline.isoformat(),
+                'allDay': True,
+                'color': '#10b981',
+                'extendedProps': {
+                    'type': 'Project Deadline'
+                }
+            })
+
+    events_json = json.dumps(events, cls=DjangoJSONEncoder)
 
     context = {
         'projects': projects,
@@ -1785,17 +1818,50 @@ def client_dashboard_view(request):
         return redirect('client_login')
     projects = Project.objects.filter(client=client).order_by('-created_at')
 
+    # 1. Company Holidays
     holidays = Holiday.objects.all().order_by('date')
     events = []
     for h in holidays:
         events.append({
-            'title': h.name,
+            'title': f"🎉 {h.name}",
             'start': h.date.isoformat(),
+            'allDay': True,
             'color': '#2563eb' if getattr(h, 'type', 'Holiday') == 'Holiday' else '#94a3b8',
             'extendedProps': {
                 'type': getattr(h, 'type', 'Holiday')
             }
         })
+
+    # 2. Company Events
+    try:
+        custom_events = Event.objects.all()
+        for e in custom_events:
+            events.append({
+                'title': f"📌 {e.title}",
+                'start': e.start_time.isoformat(),
+                'end': e.end_time.isoformat() if e.end_time else None,
+                'allDay': False,
+                'color': '#3b82f6' if getattr(e, 'event_type', '') == 'Meeting' else '#8b5cf6',
+                'extendedProps': {
+                    'type': getattr(e, 'event_type', 'Event')
+                }
+            })
+    except Exception:
+        pass
+
+    # 3. Project Deadlines for this client
+    for p in projects:
+        if p.deadline:
+            events.append({
+                'title': f"🚀 Deadline: {p.name}",
+                'start': p.deadline.isoformat(),
+                'allDay': True,
+                'color': '#10b981',
+                'extendedProps': {
+                    'type': 'Project Deadline'
+                }
+            })
+
     events_json = json.dumps(events, cls=DjangoJSONEncoder)
     
     goals = GoalTracking.objects.filter(project__client=client).order_by('-created_at')
