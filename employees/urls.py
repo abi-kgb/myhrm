@@ -74,6 +74,7 @@ urlpatterns = [
     path('admin-dashboard/clients/<int:client_id>/credentials/', views.set_client_credentials_view, name='set_client_credentials'),
     path('admin-dashboard/goals/', views.goals_view, name='goals'),
     path('admin-dashboard/projects/', views.projects_view, name='projects'),
+    path('admin-dashboard/projects/<int:project_id>/delete/', views.delete_project_view, name='delete_project'),
     path('admin-dashboard/projects/update/<int:project_id>/', views.update_project_progress, name='update_project'),
     path('admin-dashboard/projects/edit/<int:project_id>/', views.edit_project, name='edit_project'),
     path('admin-dashboard/projects/<int:project_id>/', views.admin_project_detail_view, name='admin_project_detail'),

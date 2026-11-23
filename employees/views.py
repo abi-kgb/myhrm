@@ -1782,6 +1782,18 @@ def edit_project(request, project_id):
         messages.success(request, f"Project '{project.name}' updated successfully.")
     return redirect('projects')
 
+@admin_only
+def delete_project_view(request, project_id):
+    if request.method == 'POST':
+        project = get_object_or_404(Project, id=project_id)
+        name = project.name
+        try:
+            project.delete()
+            messages.success(request, f"Project '{name}' deleted successfully.")
+        except Exception as e:
+            messages.error(request, f"Error deleting project: {str(e)}")
+    return redirect('projects')
+
 # ---- Client Portal ----
 
 def client_login(request):
