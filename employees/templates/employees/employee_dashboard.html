@@ -231,19 +231,27 @@
         font-size: 0.95rem;
     }
 
-    /* Leave Circular Progress Charts */
+    /* Leave & Attendance Overview Cards - 5 Cards in a Horizontal Row */
     .leave-circular-container {
         grid-column: 1 / -1;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 400px));
-        gap: 1.5rem;
-        margin-bottom: 0.5rem;
-        justify-content: start;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.85rem;
+        margin-bottom: 1.25rem;
+        align-items: stretch;
+    }
+
+    @media (max-width: 1100px) {
+        .leave-circular-container {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.85rem;
+        }
     }
 
     @media (max-width: 640px) {
         .leave-circular-container {
             grid-template-columns: 1fr;
+            gap: 0.75rem;
         }
     }
 
@@ -252,54 +260,71 @@
         border: 1px solid var(--border);
         border-radius: 1rem;
         box-shadow: var(--shadow-sm);
-        padding: 1.5rem;
+        padding: 1.1rem 0.9rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        transition: transform 0.2s, box-shadow 0.2s;
+        gap: 0.5rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .leave-ring-card:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-md);
+        border-color: var(--border-hover, var(--primary));
     }
 
     .leave-ring-details {
         text-align: left;
+        min-width: 0;
+        flex: 1 1 auto;
     }
 
     .leave-ring-title {
-        font-size: 0.8rem;
+        font-size: 0.72rem;
         color: var(--text-muted);
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.04em;
         margin-bottom: 0.25rem;
         display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .leave-ring-val {
-        font-size: 1.6rem;
+        font-size: 1.35rem;
         font-weight: 800;
         color: var(--text-main);
+        line-height: 1.15;
+        display: block;
+        white-space: nowrap;
     }
 
     .leave-ring-sub {
-        font-size: 0.8rem;
+        font-size: 0.72rem;
         color: var(--text-muted);
         margin-top: 0.25rem;
         display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .svg-ring-container {
-        width: 80px;
-        height: 80px;
+        width: 58px;
+        height: 58px;
         position: relative;
+        flex-shrink: 0;
     }
 
     .svg-ring-chart {
-        width: 80px;
-        height: 80px;
+        width: 58px;
+        height: 58px;
+        display: block;
     }
 
     .svg-ring-bg {
@@ -342,21 +367,26 @@
     .attendance-status {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
-        padding: 1.5rem 0;
-        text-align: center;
+        padding: 0;
+        text-align: left;
+        width: 100%;
+        min-width: 0;
     }
 
     .status-badge {
-        font-size: 1rem;
+        font-size: 0.76rem;
         font-weight: 700;
-        padding: 0.5rem 1.25rem;
-        border-radius: 9999px;
-        margin-bottom: 1rem;
+        padding: 0.35rem 0.6rem;
+        border-radius: 6px;
+        margin-bottom: 0.25rem;
         display: inline-flex;
         align-items: center;
         gap: 0.35rem;
+        white-space: nowrap;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .status-badge.missing {
@@ -1005,63 +1035,66 @@
                 </div>
 
                 <!-- Shift Details -->
-                <div class="leave-ring-card" style="display:flex; flex-direction:column; justify-content:center; padding: 1.5rem; text-align: left;">
-                    <span class="leave-ring-title" style="margin-bottom:1rem; font-weight:800; color:var(--text-main); font-size:1.1rem;">Assigned Shift</span>
+                <div class="leave-ring-card" style="flex-direction: column; align-items: flex-start; justify-content: space-between; text-align: left;">
+                    <span class="leave-ring-title">Assigned Shift</span>
                     {% if employee.shift %}
-                        <span style="font-size: 1.35rem; font-weight: 800; color: var(--primary);">{{ employee.shift.name }}</span>
-                        <div style="display:flex; align-items:center; gap: 0.5rem; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.95rem; font-weight:600;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            {{ employee.shift.start_time|time:"h:i A" }} - {{ employee.shift.end_time|time:"h:i A" }}
-                        </div>
-                        <div style="margin-top: 0.75rem;">
-                            <span style="font-size: 0.8rem; font-weight:700; color: var(--text-muted); display:inline-block; padding:0.3rem 0.6rem; background:var(--bg-secondary); border-radius:6px; border:1px solid var(--border);">{{ employee.shift.working_days }}</span>
+                        <div style="width: 100%; min-width: 0;">
+                            <span class="leave-ring-val" style="font-size: 1.15rem; color: var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ employee.shift.name }}</span>
+                            <div style="display:flex; align-items:center; gap: 0.35rem; margin-top: 0.25rem; color: var(--text-muted); font-size: 0.75rem; font-weight:600; white-space: nowrap;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span>{{ employee.shift.start_time|time:"h:i A" }} - {{ employee.shift.end_time|time:"h:i A" }}</span>
+                            </div>
+                            <div style="margin-top: 0.3rem;">
+                                <span style="font-size: 0.68rem; font-weight:700; color: var(--text-muted); display:inline-block; padding:0.15rem 0.45rem; background:var(--bg-secondary); border-radius:4px; border:1px solid var(--border); white-space: nowrap;">{{ employee.shift.working_days }}</span>
+                            </div>
                         </div>
                     {% else %}
-                        <span style="font-size: 1rem; color: var(--text-muted); font-weight:600;">No Shift Assigned</span>
+                        <div style="margin: auto 0; text-align: left;">
+                            <span style="font-size: 1.05rem; color: var(--text-muted); font-weight:700; display: block; line-height: 1.2;">No Shift</span>
+                            <span class="leave-ring-sub" style="margin-top: 0.25rem;">Standard hours</span>
+                        </div>
                     {% endif %}
                 </div>
 
                 <!-- Attendance Clock Action Card -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Daily Attendance</h2>
-                    </div>
-                    <div class="attendance-status">
+                <div class="leave-ring-card" style="flex-direction: column; align-items: flex-start; justify-content: space-between; text-align: left;">
+                    <span class="leave-ring-title">Daily Attendance</span>
+                    <div class="attendance-status" style="margin: auto 0; width: 100%;">
                         {% if not attendance %}
                         <span class="status-badge missing">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                style="margin-right:0.25rem;">
+                                style="flex-shrink: 0;">
                                 <circle cx="12" cy="12" r="10" />
                                 <line x1="12" y1="8" x2="12" y2="12" />
                                 <line x1="12" y1="16" x2="12.01" y2="16" />
                             </svg>
-                            Not Clocked In Today
+                            <span>Not Clocked In</span>
                         </span>
+                        <span class="leave-ring-sub">Action required today</span>
                         {% elif not attendance.clock_out %}
                         <span class="status-badge active">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
-                                style="margin-right:0.25rem;">
+                                style="flex-shrink: 0;">
                                 <circle cx="12" cy="12" r="10" />
                                 <polyline points="12 6 12 12 16 14" />
                             </svg>
-                            Active: Clocked In {{ attendance.clock_in|time:"H:i" }}
+                            <span>In: {{ attendance.clock_in|time:"H:i" }}</span>
                         </span>
+                        <span class="leave-ring-sub" style="color: var(--success); font-weight: 600;">Shift In Progress</span>
                         {% else %}
                         <span class="status-badge completed">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
-                                style="margin-right:0.25rem; color:#059669;">
+                                style="flex-shrink: 0; color:#059669;">
                                 <polyline points="20 6 9 17 4 12" />
                             </svg>
-                            Shift Completed
+                            <span>Completed</span>
                         </span>
-                        <p style="font-size:0.85rem; color:var(--text-muted); line-height: 1.4;">
-                            Clock In: <strong>{{ attendance.clock_in|time:"H:i" }}</strong><br>
-                            Clock Out: <strong>{{ attendance.clock_out|time:"H:i" }}</strong><br>
-                            Duration: <strong>{{ attendance.total_hours|default:"-" }} hours</strong>
-                        </p>
+                        <span class="leave-ring-sub">
+                            {{ attendance.total_hours|default:"-" }} hrs ({{ attendance.clock_in|time:"H:i" }}-{{ attendance.clock_out|time:"H:i" }})
+                        </span>
                         {% endif %}
                     </div>
                 </div>
