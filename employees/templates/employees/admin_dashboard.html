@@ -2185,32 +2185,6 @@
                                 </div>
                             </td>
                         </tr>
-                        
-                        <!-- Assign/Return Modal -->
-                        <div id="assignAssetModal{{ asset.id }}" class="modal-backdrop" style="display: none;">
-                            <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; display: flex; flex-direction: column; max-height: calc(100vh - 3rem); width: 100%; max-width: 440px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; margin: auto;">
-                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
-                                    <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Assign {{ asset.name }}</h2>
-                                    <button type="button" class="modal-close-btn" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
-                                </div>
-                                <form action="{% url 'assign_asset' asset.id %}" method="POST" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
-                                    {% csrf_token %}
-                                    <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                        <label style="font-weight: 600; font-size: 0.85rem;">Assign To Employee</label>
-                                        <select name="employee_id" class="form-control" style="padding: 0.75rem 2.25rem 0.75rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5; appearance: none; -webkit-appearance: none; background-color: #fff; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
-                                            <option value="">-- Unassign (Return Asset) --</option>
-                                            {% for emp in employees_list %}
-                                            <option value="{{ emp.id }}" {% if asset.assigned_to and asset.assigned_to.id == emp.id %}selected{% endif %}>{{ emp.user.get_full_name|default:emp.user.username }} ({{ emp.employee_id_code }})</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 0.5rem; flex-shrink: 0;">
-                                        <button type="button" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none'; document.body.style.overflow='auto';" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; color: var(--text-main); font-weight: 600; cursor: pointer;">Cancel</button>
-                                        <button type="submit" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Update Status</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -2264,6 +2238,34 @@
             </form>
         </div>
     </div>
+
+    <!-- Assign/Return Modals (placed outside card/table to prevent clipping) -->
+    {% for asset in assets %}
+    <div id="assignAssetModal{{ asset.id }}" class="modal-backdrop" style="display: none;">
+        <div class="modal-content" style="background: white; border-radius: 1rem; padding: 0; display: flex; flex-direction: column; max-height: calc(100vh - 3rem); width: 100%; max-width: 440px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; margin: auto;">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Assign {{ asset.name }}</h2>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+            </div>
+            <form action="{% url 'assign_asset' asset.id %}" method="POST" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
+                {% csrf_token %}
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label style="font-weight: 600; font-size: 0.85rem;">Assign To Employee</label>
+                    <select name="employee_id" class="form-control" style="padding: 0.75rem 2.25rem 0.75rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5; appearance: none; -webkit-appearance: none; background-color: #fff; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
+                        <option value="">-- Unassign (Return Asset) --</option>
+                        {% for emp in employees_list %}
+                        <option value="{{ emp.id }}" {% if asset.assigned_to and asset.assigned_to.id == emp.id %}selected{% endif %}>{{ emp.user.get_full_name|default:emp.user.username }} ({{ emp.employee_id_code }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 0.5rem; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('assignAssetModal{{ asset.id }}').style.display='none'; document.body.style.overflow='auto';" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; color: var(--text-main); font-weight: 600; cursor: pointer;">Cancel</button>
+                    <button type="submit" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
 
 
     <!-- ================== PANEL: EXPENSE CLAIMS ================== -->
@@ -2380,40 +2382,6 @@
                                 </div>
                             </td>
                         </tr>
-                        
-                        <!-- Edit Dept Modal -->
-                        <div id="editDeptModal{{ dept.id }}" class="modal-backdrop" style="display: none;">
-                            <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
-                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
-                                    <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Edit Department</h2>
-                                    <button type="button" class="modal-close-btn" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
-                                </div>
-                                <form action="{% url 'edit_department' dept.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label>Department Name</label>
-                                        <input type="text" name="name" value="{{ dept.name }}" required class="form-control" style="width: 100%;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea name="description" class="form-control" style="width: 100%; height: 80px;">{{ dept.description|default:"" }}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Head of Department</label>
-                                        <select name="head_id" class="form-control" style="width: 100%;">
-                                            <option value="">-- None --</option>
-                                            {% for emp in employees_list %}
-                                            <option value="{{ emp.id }}" {% if dept.head and dept.head.id == emp.id %}selected{% endif %}>{{ emp.user.get_full_name|default:emp.user.username }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
-                                        <button type="button" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
-                                        <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Save Changes</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -2458,6 +2426,42 @@
         </div>
     </div>
 
+    <!-- Edit Dept Modals (placed outside card/table to prevent clipping) -->
+    {% for dept in departments %}
+    <div id="editDeptModal{{ dept.id }}" class="modal-backdrop" style="display: none;">
+        <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Edit Department</h2>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+            </div>
+            <form action="{% url 'edit_department' dept.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Department Name</label>
+                    <input type="text" name="name" value="{{ dept.name }}" required class="form-control" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control" style="width: 100%; height: 80px;">{{ dept.description|default:"" }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Head of Department</label>
+                    <select name="head_id" class="form-control" style="width: 100%;">
+                        <option value="">-- None --</option>
+                        {% for emp in employees_list %}
+                        <option value="{{ emp.id }}" {% if dept.head and dept.head.id == emp.id %}selected{% endif %}>{{ emp.user.get_full_name|default:emp.user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('editDeptModal{{ dept.id }}').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
+                    <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+
     <!-- ================== PANEL: DESIGNATIONS ================== -->
     <div id="tab-designations" class="tab-content" style="display: none;">
         <div class="card">
@@ -2496,39 +2500,6 @@
                                 </div>
                             </td>
                         </tr>
-                        
-                        <!-- Edit Desig Modal -->
-                        <div id="editDesigModal{{ desig.id }}" class="modal-backdrop" style="display: none;">
-                            <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
-                                <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
-                                    <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Edit Designation</h2>
-                                    <button type="button" class="modal-close-btn" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
-                                </div>
-                                <form action="{% url 'edit_designation' desig.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        <label>Designation Title</label>
-                                        <input type="text" name="name" value="{{ desig.name }}" required class="form-control" style="width: 100%;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Department</label>
-                                        <select name="department_id" required class="form-control" style="width: 100%;">
-                                            {% for dept in departments %}
-                                            <option value="{{ dept.id }}" {% if desig.department.id == dept.id %}selected{% endif %}>{{ dept.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Base Salary</label>
-                                        <input type="number" step="0.01" name="base_salary" value="{{ desig.base_salary }}" class="form-control" style="width: 100%;">
-                                    </div>
-                                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
-                                        <button type="button" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
-                                        <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Save Changes</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -2572,6 +2543,42 @@
             </form>
         </div>
     </div>
+
+    <!-- Edit Desig Modals (placed outside card/table to prevent clipping) -->
+    {% for desig in designations %}
+    <div id="editDesigModal{{ desig.id }}" class="modal-backdrop" style="display: none;">
+        <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 440px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0;">Edit Designation</h2>
+                <button type="button" class="modal-close-btn" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none'; document.body.style.overflow='auto';" aria-label="Close" title="Close dialog">&times;</button>
+            </div>
+            <form action="{% url 'edit_designation' desig.id %}" method="POST" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Designation Title</label>
+                    <input type="text" name="name" value="{{ desig.name }}" required class="form-control" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <select name="department_id" required class="form-control" style="width: 100%;">
+                        <option value="">Select Department</option>
+                        {% for dept in departments %}
+                        <option value="{{ dept.id }}" {% if desig.department.id == dept.id %}selected{% endif %}>{{ dept.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Base Salary</label>
+                    <input type="number" step="0.01" name="base_salary" value="{{ desig.base_salary }}" class="form-control" style="width: 100%;">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; flex-shrink: 0;">
+                    <button type="button" onclick="document.getElementById('editDesigModal{{ desig.id }}').style.display='none'; document.body.style.overflow='auto';" class="btn-action" style="padding: 0.6rem 1.2rem; background: #e2e8f0; color: #475569; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer;">Cancel</button>
+                    <button type="submit" class="btn-action-submit" style="padding: 0.6rem 1.2rem;">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
 
     <!-- ================== PANEL: SECURITY & AUDIT LOGS ================== -->
     <div id="tab-audit" class="tab-content" style="display: none;">
