@@ -1494,6 +1494,22 @@ def clients_view(request):
     return render(request, 'employees/clients.html', {'clients': clients})
 
 @admin_only
+def delete_client_view(request, client_id):
+    if request.method == 'POST':
+        client = get_object_or_404(Client, id=client_id)
+        company_name = client.company_name
+        user = client.user
+        try:
+            with transaction.atomic():
+                client.delete()
+                if user:
+                    user.delete()
+            messages.success(request, f"Client '{company_name}' and portal login deleted successfully.")
+        except Exception as e:
+            messages.error(request, f"Error deleting client: {str(e)}")
+    return redirect('clients')
+
+@admin_only
 def goals_view(request):
     if request.method == 'POST':
         subject = request.POST.get('subject', '').strip()
