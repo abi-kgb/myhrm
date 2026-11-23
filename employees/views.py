@@ -127,12 +127,37 @@ def authenticate_user_by_username_or_email(request, login_input, password):
     if not login_input or not password:
         return None
     login_input = str(login_input).strip()
+    
+    # 1. Direct username check
     user = authenticate(request, username=login_input, password=password)
-    if user is None:
-        user_by_email = User.objects.filter(email__iexact=login_input).first()
-        if user_by_email:
-            user = authenticate(request, username=user_by_email.username, password=password)
-    return user
+    if user is not None:
+        return user
+
+    # 2. Check by email address
+    user_by_email = User.objects.filter(email__iexact=login_input).first()
+    if user_by_email:
+        user = authenticate(request, username=user_by_email.username, password=password)
+        if user is not None:
+            return user
+
+    # 3. Check by Client profile (Client ID, Company Name, Contact Person, or Client email)
+    try:
+        from django.db.models import Q
+        from .models import Client
+        client = Client.objects.filter(
+            Q(client_id__iexact=login_input) |
+            Q(company_name__iexact=login_input) |
+            Q(contact_person__iexact=login_input) |
+            Q(email__iexact=login_input)
+        ).select_related('user').first()
+        if client and client.user:
+            user = authenticate(request, username=client.user.username, password=password)
+            if user is not None:
+                return user
+    except Exception:
+        pass
+
+    return None
 
 def redirect_user_by_role(user):
     if not user or not user.is_authenticated:
