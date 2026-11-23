@@ -5,33 +5,6 @@
 {% block nav_projects %}active{% endblock %}
 
 {% block admin_extra_head %}
-<style>
-    /* Modal Backdrop */
-    .modal-backdrop {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(4px);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-    /* Modal Container */
-    .modal-content-wrap {
-        padding: 2rem;
-        background: var(--card-bg);
-        border-radius: 1.25rem;
-        width: 100%;
-        max-width: 500px;
-        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-        border: 1px solid var(--border);
-        overflow-y: auto;
-        max-height: 90vh;
-    }
-    
-    
-</style>
 {% endblock %}
 
 {% block admin_content %}
@@ -106,118 +79,120 @@
 </div>
 
 <!-- Create Project Modal -->
-<div id="addProjectModal" class="modal-backdrop" onclick="closeAddProjectModal()">
-    <div class="modal-content-wrap" onclick="event.stopPropagation()">
-        <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 class="card-title">➕ Create Project</h2>
-            <button onclick="closeAddProjectModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted); font-weight:bold;">&times;</button>
+<div id="addProjectModal" class="modal-backdrop" style="display: none;" onclick="if(event.target===this){closeAddProjectModal();}">
+    <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 520px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
+        <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 0.5rem;">🚀 Create Project</h2>
+            <button type="button" class="modal-close-btn" onclick="closeAddProjectModal()" aria-label="Close" title="Close dialog">&times;</button>
         </div>
-        <div class="card-body">
-            <form method="post" class="admin-form">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label>Project Name</label>
-                    <input type="text" name="name" placeholder="Website Redesign" required>
-                </div>
-                <div class="form-group">
-                    <label>Client (optional)</label>
-                    <select name="client_id">
-                        <option value="">-- Internal Project --</option>
-                        {% for client in clients %}
-                        <option value="{{ client.id }}">{{ client.company_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Deadline</label>
-                    <input type="date" name="deadline">
-                </div>
-                <div class="form-group">
-                    <label>Initial Progress (%)</label>
-                    <input type="number" id="create_project_progress" name="progress" value="0" min="0" max="100">
-                </div>
-                <div class="form-group">
-                    <label>Assign Team Members</label>
-                    <select name="assigned_employees" multiple style="height: 100px;">
-                        {% for emp in all_employees %}
-                            <option value="{{ emp.id }}">{{ emp.user.get_full_name }} ({{ emp.department }})</option>
-                        {% endfor %}
-                    </select>
-                    <small style="color:var(--text-muted); font-size:0.75rem;">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select name="status" id="create_project_status">
-                        <option value="Active">Active</option>
-                        <option value="On Hold">On Hold</option>
-                        <option value="Completed" id="create_completed_option" style="display:none;" disabled>Completed</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="description" rows="3" placeholder="Project details..."></textarea>
-                </div>
-                <button type="submit" class="btn-submit" style="width:100%; margin-top:0.5rem;">Create Project</button>
-            </form>
-        </div>
+        <form method="post" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
+            {% csrf_token %}
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Project Name</label>
+                <input type="text" name="name" placeholder="Website Redesign" required class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Client (optional)</label>
+                <select name="client_id" class="form-control" style="width: 100%; min-height: 44px; padding: 0.65rem 2.25rem 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.9rem; line-height: 1.5; background-color: var(--card-bg, #fff); color: var(--text-main); appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
+                    <option value="">-- Internal Project --</option>
+                    {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client.company_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Deadline</label>
+                <input type="date" name="deadline" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Initial Progress (%)</label>
+                <input type="number" id="create_project_progress" name="progress" value="0" min="0" max="100" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Assign Team Members</label>
+                <select name="assigned_employees" multiple style="height: 110px; width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.88rem; background: var(--card-bg, #fff); color: var(--text-main);">
+                    {% for emp in all_employees %}
+                        <option value="{{ emp.id }}">{{ emp.user.get_full_name }} ({{ emp.department }})</option>
+                    {% endfor %}
+                </select>
+                <small style="color:var(--text-muted); font-size:0.75rem;">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Status</label>
+                <select name="status" id="create_project_status" class="form-control" style="width: 100%; min-height: 44px; padding: 0.65rem 2.25rem 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.9rem; line-height: 1.5; background-color: var(--card-bg, #fff); color: var(--text-main); appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
+                    <option value="Active">Active</option>
+                    <option value="On Hold">On Hold</option>
+                    <option value="Completed" id="create_completed_option" style="display:none;" disabled>Completed</option>
+                </select>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Description</label>
+                <textarea name="description" rows="3" placeholder="Project details..." class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.9rem; line-height: 1.5; resize: vertical;"></textarea>
+            </div>
+            <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 0.5rem; flex-shrink: 0;">
+                <button type="button" onclick="closeAddProjectModal()" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; color: var(--text-main); font-weight: 600; cursor: pointer;">Cancel</button>
+                <button type="submit" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Create Project</button>
+            </div>
+        </form>
     </div>
 </div>
 
 <!-- Edit Project Modal -->
-<div id="editProjectModal" class="modal-backdrop" onclick="closeEditProjectModal()">
-    <div class="modal-content-wrap" onclick="event.stopPropagation()">
-        <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 class="card-title">✏️ Edit Project</h2>
-            <button onclick="closeEditProjectModal()" type="button" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted); font-weight:bold;">&times;</button>
+<div id="editProjectModal" class="modal-backdrop" style="display: none;" onclick="if(event.target===this){closeEditProjectModal();}">
+    <div class="modal-content" style="background: var(--card-bg); border-radius: 1rem; width: 100%; max-width: 520px; max-height: calc(100vh - 3rem); display: flex; flex-direction: column; overflow: hidden; margin: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
+        <div class="modal-header" style="background: var(--bg-secondary); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); flex-shrink: 0;">
+            <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 0.5rem;">✏️ Edit Project</h2>
+            <button type="button" class="modal-close-btn" onclick="closeEditProjectModal()" aria-label="Close" title="Close dialog">&times;</button>
         </div>
-        <div class="card-body">
-            <form id="editProjectForm" method="post" action="" class="admin-form">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label>Project Name</label>
-                    <input type="text" name="name" id="edit_project_name" required>
-                </div>
-                <div class="form-group">
-                    <label>Client (optional)</label>
-                    <select name="client_id" id="edit_project_client">
-                        <option value="">-- Internal Project --</option>
-                        {% for client in clients %}
-                        <option value="{{ client.id }}">{{ client.company_name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Deadline</label>
-                    <input type="date" name="deadline" id="edit_project_deadline">
-                </div>
-                <div class="form-group">
-                    <label>Initial Progress (%)</label>
-                    <input type="number" name="progress" id="edit_project_progress" min="0" max="100">
-                </div>
-                <div class="form-group">
-                    <label>Assign Team Members (Select to override)</label>
-                    <select name="assigned_employees" multiple style="height: 100px;">
-                        {% for emp in all_employees %}
-                            <option value="{{ emp.id }}">{{ emp.user.get_full_name }} ({{ emp.department }})</option>
-                        {% endfor %}
-                    </select>
-                    <small style="color:var(--text-muted); font-size:0.75rem;">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select name="status" id="edit_project_status">
-                        <option value="Active">Active</option>
-                        <option value="On Hold">On Hold</option>
-                        <option value="Completed" id="edit_completed_option">Completed</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="description" id="edit_project_description" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn-submit" style="width:100%; margin-top:0.5rem;">Save Changes</button>
-            </form>
-        </div>
+        <form id="editProjectForm" method="post" action="" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;">
+            {% csrf_token %}
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Project Name</label>
+                <input type="text" name="name" id="edit_project_name" required class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Client (optional)</label>
+                <select name="client_id" id="edit_project_client" class="form-control" style="width: 100%; min-height: 44px; padding: 0.65rem 2.25rem 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.9rem; line-height: 1.5; background-color: var(--card-bg, #fff); color: var(--text-main); appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
+                    <option value="">-- Internal Project --</option>
+                    {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client.company_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Deadline</label>
+                <input type="date" name="deadline" id="edit_project_deadline" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Initial Progress (%)</label>
+                <input type="number" name="progress" id="edit_project_progress" min="0" max="100" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; min-height: 44px; font-size: 0.9rem; line-height: 1.5;">
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Assign Team Members (Select to override)</label>
+                <select name="assigned_employees" multiple style="height: 110px; width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.88rem; background: var(--card-bg, #fff); color: var(--text-main);">
+                    {% for emp in all_employees %}
+                        <option value="{{ emp.id }}">{{ emp.user.get_full_name }} ({{ emp.department }})</option>
+                    {% endfor %}
+                </select>
+                <small style="color:var(--text-muted); font-size:0.75rem;">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Status</label>
+                <select name="status" id="edit_project_status" class="form-control" style="width: 100%; min-height: 44px; padding: 0.65rem 2.25rem 0.65rem 0.85rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.9rem; line-height: 1.5; background-color: var(--card-bg, #fff); color: var(--text-main); appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpolyline points=\'6 9 12 15 18 9\'%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem; cursor: pointer;">
+                    <option value="Active">Active</option>
+                    <option value="On Hold">On Hold</option>
+                    <option value="Completed" id="edit_completed_option">Completed</option>
+                </select>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                <label style="font-weight: 600; font-size: 0.85rem; color: var(--text-main); margin: 0;">Description</label>
+                <textarea name="description" id="edit_project_description" rows="3" class="form-control" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; font-size: 0.9rem; line-height: 1.5; resize: vertical;"></textarea>
+            </div>
+            <div style="display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 0.5rem; flex-shrink: 0;">
+                <button type="button" onclick="closeEditProjectModal()" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: 1px solid var(--border); background: #f1f5f9; color: var(--text-main); font-weight: 600; cursor: pointer;">Cancel</button>
+                <button type="submit" style="padding: 0.7rem 1.25rem; border-radius: 0.5rem; border: none; background: var(--primary); color: white; font-weight: 600; cursor: pointer;">Save Changes</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -248,9 +223,11 @@
 
     function openAddProjectModal() {
         document.getElementById('addProjectModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
     function closeAddProjectModal() {
         document.getElementById('addProjectModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
     
     function openEditProjectModal(id, name, clientId, deadline, progress, status, description) {
@@ -264,10 +241,12 @@
         triggerProgressUpdate('edit_project_progress', 'edit_completed_option', 'edit_project_status');
         if (progress > 95) document.getElementById('edit_project_status').value = status; else document.getElementById('edit_project_status').value = (status === 'Completed' ? 'Active' : status);
         document.getElementById('editProjectModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
     
     function closeEditProjectModal() {
         document.getElementById('editProjectModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 </script>
 {% endblock %}
