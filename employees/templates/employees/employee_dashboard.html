@@ -22,6 +22,15 @@
         font-size: 0.75rem;
     }
 
+    .fc-daygrid-day {
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+
+    .fc-daygrid-day:hover {
+        background-color: rgba(37, 99, 235, 0.05);
+    }
+
     .fc-toolbar-title {
         font-weight: 800 !important;
         font-size: 1.25rem !important;
@@ -931,6 +940,15 @@
         font-size: 0.75rem;
     }
 
+    .fc-daygrid-day {
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+
+    .fc-daygrid-day:hover {
+        background-color: rgba(37, 99, 235, 0.05);
+    }
+
     .fc-toolbar-title {
         font-weight: 800 !important;
         font-size: 1.25rem !important;
@@ -968,16 +986,154 @@
                 events: calendarEvents,
                 eventClick: function (info) {
                     info.jsEvent.preventDefault();
-                    if (info.event.extendedProps && info.event.extendedProps.isPersonal) {
-                        if (confirm('Delete this private note?\n"' + info.event.title + '"')) {
-                            window.location.href = '/personal-notes/delete/' + info.event.extendedProps.noteId + '/';
+                    var eventDate = '';
+                    if (info.event.start) {
+                        try {
+                            eventDate = info.event.start.toISOString().split('T')[0];
+                        } catch (e) {
+                            eventDate = info.event.startStr || '';
                         }
+                    }
+                    showCalendarEventsPopup(eventDate, [info.event]);
+                },
+                dateClick: function (info) {
+                    var clickedDate = info.dateStr; // format: "YYYY-MM-DD"
+                    var allEvents = window.calendarObj.getEvents();
+                    var dayEvents = allEvents.filter(function (ev) {
+                        if (!ev.start) return false;
+                        var startStr = '';
+                        try {
+                            startStr = ev.start.toISOString().split('T')[0];
+                        } catch (e) {
+                            startStr = ev.startStr || '';
+                        }
+                        if (ev.end) {
+                            var endStr = '';
+                            try {
+                                endStr = ev.end.toISOString().split('T')[0];
+                            } catch (e) {
+                                endStr = ev.endStr || '';
+                            }
+                            return clickedDate >= startStr && clickedDate < endStr;
+                        }
+                        return startStr === clickedDate;
+                    });
+
+                    if (dayEvents.length > 0) {
+                        showCalendarEventsPopup(clickedDate, dayEvents);
+                    } else {
+                        var dateInput = document.querySelector('#addPersonalNoteModal input[name="date"]');
+                        if (dateInput) {
+                            dateInput.value = clickedDate;
+                        }
+                        document.getElementById('addPersonalNoteModal').style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
                     }
                 }
             });
         }
         window.calendarObj.render();
         window.calendarObj.updateSize();
+    }
+
+    function showCalendarEventsPopup(dateStr, eventsList) {
+        var modal = document.getElementById('calendarEventDetailModal');
+        var heading = document.getElementById('calModalHeading');
+        var subHeading = document.getElementById('calModalSubHeading');
+        var body = document.getElementById('calModalBody');
+        var addBtn = document.getElementById('calModalAddNoteBtn');
+        if (!modal || !body) return;
+
+        var formattedDate = dateStr;
+        try {
+            if (dateStr) {
+                var dParts = dateStr.split('-');
+                if (dParts.length === 3) {
+                    var dObj = new Date(parseInt(dParts[0]), parseInt(dParts[1]) - 1, parseInt(dParts[2]));
+                    formattedDate = dObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+                }
+            }
+        } catch (e) {}
+
+        heading.textContent = eventsList.length === 1 ? 'Calendar Note & Event' : 'Notes & Events for this Date';
+        subHeading.textContent = formattedDate + ' • ' + eventsList.length + ' item' + (eventsList.length > 1 ? 's' : '');
+
+        if (addBtn) {
+            addBtn.onclick = function() {
+                closeCalendarDetailModal();
+                var dateInput = document.querySelector('#addPersonalNoteModal input[name="date"]');
+                if (dateInput) {
+                    dateInput.value = dateStr;
+                }
+                document.getElementById('addPersonalNoteModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            };
+        }
+
+        var html = '';
+        eventsList.forEach(function(ev) {
+            var props = ev.extendedProps || {};
+            var title = ev.title || props.rawTitle || 'Calendar Item';
+            var type = props.type || (props.isPersonal ? 'Private Note' : 'Event');
+            var desc = props.description || ev.description || 'No additional details provided.';
+            var isPersonal = props.isPersonal || type.includes('Private');
+            var noteId = props.noteId;
+
+            var displayTitle = title.replace(/^🔒\s*/, '').replace(/^🎂\s*/, '');
+
+            var badgeBg = '#e0f2fe';
+            var badgeColor = '#0369a1';
+            var icon = '📌';
+            if (isPersonal) {
+                badgeBg = '#e0e7ff';
+                badgeColor = '#4338ca';
+                icon = '🔒';
+            } else if (type === 'Holiday') {
+                badgeBg = '#d1fae5';
+                badgeColor = '#065f46';
+                icon = '🏖️';
+            } else if (type === 'Leave') {
+                badgeBg = '#fef3c7';
+                badgeColor = '#92400e';
+                icon = '🌴';
+            } else if (type === 'Birthday') {
+                badgeBg = '#f3e8ff';
+                badgeColor = '#6b21a8';
+                icon = '🎂';
+            } else if (type === 'Meeting') {
+                badgeBg = '#dbeafe';
+                badgeColor = '#1d4ed8';
+                icon = '💼';
+            }
+
+            html += '<div style="background:var(--bg); border:1px solid var(--border); border-radius:0.75rem; padding:1.25rem; display:flex; flex-direction:column; gap:0.75rem;">';
+            html += '  <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; flex-wrap:wrap;">';
+            html += '    <span style="display:inline-flex; align-items:center; gap:0.35rem; padding:0.25rem 0.65rem; border-radius:9999px; font-size:0.75rem; font-weight:700; background:' + badgeBg + '; color:' + badgeColor + ';">' + icon + ' ' + type + '</span>';
+            if (isPersonal && noteId) {
+                html += '    <a href="/personal-notes/delete/' + noteId + '/" onclick="return confirm(\'Are you sure you want to delete this private note?\');" style="display:inline-flex; align-items:center; gap:0.3rem; padding:0.3rem 0.65rem; border-radius:0.35rem; background:#fee2e2; color:#dc2626; font-size:0.75rem; font-weight:600; text-decoration:none; transition:opacity 0.2s;">';
+                html += '      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>';
+                html += '      Delete Note';
+                html += '    </a>';
+            }
+            html += '  </div>';
+
+            html += '  <h4 style="font-size:1.15rem; font-weight:800; color:var(--text-main); margin:0;">' + displayTitle + '</h4>';
+
+            html += '  <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:0.5rem; padding:1rem; font-size:0.92rem; color:var(--text-main); line-height:1.6; white-space:pre-wrap; word-break:break-word;">';
+            html += desc;
+            html += '  </div>';
+            html += '</div>';
+        });
+
+        body.innerHTML = html;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCalendarDetailModal() {
+        var modal = document.getElementById('calendarEventDetailModal');
+        if (modal) modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -1779,6 +1935,45 @@
                     </div>
                     <div class="card-body">
                         <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Marking Note Details Popup Modal -->
+            <div id="calendarEventDetailModal" class="modal-overlay"
+                style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); z-index:10000; justify-content:center; align-items:center; overflow-y:auto; padding:1.5rem 1rem;"
+                onclick="if(event.target===this)closeCalendarDetailModal();">
+                <div class="modal-content"
+                    style="background:var(--card-bg); width:100%; max-width:540px; max-height:calc(100vh - 3rem); overflow-y:auto; border-radius:1rem; border:1px solid var(--border); box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); margin:auto; padding:0; display:flex; flex-direction:column; overflow:hidden;"
+                    onclick="event.stopPropagation();">
+                    <!-- Header -->
+                    <div style="background:var(--bg-secondary); padding:1.25rem 1.5rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); flex-shrink:0;">
+                        <div style="display:flex; align-items:center; gap:0.6rem;">
+                            <span style="font-size:1.25rem;">📅</span>
+                            <div>
+                                <h3 id="calModalHeading" style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin:0;">Calendar Note Details</h3>
+                                <span id="calModalSubHeading" style="font-size:0.8rem; color:var(--text-muted); font-weight:500;"></span>
+                            </div>
+                        </div>
+                        <button type="button" class="modal-close-btn" onclick="closeCalendarDetailModal()" aria-label="Close" title="Close dialog"
+                            style="background:none; border:none; font-size:1.5rem; line-height:1; cursor:pointer; color:var(--text-muted); padding:0.25rem 0.5rem;">&times;</button>
+                    </div>
+
+                    <!-- Body: Container for notes -->
+                    <div id="calModalBody" style="padding:1.5rem; display:flex; flex-direction:column; gap:1.25rem; overflow-y:auto; max-height:60vh;">
+                        <!-- Dynamically populated -->
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="background:var(--bg-secondary); padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); flex-shrink:0;">
+                        <button type="button" id="calModalAddNoteBtn" class="btn-submit"
+                            style="padding:0.5rem 1rem; font-size:0.82rem; display:inline-flex; align-items:center; gap:0.4rem; background:linear-gradient(135deg, var(--primary), var(--accent));">
+                            ➕ Add Note for this Date
+                        </button>
+                        <button type="button" onclick="closeCalendarDetailModal()"
+                            style="padding:0.5rem 1.25rem; border-radius:0.5rem; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); font-weight:600; cursor:pointer; font-size:0.85rem;">
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>

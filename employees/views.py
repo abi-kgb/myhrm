@@ -53,9 +53,12 @@ def get_unified_calendar_events(user=None, employee=None):
     for h in holidays:
         events.append({
             'title': h.name,
+            'rawTitle': h.name,
             'start': h.date.isoformat(),
             'allDay': True,
-            'color': '#10b981' # Emerald Green
+            'color': '#10b981', # Emerald Green
+            'type': 'Holiday',
+            'description': f"Official Company Holiday: {h.name}"
         })
         
     # 2. Approved Leaves
@@ -71,10 +74,13 @@ def get_unified_calendar_events(user=None, employee=None):
         end_date = l.end_date + timedelta(days=1)
         events.append({
             'title': title,
+            'rawTitle': title,
             'start': l.start_date.isoformat(),
             'end': end_date.isoformat(),
             'allDay': True,
-            'color': '#f59e0b' # Amber
+            'color': '#f59e0b', # Amber
+            'type': 'Leave',
+            'description': f"Leave Type: {l.leave_type}\nDuration: {l.start_date} to {l.end_date}\nStatus: {l.status}\nReason: {l.reason or 'Not specified'}"
         })
         
     # 3. Birthdays
@@ -87,11 +93,15 @@ def get_unified_calendar_events(user=None, employee=None):
             except ValueError:
                 bday_this_year = emp.date_of_birth.replace(year=current_year, day=28)
             
+            bday_name = emp.user.get_full_name() or emp.user.username
             events.append({
                 'title': f"🎂 {emp.user.first_name}'s Bday",
+                'rawTitle': f"{bday_name}'s Birthday",
                 'start': bday_this_year.isoformat(),
                 'allDay': True,
-                'color': '#8b5cf6' # Purple
+                'color': '#8b5cf6', # Purple
+                'type': 'Birthday',
+                'description': f"Birthday celebration for {bday_name} ({emp.designation or emp.role})"
             })
             
     # 4. Custom Events / Meetings
@@ -99,11 +109,13 @@ def get_unified_calendar_events(user=None, employee=None):
     for e in custom_events:
         events.append({
             'title': e.title,
+            'rawTitle': e.title,
             'start': e.start_time.isoformat(),
             'end': e.end_time.isoformat(),
             'allDay': False,
             'color': '#3b82f6' if e.event_type == 'Meeting' else '#ec4899', # Blue or Pink
-            'description': e.description
+            'type': e.event_type or 'Meeting',
+            'description': e.description or 'No extra details provided.'
         })
 
     # 5. Personal Private Notes (VISIBLE ONLY TO THIS USER)
@@ -112,11 +124,13 @@ def get_unified_calendar_events(user=None, employee=None):
         for pn in personal_notes:
             events.append({
                 'id': f"note_{pn.id}",
-                'title': f"🔒 Note: {pn.title}",
+                'title': f"🔒 {pn.title}",
+                'rawTitle': pn.title,
                 'start': pn.date.isoformat(),
                 'allDay': True,
                 'color': '#6366f1', # Indigo
-                'description': pn.note or '',
+                'type': 'Private Note',
+                'description': pn.note or 'No additional details provided.',
                 'isPersonal': True,
                 'noteId': pn.id
             })
