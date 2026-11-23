@@ -123,6 +123,17 @@ def get_unified_calendar_events(user=None, employee=None):
         
     return json.dumps(events)
 
+def authenticate_user_by_username_or_email(request, login_input, password):
+    if not login_input or not password:
+        return None
+    login_input = str(login_input).strip()
+    user = authenticate(request, username=login_input, password=password)
+    if user is None:
+        user_by_email = User.objects.filter(email__iexact=login_input).first()
+        if user_by_email:
+            user = authenticate(request, username=user_by_email.username, password=password)
+    return user
+
 def redirect_user_by_role(user):
     if not user or not user.is_authenticated:
         return redirect('login')
@@ -151,7 +162,7 @@ def employee_login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        user = authenticate_user_by_username_or_email(request, username, password)
         if user is not None:
             login(request, user)
             log_activity(user, 'Logged In', 'Authentication', request, 'Unified Login Portal')
@@ -166,7 +177,7 @@ def admin_login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        user = authenticate_user_by_username_or_email(request, username, password)
         if user is not None:
             login(request, user)
             log_activity(user, 'Logged In', 'Authentication', request, 'Admin Login Portal')
@@ -1443,7 +1454,7 @@ def holidays_view(request):
 def clients_view(request):
     if request.method == 'POST':
         company_name = request.POST.get('company_name', '').strip()
-        client_id_val = request.POST.get('client_id', '').strip()
+        client_id_val = request.POST.get('client_id', '').strip() or None
         contact_person = request.POST.get('contact_person', '').strip()
         email = request.POST.get('email', '').strip()
         phone = request.POST.get('phone', '').strip()
@@ -1454,11 +1465,17 @@ def clients_view(request):
             messages.error(request, "Company Name is required.")
             return redirect('clients')
 
-        # Optionally create a User for client portal login
+        # Validate portal login fields: if either is provided, both must be provided
         user_obj = None
-        if username and password:
+        if username or password:
+            if not username:
+                messages.error(request, "Please enter a Login Username to create portal access.")
+                return redirect('clients')
+            if not password:
+                messages.error(request, "Please enter a Login Password to create portal access.")
+                return redirect('clients')
             if User.objects.filter(username__iexact=username).exists():
-                messages.error(request, f"Username '{username}' already taken. Client not created.")
+                messages.error(request, f"Username '{username}' is already taken. Client was not created.")
                 return redirect('clients')
             if email and User.objects.filter(email__iexact=email).exists():
                 messages.error(request, f"Email '{email}' is already registered with another user.")
@@ -1483,14 +1500,14 @@ def clients_view(request):
                 if user_obj:
                     messages.success(request, f"Client '{company_name}' added with portal login '{username}'.")
                 else:
-                    messages.success(request, f"Client '{company_name}' added successfully.")
+                    messages.success(request, f"Client '{company_name}' added successfully (no portal login set).")
         except IntegrityError:
             messages.error(request, f"Could not create client: Client ID '{client_id_val}' or username already exists.")
         except Exception as e:
             messages.error(request, f"Could not create client: {str(e)}")
         return redirect('clients')
 
-    clients = Client.objects.all().order_by('-created_at')
+    clients = Client.objects.all().select_related('user').prefetch_related('projects').order_by('-created_at')
     return render(request, 'employees/clients.html', {'clients': clients})
 
 @admin_only
@@ -1507,6 +1524,51 @@ def delete_client_view(request, client_id):
             messages.success(request, f"Client '{company_name}' and portal login deleted successfully.")
         except Exception as e:
             messages.error(request, f"Error deleting client: {str(e)}")
+    return redirect('clients')
+
+@admin_only
+def set_client_credentials_view(request, client_id):
+    if request.method == 'POST':
+        client = get_object_or_404(Client, id=client_id)
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+
+        if not username:
+            messages.error(request, "Username is required.")
+            return redirect('clients')
+        if not password:
+            messages.error(request, "Password is required.")
+            return redirect('clients')
+
+        try:
+            with transaction.atomic():
+                if client.user:
+                    u = client.user
+                    if u.username.lower() != username.lower() and User.objects.filter(username__iexact=username).exists():
+                        messages.error(request, f"Username '{username}' is already taken.")
+                        return redirect('clients')
+                    u.username = username
+                    u.set_password(password)
+                    if client.email:
+                        u.email = client.email
+                    u.first_name = client.contact_person
+                    u.save()
+                    messages.success(request, f"Portal credentials updated for client '{client.company_name}' (Username: {username}).")
+                else:
+                    if User.objects.filter(username__iexact=username).exists():
+                        messages.error(request, f"Username '{username}' is already taken.")
+                        return redirect('clients')
+                    new_user = User.objects.create_user(
+                        username=username,
+                        password=password,
+                        email=client.email or '',
+                        first_name=client.contact_person
+                    )
+                    client.user = new_user
+                    client.save()
+                    messages.success(request, f"Portal login '{username}' created for client '{client.company_name}'.")
+        except Exception as e:
+            messages.error(request, f"Error saving credentials: {str(e)}")
     return redirect('clients')
 
 @admin_only
@@ -1675,7 +1737,7 @@ def client_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        user = authenticate_user_by_username_or_email(request, username, password)
         if user is not None:
             try:
                 client = user.client_profile

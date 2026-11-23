@@ -71,6 +71,7 @@ urlpatterns = [
     path('admin-dashboard/holidays/', views.holidays_view, name='holidays'),
     path('admin-dashboard/clients/', views.clients_view, name='clients'),
     path('admin-dashboard/clients/<int:client_id>/delete/', views.delete_client_view, name='delete_client'),
+    path('admin-dashboard/clients/<int:client_id>/credentials/', views.set_client_credentials_view, name='set_client_credentials'),
     path('admin-dashboard/goals/', views.goals_view, name='goals'),
     path('admin-dashboard/projects/', views.projects_view, name='projects'),
     path('admin-dashboard/projects/update/<int:project_id>/', views.update_project_progress, name='update_project'),

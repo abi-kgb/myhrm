@@ -181,12 +181,12 @@
         <form method="POST" action="{% url 'employee_login' %}">
             {% csrf_token %}
             <div class="form-group">
-                <label for="username" class="form-label">Username</label>
+                <label for="username" class="form-label">Username or Email</label>
                 <div class="input-wrapper">
                     <span class="input-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </span>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Enter username" required autocomplete="username">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Enter username or email" required autocomplete="username">
                 </div>
             </div>
 
